@@ -1,0 +1,48 @@
+<!--
+  <div class="row">
+    <div class="col-sm-8">
+
+
+        <div class="card-body row no-gutters align-items-center" style="border: 1px solid #ccc;border-radius: 4px">
+          <div class="col-auto profile-image">
+            <%# if @profile.avatar.attached? %>
+              <%#= image_tag @profile.avatar.variant(combine_options: image_options("55x55")), class: "profile", alt: "profile-image" %>
+            <%# else %>
+              <%#= image_tag "default-user.png", class: "profile", alt: "profile-image" %>
+            <%# end %>
+          </div>
+          <div class="col profile-name">
+            <%#= @profile.name.camelize %>
+          </div>
+          <div class="col-auto">
+              <button class="btn btn-lg btn-success" type="submit"><%#= @profile.membership %> Member</button>
+          </div>
+      </div>
+
+      <%#= render "#{params[:id].present? ? 'admin' : 'user'}_form_edit_profile" %>
+
+    </div>
+    <div class="col-sm-4">
+      <div class="card profile-card-2">
+        <div class="card-body pt-4">
+          <%#= profile_avatar(@profile, "55x55") %>
+          <h5 class="card-title"><%#= @profile.name.camelize %></h5>
+          <p class="card-text card-country"><%#= @profile.country_name %></p>
+          <p class="card-text"><%#= sanitize @profile.bio %></p>
+          <div class="card-footer row">
+            <div class="col-sm">
+              <h6>Ranking</h6>
+              <p class="card-footer-text">1</p>
+            </div>
+            <div class="col-sm">
+              <h6>Total Earnings</h6>
+              <p class="card-footer-text"><span style="color:#6ab04c">
+                <%#= number_to_currency(amounts_in_cur_currency(@profile.user.investments, "earnings"), unit: @cur_sign[@currency]) %>
+              </span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+-->

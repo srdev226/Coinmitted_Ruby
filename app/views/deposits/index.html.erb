@@ -1,0 +1,53 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+       <%= render "layouts/notifications" %>
+
+
+          <h1>Deposit History</h1>
+
+          <table class="table" id="data">
+            <thead>
+              <tr>
+                <th></th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Payment Method</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @deposits.each do |deposit| %>
+                <tr>
+                  <td>
+                  <%= fa_icon "circle", style: deposit.status == 'active' ? "color:lightgreen" : "color:red" %>
+                  </td>
+                  <td><%= link_to deposit.user.profile.name, edit_user_profile_path(deposit.user.profile.id) %></td>
+                  <td><%= number_to_currency(deposit.invested_amount.to_f, unit: @cur_sign[deposit.currency.upcase]) %></td>
+                  <td><%= deposit.payment_method.name %></td>
+                  <td><%= deposit.created_at.strftime("%d %B, %Y") %></td>
+                  <td><%= deposit.status == "active" ? "Completed" : "Pending" %></td>
+                  <td><%#= link_to 'Show', deposit %></td>
+                  <td><%= link_to 'Edit', edit_deposit_path(deposit) %></td>
+                  <td><%#= link_to 'Destroy', deposit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <br>
+
+          <%#= link_to 'New Deposit', new_deposit_path %>
+
+     </main>
+  </div>
+</div>

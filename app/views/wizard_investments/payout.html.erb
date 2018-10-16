@@ -1,0 +1,81 @@
+<div class="inv-wiz">
+<div class="container-fluid  min-100  d-flex flex-col">
+  <div class="row flex-grow-1 bg-light investment_wizard_steps">
+
+    <div class="col-md-9 p-4 flex-grow-1">
+      <div class="back"><%= link_to fa_icon("arrow-left", text: "Back"), timeframe_wizard_investment_path %> </div>
+
+      <div class="main_block">
+        <header><h4>Payout Frequency</h4><h6>This option will tell us how often you want us to transfer the collected coins to your account</h6></header>
+
+        <%= form_for @investment_wizard, as: :investment_wizard, url: validate_step_wizard_investment_path do |form| %>
+          <%= hidden_field_tag :current_step, 'payout' %>
+          <%= form.hidden_field :payout_frequency_id, id: "radio_value" %>
+
+          <% @investment_wizard.errors.full_messages.each do |error| %>
+            <div class="form-group">
+              <p style="color:red"><%= error %></p>
+            </div>
+          <% end %>
+
+          <div class="card-group radio-group">
+            <% @payout_frequency.each do |item| %>
+              <!-- <%= item.title %> -->
+              <div class="col-sm-6">
+                <div class="card radio" data-value="<%= item.id %>">
+                  <div class="card-content">
+                    <div class="card-title">
+                      <h3><%= item.title %></h3>
+                    </div>
+                    <h4><%= item.subtitle %></h4>
+                    <%= sanitize item.description %>
+                    <div class="card-footer">
+                      <%= item.promo %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+          </div><!-- /radio_group -->
+
+          <div class="form-group center" style="clear:both">
+            <%= form.submit "Continue", class: "btn btn-primary btn-submit" %>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+
+    <div class="col-md-3 p-4 flex-grow-1 wizard_sidebar" >
+
+      <div class="cancel">
+        <button type="button"  data-toggle="modal" data-target="#exampleModal">
+          <%= fa_icon "close" %>
+        </button>
+      </div>
+
+      <h4>Investment Summary</h4>
+      <div class="steps_selected">
+        <ul>
+          <%#<li>%>
+            <!--<p><%#= fa_icon "check" %> Investment Plan</p>-->
+            <!--<p class="selected"><%#= @investment_wizard.investment.investment_plan.title %> <%#= @investment_wizard.investment.investment_plan.subtitle %></p>-->
+          <%#</li>%>
+          <li>
+            <p><%= fa_icon "check" %> Investment Name</p>
+            <p class="selected"><%= @investment_wizard.investment.name %></p>
+          </li>
+          <li>
+            <p><%= fa_icon "check" %> TimeFrame</p>
+            <p class="selected"><%= @investment_wizard.investment.timeframe_months %></p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%= render "cancel_modal" %>
+</div>

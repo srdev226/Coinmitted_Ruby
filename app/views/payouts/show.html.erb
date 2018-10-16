@@ -1,0 +1,41 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+       <div class="jumbotron text-center">
+       <h2>My Payout</h2>
+       </div>
+
+        <p id="notice"><%= notice %></p>
+
+        <p>
+          <strong>Status:</strong>
+          <%= @payout.status.to_s.humanize.camelize %>
+        </p>
+
+        <p>
+          <strong>Reference number:</strong>
+          <%= @payout.reference_number %>
+        </p>
+
+        <p>
+          <strong>Paid out:</strong>
+          <%= @payout.pay_date.strftime("%B %d, %Y") %>
+        </p>
+
+        <p>
+          <strong>Amount:</strong>
+          <%= number_to_currency(@payout.amount) %>
+        </p>
+
+
+        <%= link_to 'Back', payouts_path %>
+
+     </main>
+
+  </div>
+</div>

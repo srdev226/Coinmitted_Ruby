@@ -1,0 +1,60 @@
+<div class="main-page-wrapper">
+  <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+
+      <%= render "layouts/header" %>
+
+      <!-- ******************** Dashboard Body Wrapper *********************** -->
+      <div class="container">
+        <div id="dashboard-main-body" class="clearfix">
+
+          <%= render "layouts/sidebar" %>
+
+						<!-- ***************** User Content **************** -->
+						<div class="dashboard-user-content settings-panel">
+							<div class="user-settings-content">
+
+                <div class="container-fluid">
+                <h1>Affiliates</h1>
+
+                <table id="data" class="table" >
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Name</th>
+                      <th>Invested</th>
+                      <th>Commision</th>
+                      <th>Campaign Source</th>
+                      <th>Profile</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @users.each do |user| %>
+                      <tr>
+                        <th><% if user.investment_ids.empty? %> Inactive <% else %> Active <% end %></th>
+                        <td><%= user.created_at.strftime("%F") %></td>
+                        <td><%= user.email %></td>
+                        <td><%= number_to_currency(affiliates_invested(current_user.total_investment)) %></td>
+                        <td><%= number_to_currency(affiliates_invested(current_user.total_investment) * current_user.affiliate_level.commision,:unit=>'$') %></td>
+                        <td>Normal</td>
+                        <td>
+                          <%= link_to edit_profile_path(user) do %>
+                            <%= fa_icon "arrow-right" %>
+                          <% end %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+                </div>
+
+              </div>
+            </div>
+        </div>
+      </div>
+
+  </div>
+</div>

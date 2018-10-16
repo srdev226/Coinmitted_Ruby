@@ -1,0 +1,17 @@
+<%= form_with(model: number_verification, local: true) do |form| %>
+  <% if number_verification.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(number_verification.errors.count, "error") %> prohibited this number_verification from being saved:</h2>
+
+      <ul>
+      <% number_verification.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

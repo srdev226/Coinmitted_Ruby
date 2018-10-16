@@ -1,0 +1,44 @@
+@import "bootstrap";
+//@import "dashboard";
+@import "investment_wizard";
+//@import "bootstrap-slider";
+@import "bootstrap-datepicker";
+@import "font-awesome";
+@import "payouts";
+@import "paybear";
+@import "datatables.min";
+@import "intlTelInput";
+@import "signup";
+@import "social-share-button";
+@import "select/selectric";
+@import "ion.rangeSlider/ion.rangeSlider";
+
+
+/* NEW STYLES */
+@import "style";
+@import "changes";
+@import "responsive";
+@import "wizard";
+@import "wizard_responsive";
+
+$size: 24px;
+
+/* DatePicker */
+.datepicker table tbody tr:hover td {
+  background-color: #eee;
+}
+
+/*
+ * Social Share Button
+ */
+.social-share-button {
+  .ssb-icon {
+    background-size: $size $size;
+    height: $size;
+    width: $size;
+  }
+}
+
+.dashboard-sidebar-navigation {
+  min-height: 800px !important;
+}

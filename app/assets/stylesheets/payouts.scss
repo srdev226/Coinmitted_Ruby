@@ -1,0 +1,23 @@
+.next_payment {
+  width: 250px;
+  margin: 20px auto;
+  border: 1px solid blue;
+  padding: 10px 5px;
+  text-align: center;
+  position: relative;
+  .icon {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 40px;
+  }
+  .date {
+    text-align: left;
+    padding-left: 50px;
+  }
+  .head {
+    text-align: left;
+    padding-left: 50px;
+  }
+}
+

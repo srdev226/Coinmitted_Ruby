@@ -1,0 +1,54 @@
+<div class="inv-wiz">
+<div class="container-fluid  min-100  d-flex flex-col">
+  <div class="row flex-grow-1 bg-light investment_wizard_steps">
+
+    <div class="col-md-9 p-4 flex-grow-1">
+      <div class="back"><%= link_to fa_icon("arrow-left", text: "Back"), start_wizard_investment_path %> </div>
+
+      <div class="main_block">
+        <header><h4>Give your investment a name</h4></header>
+
+        <% @investment_wizard.errors.full_messages.each do |error| %>
+          <div class="form-group">
+            <p style="color:red"><%= error %></p>
+          </div>
+        <% end %>
+
+        <%= form_for @investment_wizard, as: :investment_wizard, url: validate_step_wizard_investment_path do |form| %>
+          <%= hidden_field_tag :current_step, 'name' %>
+          <div class="form-group">
+            <%= form.text_field :name, class: "form-control", placeholder: "e.g. My Coinmitted Investment" %>
+          </div>
+
+          <div class="form-group center" style="clear:both">
+            <%= form.submit "Continue", class: "btn btn-primary btn-submit" %>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+
+    <div class="col-md-3 p-4 flex-grow-1 wizard_sidebar" >
+
+      <div class="cancel">
+        <button type="button"  data-toggle="modal" data-target="#exampleModal">
+          <%= fa_icon "close" %>
+        </button>
+      </div>
+
+      <h4>Investment Summary</h4>
+      <div class="steps_selected">
+        <ul>
+          <%#<li>%>
+            <!--<p><%#= fa_icon "check" %> Investment Plan</p>-->
+            <!--<p class="selected"><%#= @investment_wizard.investment.investment_plan.title %> <%#= @investment_wizard.investment.investment_plan.subtitle %></p>-->
+          <%#</li>%>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%= render "cancel_modal" %>
+</div>

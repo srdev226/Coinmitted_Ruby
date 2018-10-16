@@ -1,0 +1,23 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+       <%= render "layouts/notifications" %>
+
+       <div class="jumbotron text-center">
+         <h2>Withdrawal</h2>
+       </div>
+
+       <p>Name: <%= @transaction.name %></p>
+       <p>User: <%= link_to @transaction.wallet.user.profile.name, edit_user_profile_path(@transaction.wallet.user.profile.id) %></p>
+       <p>Amount: <%= @transaction.amount %></p>
+       <p>To Address: <%= @transaction.address %></p>
+
+        <%= link_to 'Back', transactions_path %>
+
+     </main>
+  </div>
+</div>

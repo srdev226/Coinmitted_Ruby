@@ -1,0 +1,51 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+        <h1>Payments</h1>
+
+        <table class="table" id="data">
+          <thead>
+            <tr>
+              <th>Success</th>
+              <th>Investment ID</th>
+              <th>Invoice</th>
+              <th>Confirmations</th>
+              <th>Max Confirmations</th>
+              <th>Coin</th>
+              <th>Coins received</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @payments.each do |payment| %>
+              <tr>
+                <td>
+                  <%= fa_icon "circle", style: payment.success == true ? "color:lightgreen" : "color:red" %>
+                </td>
+                <td><%= payment.investment.id %></td>
+                <td><%= payment.invoice %></td>
+                <td><%= payment.confirmations %></td>
+                <td><%= payment.max_confirmations %></td>
+                <td><%= payment.coin %></td>
+                <td><%= payment.coins_received %></td>
+                <td><%= link_to 'Show', payment_show_path(payment) %></td>
+                <td><%#= link_to 'Edit', edit_payment_path(payment) %></td>
+                <td><%#= link_to 'Destroy', payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <br>
+
+        <%#= link_to 'New Payment', new_payment_path %>
+
+  </div>
+</div>

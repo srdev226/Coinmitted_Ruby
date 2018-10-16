@@ -1,0 +1,6 @@
+
+console.log("TEST");
+$('#authenticator-modal').find(".modal-content").html("<%= escape_javascript(render(partial: 'auth_factor', locals: {number: @number} )) %>");
+$("#authenticator-modal").modal();
+
+

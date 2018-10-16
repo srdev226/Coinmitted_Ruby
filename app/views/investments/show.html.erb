@@ -1,0 +1,64 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+       <div class="jumbotron text-center">
+       <h2>My Investment</h2>
+       </div>
+
+        <p id="notice"><%= notice %></p>
+
+        <p>
+          <strong>Investmnet Plan:</strong>
+          <%= @investment.investment_plan.title %>
+        </p>
+
+        <p>
+          <strong>Name:</strong>
+          <%= @investment.name %>
+        </p>
+
+        <p>
+          <strong>Invested amount:</strong>
+          <%= number_to_currency(@investment.invested_amount, :unit => @cur_sign[@investment.currency.upcase]) if @investment.currency.present? %>
+        </p>
+
+        <p>
+          <strong>Open date:</strong>
+          <%= @investment.open_date.strftime("%B %d, %Y") if @investment.open_date.present? %>
+        </p>
+
+        <p>
+          <strong>End date:</strong>
+          <%= @investment.end_date.strftime("%B %d, %Y") if @investment.end_date.present? %>
+        </p>
+        <p>
+          <strong>Timeframe:</strong>
+          <%= @investment.timeframe_months %>
+        </p>
+        <p>
+          <strong>Payout Frequency:</strong>
+          <%= @investment.payout_frequency.title if @investment.payout_frequency.present? %>
+        </p>
+
+        <p>
+          <strong>Payment Method:</strong>
+          <%= @investment.payment_method.name if @investment.payment_method.present? %>
+        </p>
+
+        <p>
+          <strong>Status:</strong>
+          <%= @investment.status.to_s.humanize %>
+        </p>
+
+        <%= link_to 'Edit', edit_investment_path(@investment) %> |
+        <%= link_to 'Back', investments_path %>
+
+     </main>
+
+  </div>
+</div>

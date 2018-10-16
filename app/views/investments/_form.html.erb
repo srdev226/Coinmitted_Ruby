@@ -1,0 +1,53 @@
+<%= form_with(model: investment, local: true) do |form| %>
+  <% if investment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(investment.errors.count, "error") %> prohibited this investment from being saved:</h2>
+
+      <ul>
+      <% investment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :investment_plan %>
+    <%= form.select :investment_plan_id, options_for_select(InvestmentPlan.all.collect { |s| [s.title, s.id] }, selected: @investment.investment_plan_id), {} , class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%#= form.label :invested_amount %>
+    <%#= form.number_field :invested_amount, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%#= form.label :open_date %>
+    <%#= form.datetime_select :open_date, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :end_date %>
+    <%= form.datetime_select :end_date, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :payout_frequency %>
+    <%= form.select :payout_frequency_id, options_for_select(PayoutFrequency.all.collect { |s| [s.title, s.id] }, selected: @investment.payout_frequency), {} , class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :payment_method %>
+    <%= form.select :payment_method_id, options_for_select(PaymentMethod.all.collect { |s| [s.name, s.id] }, selected: @investment.payment_method_id), {} , class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Update", class: "btn btn-success" %>
+    <%= link_to "Add Funds", continue_wizard_investment_path(add_fund: @investment.id), class: "btn btn-primary" %>
+  </div>
+<% end %>

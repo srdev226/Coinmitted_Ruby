@@ -1,0 +1,29 @@
+<div class="main-page-wrapper user-access-page">
+	<div class="main-container">
+		<div class="inner-box">
+			<h3 class="main-title">Resend confirmation </h3>
+			<div class="sign-up-form">
+			  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+					<ul style="list-style-type: disc;">
+				   <% resource.errors.full_messages.each do |message| %>
+				     <li style="color:#dc3545 !important"><%= message %></li>
+				   <% end %>
+					 <br>
+				   </ul>
+
+			    <div class="single-input-group small-box">
+			       <%= f.email_field :email, placeholder: 'Email', autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: "fong-fix"%>
+			    </div>
+			      <%= f.submit "Resend confirmation instructions", class: "theme-button", style: "border-radius:30px !important; cursor: pointer !important;"%>
+
+						<div class="text-center">
+							<%= link_to 'Forgot your password?',new_password_path(resource_name), class:"forget-pass-link font-fix"%>
+						</div>
+			  <% end %>
+		 </div>
+	</div>
+	<div class="text-center">
+		<%= link_to "Already have an account?", sign_in_path, class: 'additional-link-text font-fix' %>
+	</div>
+	</div>
+</div>

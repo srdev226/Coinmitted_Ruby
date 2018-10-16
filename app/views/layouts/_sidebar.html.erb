@@ -1,0 +1,180 @@
+<!-- ***************** Sidebar **************** -->
+<script>
+    $(function(){
+        $("#profile").on('click', function(){
+          location.reload();
+        })
+        $("#settings_section").on('click', function(){
+          location.reload();
+        })
+    })
+
+</script>
+<div class="dashboard-sidebar-navigation">
+    <button class="close-aside-menu tran3s round-border">
+        <%= image_tag "close.png", alt: "Coinmitted" %>
+    </button>
+    <ul class="navigation-link">
+        <li class="<%= controller_name == 'dashboards' ? "active-link" : '' %>">
+          <%= link_to dashboards_path do %>
+                <%= image_tag "dashboard.svg", alt: "Coinmitter", class: "svg" %> <%= t "sidebar.dashboard" %>
+          <% end %>
+        </li>
+        <li class="<%= controller_name == 'investments' ? "active-link" : '' %>">
+            <%= link_to investments_path do %>
+                <%= image_tag "investments.svg", alt: "Coinmitted Investments", class: "svg" %><%= t "sidebar.investments" %></a>
+            <% end %>
+        </li>
+        <li class="<%= controller_name == 'performance' ? "active-link" : '' %>">
+            <%= link_to performance_index_path, id: "performance_section" do %>
+                <%= image_tag "performance.svg", alt: "Coinmitted performance", class: "svg size-fix" %><%= t "sidebar.performance" %>
+            <% end %>
+        </li>
+        <li class="<%= controller_name == 'wallets' ? "active-link" : '' %>">
+            <%= link_to wallet_path(current_user) do %>
+                <%= image_tag "wallet.svg", alt: "Coinmitted wallet", class: "svg size-fix" %><%= t "sidebar.wallet" %>
+            <% end %>
+        </li>
+        <li class="<%= controller_name == 'payouts' ? "active-link" : '' %>">
+            <%= link_to payouts_path do %>
+                <%= image_tag "payouts.svg", alt: "Coinmitted payout", class: "svg" %><%= t "sidebar.payouts" %>
+            <% end %>
+        </li>
+        <li class="<%= controller_name == 'profiles' ? "active-link" : '' %>" >
+            <%= link_to edit_profile_path, id: "settings_section"  do %>
+                <%= image_tag "settings.svg", alt: "Coinmitted settings", class: "svg" %><%= t "sidebar.settings" %>
+            <% end %>
+        </li>
+        <li>
+            <%= link_to users_affiliates_path do %>
+                <%= image_tag "affiliates.svg", alt: "Coinmitted Affiliates", class: "svg" %><%= t "sidebar.affiliate" %>
+            <% end %>
+        </li>
+    </ul>
+    <%= link_to t('invite_friends'), root_path, class: "invite-button" %>
+    <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="<%= t "sidebar.help_text" %>"><%= image_tag "help.png", alt: "Coinmitted" %><%= t "sidebar.help" %></button>
+</div> 
+
+<!-- /.dashboard-sidebar-navigation --> <!-- ***** End Sidebar **** -->
+
+<!--
+
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+  <div class="sidebar-sticky">
+    <ul class="nav flex-column">
+
+      <li class="nav-item">
+        <%#= link_to dashboards_path, class: "nav-link #{controller_name == "dashboards" ? "active" : "" }" do %>
+         <i class="fa fa-dashboard"></i>
+          <span data-feather="home"></span>
+          Dashboard <span class="sr-only">(current)</span>
+        <%# end %>
+      </li>
+
+      <li class="nav-item">
+        <%#= link_to users_affiliates_path, class: "nav-link #{controller_name == "affiliates" ? "active" : "" }" do %>
+         <i class="fa fa-puzzle-piece"></i>
+          <span data-feather="file"></span>
+          Affiliates
+        <%# end %>
+      </li>
+
+      <li class="nav-item">
+        <%#= link_to users_campaigns_path, class: "nav-link #{controller_name == "campaigns" ? "active" : "" }" do %>
+         <i class="fa fa-rocket"></i>
+          <span data-feather="file"></span>
+          Campaigns
+        <%# end %>
+      </li>
+
+      <%# if current_user.admin? %>
+        <li class="nav-item">
+          <%#= link_to users_visits_path, class: "nav-link #{controller_name == "visits" ? "active" : "" }" do %>
+           <i class="fa fa-area-chart"></i>
+            <span data-feather="file"></span>
+            Visits
+          <%# end %>
+        </li>
+      <%# end %>
+
+      <li class="nav-item">
+        <%#= link_to investments_path, class: "nav-link #{controller_name == "investments" ? "active" : "" }" do %>
+         <i class="fa fa-repeat"></i>
+          <span data-feather="file"></span>
+          Investments
+        <%# end %>
+      </li>
+
+      <%# if current_user.admin? %>
+        <li class="nav-item">
+          <%#= link_to week_percentages_path, class: "nav-link #{controller_name == "week_percentages" ? "active" : "" }" do %>
+           <i class="fa fa-percent"></i>
+            <span data-feather="file"></span>
+            Week Percentages
+          <%# end %>
+        </li>
+      <%# end %>
+
+      <li class="nav-item">
+        <%#= link_to payouts_path, class: "nav-link #{controller_name == "payouts" ? "active" : "" }" do %>
+         <i class="fa fa-money"></i>
+          <span data-feather="file"></span>
+          Payouts
+        <%# end %>
+      </li>
+
+
+      <%# if current_user.admin? %>
+        <li class="nav-item">
+          <%#= link_to payments_all_path, class: "nav-link #{controller_name == "payments" ? "active" : "" }" do %>
+           <i class="fa fa-money"></i>
+            <span data-feather="file"></span>
+            Payments
+          <%# end %>
+        </li>
+      <%# end %>
+
+      <li class="nav-item">
+        <%#= link_to wallet_path(current_user), class: "nav-link #{controller_name == "wallets" ? "active" : "" }" do %>
+          <i class="fa fa-briefcase"></i>
+          <span data-feather="file"></span>
+          Wallet
+        <%# end %>
+      </li>
+
+      <%# if current_user.admin? %>
+        <li class="nav-item">
+          <%#= link_to transactions_path, class: "nav-link #{controller_name == "transactions" ? "active" : "" }" do %>
+            <i class="fa fa-exchange"></i>
+            <span data-feather="file"></span>
+            Withdrawal
+          <%# end %>
+        </li>
+      <%# end %>
+
+      <%# if current_user.admin? %>
+        <li class="nav-item">
+          <%#= link_to deposits_path, class: "nav-link #{controller_name == "deposits" ? "active" : "" }" do %>
+            <i class="fa fa-sign-in"></i>
+            <span data-feather="file"></span>
+            Deposits
+          <%# end %>
+        </li>
+      <%# end %>
+
+      <%# if current_user.admin? %>
+        <li class="nav-item">
+          <%#= link_to users_path, class: "nav-link #{controller_name == "users" ? "active" : "" }" do %>
+           <i class="fa fa-users"></i>
+            <span data-feather="file"></span>
+            Users
+          <%# end %>
+        </li>
+      <%# end %>
+
+    </ul>
+
+
+  </div>
+</nav>
+-->

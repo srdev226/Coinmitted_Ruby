@@ -1,0 +1,89 @@
+<% if flag == transaction.flag %>
+    <tr role="row" class="single-list">
+        <td class="time font-fix">
+            <div class="month">
+             <%= transaction.created_at.strftime("%b").upcase %>
+            </div>
+            <div class="date">
+         <%= transaction.created_at.strftime("%d") %>
+            </div>
+        </td>
+        <td>
+            <div class="heading font-fix">a
+             <%= transaction.name %>
+            </div>
+            <div class="value">
+             <%= transaction.address %>
+            </div>
+        </td>
+        <td>
+            <%#<button class="cancel-transactions">%>
+             <% if transaction.flag == 'pending' %>
+               <div class="col-2" style="text-align:right">
+                 <%= link_to "Cancel", wallet_transaction_path(
+                   wallet_id: current_user.wallet.id, id: transaction.id),
+                   data: {confirm: "Are you sure?"}, method: :delete,
+                   class: "btn btn-light" %>
+               </div>
+             <% end %>
+            <%#</button>%>
+        </td>
+        <td>
+            <div class="heading font-fix">
+                -<%= transaction.amount.to_f %> <%= transaction.ticker.upcase %>
+            </div>
+            <div class="value">
+                 <%= number_to_currency(
+                   CryptoConverter.new(@currency.upcase, transaction.ticker, transaction.amount.to_f).to_fiat,
+                   unit: @cur_sign[@currency])
+                 %>
+            </div>
+        </td>
+    </tr>
+<% end %>
+
+<!--
+<% if flag == transaction.flag %>
+ <div class="list-group-item list-group-item-action">
+   <div class="row crypto-item">
+
+     <div class="col-1" style="text-align:center;">
+       <div>
+         <%= transaction.created_at.strftime("%b").upcase %>
+       </div>
+       <div>
+         <%= transaction.created_at.strftime("%d") %>
+       </div>
+     </div>
+     <div class="col-<%= transaction.flag == 'pending' ? 6 : 8 %>">
+       <div>
+         <%= transaction.name %>
+       </div>
+       <div style="color:#777;">
+         <%= transaction.address %>
+       </div>
+     </div>
+     <% if transaction.flag == 'pending' %>
+       <div class="col-2" style="text-align:right">
+         <%= link_to "Cancel", wallet_transaction_path(
+           wallet_id: current_user.wallet.id, id: transaction.id),
+           data: {confirm: "Are you sure?"}, method: :delete,
+           class: "btn btn-light" %>
+       </div>
+     <% end %>
+     <div class="col-3" style="text-align: right">
+       <div>
+         -<%= transaction.amount.to_f %> <%= transaction.ticker.upcase %>
+       </div>
+       <div style="color:#777;">
+         <%= number_to_currency(
+           CryptoConverter.new(@currency.upcase, transaction.ticker, transaction.amount.to_f).to_fiat,
+           unit: @cur_sign[@currency])
+         %>
+       </div>
+     </div>
+
+   </div>
+ </div>
+<% end %>
+-->

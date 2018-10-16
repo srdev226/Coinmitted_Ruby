@@ -1,0 +1,32 @@
+<div class="dashboard-sidebar-navigation">
+    <button class="close-aside-menu tran3s round-border">
+        <%= image_tag "close.png", alt: "Coinmitted" %>
+    </button>
+    <ul class="navigation-link">
+
+
+
+        <li class="<%= controller_name == 'admin' ? "active-link" : '' %>">
+            <%= link_to admin_week_percentages_path do %>
+                Percentages
+            <% end %>
+        </li>
+
+
+        <li class="<%= controller_name == 'wallets' ? "active-link" : '' %>">
+        </li>
+        <li class="<%= controller_name == 'payouts' ? "active-link" : '' %>">
+            <%= link_to payouts_path do %>
+                <%= image_tag "payouts.svg", alt: "Coinmitted payout", class: "svg" %><%= t "sidebar.payouts" %>
+            <% end %>
+        </li>
+        <li class="<%= controller_name == 'profiles' ? "active-link" : '' %>">
+            <%= link_to edit_profile_path do %>
+                <%= image_tag "settings.svg", alt: "Coinmitted settings", class: "svg" %><%= t "sidebar.settings" %>
+            <% end %>
+        </li>
+
+    </ul>
+
+</div>
+

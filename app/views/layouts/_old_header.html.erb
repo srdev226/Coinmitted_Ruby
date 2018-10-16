@@ -1,0 +1,30 @@
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Coinmitted</a>
+  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <ul class="nav nav-pills user_profile_nav col-auto">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle profile-image-header" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <% if current_user && user_signed_in? %>
+          <%= profile_avatar(current_user.profile, "25x25") if current_user.profile.present? %>
+          <%= current_user.profile.name if current_user.profile.present? %>
+        <% else %>
+          <%= link_to "Sign In", new_user_session_path %>
+        <% end %>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <%= link_to "Profile", edit_profile_path, class: "dropdown-item" %>
+        <%#<a class="dropdown-item" href="#">Another action</a>%>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" href="#">
+          <% if current_user && user_signed_in? %>
+            <%= link_to destroy_user_session_path, method: :delete do %>
+              Sign out <%= fa_icon "sign-out" %>
+            <% end %>
+            <!-- if user_signed_in? -->
+          <% end %>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+</nav>

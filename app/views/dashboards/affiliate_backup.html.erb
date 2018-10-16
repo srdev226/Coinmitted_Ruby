@@ -1,0 +1,166 @@
+<% content_for :title, "Home" %>
+
+<div class="main-page-wrapper">
+  <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+
+      <%= render "layouts/header" %>
+
+      <!-- ******************** Dashboard Body Wrapper *********************** -->
+      <div class="container">
+        <div id="dashboard-main-body" class="clearfix">
+          <%= render "layouts/sidebar" %>
+
+          <!-- ***************** User Content **************** -->
+          <div class="dashboard-user-content settings-panel">
+            <div class="user-settings-content">
+
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<%#= render "layouts/header" %>
+<%#<div class="container-fluid">%>
+  <%#<div class="row">%>
+
+    <%#= render 'layouts/sidebar' %>
+
+    <%#<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">%>
+
+       <%#= render "layouts/notifications" %>
+
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Dashboard</h1>
+          <div class="btn-toolbar mb-2 mb-md-0">
+
+            <div class="input-group ">
+              <%= text_field_tag 'affiliate_url', @url, class: "form-control", id: "affiliate-url" %>
+              <div class="input-group-append">
+                <span class="input-group-text" id="copy-url">
+                  <%= fa_icon("copy", class: "mr-2") %>
+                  Copy
+                </span>
+              </div>
+            </div>
+
+          </div>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <%= link_to "Investor dashboard", dashboards_path(d: "investor"), class: "btn btn-sm btn-outline-secondary" %>
+          </div>
+        </div>
+
+        <div class="alert alert-success" id="success-alert" style="display:none">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <strong>Copied!
+          </strong>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-3 pt-3 pb-3">
+                <h4>
+                  <%= fa_icon("star") %>
+                  AFFILIATE LEVEL
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-3 border-right">
+                <div class="pt-3 text-center">
+                  AFFILIATE LEVELS
+                </div>
+                <div class="mb-5">
+                  <% @affiliate_levels.each do |affiliate_level| %>
+                    <span><%= affiliate_level.name %></span>
+                    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp;&nbsp; &nbsp;
+                    <span><%= affiliate_level.range_end %></span>
+                    <div class="progress mt-2 mb-2" style="height: 5px;">
+                      <div class="progress-bar <%= affiliate_level == current_user.affiliate_level ? "bg-success": "bg-light"  %>" role="progressbar" style="width: <%= affiliate_level == current_user.affiliate_level ? current_user.affiliates.count * affiliate_level.progress_step : 0 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <% if affiliate_level == current_user.affiliate_level %>
+                      <strong>
+                        <%= current_user.affiliates.count %>
+                      </strong>
+                      &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp;&nbsp; &nbsp;
+                      <span>
+                        <%= affiliate_level.range_end - current_user.affiliates.count %> Affiliates to <%= affiliate_level.next_level_name.upcase %>
+                      </span> <br><br>
+                    <% end %>
+                  <% end %>
+                </div>
+
+
+              </div>
+              <div class="col-sm-9">
+                <div class="row pt-3">
+                  <table class="table text-center borderless">
+                    <thead>
+                      <tr>
+                        <th scope="col">Clicks</th>
+                        <th scope="col">Signup</th>
+                        <th scope="col">Active Investors</th>
+                        <th scope="col">Invested</th>
+                        <th scope="col">Conversions</th>
+                        <th scope="col">Total Earnings</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td><%= current_user.affiliate_link_visits %></td>
+                          <td><%= current_user.affiliates.count %></td>
+                          <td><%= current_user.affiliates_with_investments.count %></td>
+                          <td><%= number_to_currency(affiliates_invested(current_user.total_investment)) %></td>
+                          <td><%= current_user.conversions %> %</td>
+                          <td><%= number_to_currency(affiliates_earned(current_user.investment_by_affiliates)) %></td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mt-4">
+        <div class="container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Email</th>
+                <th scope="col">Invested</th>
+                <th scope="col">Commision</th>
+                <th scope="col">Campaign Source</th>
+                <th scope="col">Profile</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @affiliates_users.each do |user| %>
+                <tr>
+                  <td><%= user.created_at.strftime("%F") %></td>
+                  <td><%= user.email %></td>
+                  <td><%= number_to_currency(user.total_investment,:unit=>'€') %></td>
+                  <td><%#= number_to_currency(user.total_investment * current_user.affiliate_level.commision,:unit=>'€') %></td>
+                  <td>TODO</td>
+                  <td>
+                    <%#= link_to profile_path(user) do %>
+                      <%= fa_icon "arrow-right" %>
+                    <%# end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+            </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>

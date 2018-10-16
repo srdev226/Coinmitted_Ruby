@@ -1,0 +1,128 @@
+<!-- Deposit  Modal -->
+<div class="modal fade wallet-page-modal" id="deposit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="tabs-wrap">
+
+        <ul class="nav nav-tabs modal-navs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="wallet-info-tab" data-toggle="tab" href="#wallet-info" role="tab" aria-controls="wallet-info" aria-selected="true"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="wallet-paymet-success-tab" data-toggle="tab" href="#wallet-paymet-success" role="tab" aria-controls="wallet-paymet-success" aria-selected="false"></a>
+          </li>
+        </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="wallet-info" role="tabpanel" aria-labelledby="wallet-info-tab">
+          <div class="theme-modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="main-container clearfix">
+            <div class="details-option">
+              <h3 class="main-title">Payment Method</h3>
+
+                <form action="#">
+                <ul class="wallet-payment-method clearfix">
+                  <li class="single-checkbox">
+                    <input type="radio" name="pay-check" id="pay-bitcoin" class="pay-check">
+                    <label for="pay-bitcoin">
+                      <%= image_tag "bitcoin2.png", alt: "Coinmitted" %>
+                      <span class="payment-currnecy font-fix">Bitcoin</span>
+                    </label>
+                  </li>
+                  <li class="single-checkbox">
+                    <input type="radio" name="pay-check" id="pay-ethereum" class="pay-check">
+                    <label for="pay-ethereum">
+                      <%= image_tag "ethereum2.png", alt: "Coinmitted" %>
+                      <span class="payment-currnecy font-fix">Ethereum</span>
+                    </label>
+                  </li>
+                  <li class="single-checkbox">
+                    <input type="radio" name="pay-check" id="pay-litecoin" class="pay-check">
+                    <label for="pay-litecoin">
+                      <%= image_tag "litecoin2.png", alt: "Coinmitted" %>
+                      <span class="payment-currnecy font-fix">Litecoin</span>
+                    </label>
+                  </li>
+                </ul>
+
+                <!-- wallet-amount -->
+                <div class="wallet-amount payment-amount">
+                  <h3 class="main-title">Amount</h3>
+                  <div class="input-group-wrapper main-currency">
+                    <input type="checkbox" class="cur-check" id="main-cur">
+                    <label for="main-cur">
+                      <span class="currency-icon"><%= @cur_sign[@currency] %></span>
+                      <input type="number" value="1000" min="50" id="wallet_deposit_field">
+                      <span class="currency-name"><%= @currency.upcase %></span>
+                    </label>
+                  </div>
+
+                  <div class="input-group-wrapper">
+                    <input type="checkbox" class="cur-check" id="crypto-cur">
+                    <label for="crypto-cur">
+                      <input type="number" id="input_deposit_crypto_field" value="0.0" min="50" class="cryptocurrency-amount">
+                      <span class="currency-name" id="deposit_crypto_field">BTC</span>
+                    </label>
+                  </div>
+
+                </div> <!-- /.wallet-amount -->
+
+                <a href="#" class="theme-button-pay continue-button">
+                  <span></span>Pay with Bitcoin - <span id="deposit_fiat_btn">1.000</span>
+                </a>
+              </form>
+            </div> <!-- /.details-option -->
+
+            <div class="modal-sidebar">
+
+              <!-- summary content -->
+              <div class="summary-content">
+                <h4 class="summary-title font-fix">Deposit Summary</h4>
+                <div class="crypto-balance font-fix" id="side_deposit_crypto">0.561335688 BTC</div>
+                <div class="main-balance font-fix" id="side_deposit_fiat">$1000.00</div>
+                <ul>
+                  <li class="list-item">
+                    <div class="sidebar-title">Payment Method</div>
+                    <div class="value font-fix">
+                      <div id="deposit_btc" style="display:none"><%= image_tag "bitcoin2.png" %> Bitcoin</div>
+                      <div id="deposit_eth" style="display:none"><%= image_tag "ethereum2.png" %> Ethereum</div>
+                      <div id="deposit_ltc" style="display:none"><%= image_tag "litecoin2.png" %> litecoin</div>
+                    </div>
+                  </li>
+                  <li class="list-item">
+                    <div class="sidebar-title">Deposit To</div>
+                    <div class="value font-fix">Coinmitted Wallet</div>
+                  </li>
+                  <li class="list-item">
+                    <div class="sidebar-title">Processing Time</div>
+                    <div class="value font-fix">Instant</div>
+                  </li>
+                </ul>
+                <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="The amount you want to invest, you can always add funds to your investment at any time." aria-describedby="tooltip279296">
+                  <%= image_tag "help.png", alt: "Coinmitted" %>
+                  Deposit Help
+                </button>
+              </div> <!-- /.summary-content -->
+
+            </div> <!-- /.modal-sidebar -->
+
+          </div> <!-- /.main-container -->
+        </div> <!-- /.tab-pane -->
+
+        <div class="tab-pane fade" id="wallet-paymet-success" role="tabpanel" aria-labelledby="wallet-paymet-success-tab">
+          <div class="success-alert-wrapper">
+            <%= image_tag "success.png", alt: "Coinmitted" %>
+            <h3 class="title">Success!</h3>
+            <p>$1000 ≈ 0.561335688 BTC will be available in your BTC wallet instantly. Sometimes it may take a few moments.</p>
+            <button class="theme-button" data-dismiss="modal" aria-label="Close"><span></span>Your wallet</button>
+          </div>
+        </div> <!-- /.tab-pane -->
+      </div> <!-- /.tab-content -->
+    </div> <!-- /.tabs-wrap -->
+  </div> <!-- /.modal-content -->
+</div> <!-- /.modal-dialog -->
+</div> <!-- /#deposite-modal -->

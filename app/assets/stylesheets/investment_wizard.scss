@@ -1,0 +1,134 @@
+.inv-wiz {
+  .container {
+      margin-top: 100px;
+  }
+  .card-title {
+      padding: 10px;
+  }
+  .card-content {
+      text-align: center;
+      padding: 0px !important;
+  }
+  header {
+    text-align: center;
+    width: 100%;
+  }
+  ul {
+    list-style-type: none;
+  }
+  .collection {
+    border: none;
+    .collection-item {
+      border: none;
+    }
+  }
+
+  .card {
+    //transition: .5s;
+    margin: 20px 10px;
+    &:hover {
+      //transform: scale(1.05);
+      //transition: .5s;
+    }
+    ul li {
+      padding: 10px !important;
+      //font-weight: bold;
+    }
+  }
+
+  .card.active {
+    border: 2px solid blue !important;
+  }
+  form {
+    width: 100%;
+  }
+  input {
+    border: none;
+  }
+  input{
+    &#investment_wizard_invested_amount {
+      width: 100%;
+      border: 1px solid #ced4da;
+    }
+  }
+  .btn-submit {
+    margin-top: 30px;
+  }
+
+  .center {
+    //margin: 0 auto;
+    text-align: center;
+  }
+
+  .investment_wizard_steps {
+    position: relative;
+    color: #2C2F42;
+    form {
+      width: 100%;
+    }
+    .back {
+      color: #777;
+      text-align: left;
+      font-size: 1.2rem;
+      &:hover {
+        color: #777;
+      }
+      a {
+        color: #777;
+        text-decoration: none;
+      }
+    }
+    .main_block {
+      margin-top: 5rem;
+      h6 {
+        color: #777;
+      }
+      .tooltip-main {
+        opacity: 1;
+      }
+    }
+    .cancel {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      &:hover {
+        color: #777;
+      }
+      a {
+        color: #777;
+        text-decoration: none;
+      }
+      button {
+        border:0;
+        background:none;
+        color:#777;
+        cursor:pointer;
+      }
+    }
+    .wizard_sidebar {
+      background-color: #EFF2F7;
+      border-left: 1px solid #ccc;
+      .steps_selected {
+        margin-top: 30px;
+        p {
+          color: #777;
+          margin-bottom: 0;
+        }
+        li {
+          margin-bottom: 1rem;
+        }
+        i {
+          color: blue;
+          font-size: 20px;
+        }
+        .selected {
+          color: blue;
+        }
+      }
+    }
+  }
+  #bSlider .slider-selection {
+    background: #BABABA;
+  }
+}

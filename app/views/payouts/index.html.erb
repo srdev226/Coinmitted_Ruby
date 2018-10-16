@@ -1,0 +1,190 @@
+<div class="main-page-wrapper">
+  <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+
+      <%= render "layouts/header" %>
+      <%= render 'layouts/notifications' %>
+
+      <!-- ******************** Dashboard Body Wrapper *********************** -->
+      <div class="container">
+        <div id="dashboard-main-body" class="clearfix">
+
+          <%= render "layouts/sidebar" %>
+
+						<!-- ***************** User Content **************** -->
+						<div class="dashboard-user-content payout-panel">
+
+              <% if @payouts.present? %>
+                <div class="next-payout-box clearfix">
+                  <div class="title font-fix">Next Payout</div>
+                  <div class="payout-date">
+                  <% @payouts.reverse.each do |item| %>
+
+                    <% if item.pay_date > Date.today %>
+                      in <%= distance_of_time_in_words(item.pay_date.to_time, Date.today.to_time) %>,
+                      <%= item.pay_date.strftime("%d.%m.%Y") %>
+                      <% break %>
+                    <% end %>
+                  <% end %>
+                  </div>
+                  <%= image_tag "coins.png", alt: "Coinmitted", class: "coins" %>
+                </div> <!-- /.next-payout-box -->
+              <% end %>
+
+							<div class="payout-history-wrapper">
+								<div class="clearfix">
+                  <div class="payout-history-title">
+                    Payouts history
+                    <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="The amount you want to invest, you can always add funds to your investment at any time.">
+                      <%= image_tag "info.png", alt: "Coinmitted" %>
+                    </button>
+                  </div>
+
+                  <div class="total-payout-count font-fix">
+                    Total Payouts: <span><%= @payouts.count %></span>
+                  </div>
+								</div>
+
+								<div class="payout-single-table">
+									<div class="table-responsive table-data">
+										<table class="table">
+											<tbody>
+
+                        <% if @payouts.present? %>
+                        <% @payouts.each do |item| %>
+                          <% if item.status == "paid" || current_user.admin? %>
+											    <tr role="row">
+											      	<td>
+												      	<div class="title">Status</div>
+                                <div class="value font-fix payment-status paid">
+                                  <%= item.status %>
+                                </div>
+												    </td>
+												    <td>
+												    	<div class="title">Investment</div>
+                              <div class="value font-fix">
+                                <%= item.investment.name %>
+                              </div>
+												    </td>
+												    <td>
+												      	<div class="title">Payment Method</div>
+                                <div class="value font-fix">
+                                  <% if image_path("#{item.investment.payment_method.name.downcase}2.png").present? %>
+                                    <%= image_tag "#{item.investment.payment_method.name.downcase}2.png", alt: "Coinmitted", class: "currency-icon" %>
+                                  <% end %>
+                                    <%= item.investment.payment_method.name %>
+                                </div>
+												    </td>
+												    <td>
+												      	<div class="title">Paid out</div>
+                                <div class="value font-fix">
+                                  <%= item.pay_date.strftime("%d.%m.%Y") %>
+                                </div>
+												    </td>
+												    <td>
+												    	<div class="title">Amount</div>
+                              <div class="value font-fix payout-amount">
+                                <%= number_to_currency(item.amount, unit: @cur_sign[item.investment.currency.upcase]) if item.investment.currency.present? %>
+                              </div>
+												    </td>
+											    </tr>
+
+                          <% end %>
+                        <% end %>
+                        <% else %>
+                          <tr>
+                            <td>
+                              <div class="title">
+                                No payouts yet, create your <%= link_to "investment", start_wizard_investment_path %>
+                              </div>
+                            </td>
+                          </tr>
+                        <% end %>
+
+
+
+
+
+											</tbody>
+										</table>
+									</div> <!-- /.table-data -->
+								</div> <!-- /.payout-single-table -->
+							</div> <!-- /.payout-history-wrapper -->
+
+						</div> <!-- /.dashboard-user-content --> <!-- ***** End User Content **** -->
+					</div> <!-- /#dashboard-main-body -->
+				</div> <!-- /.container -->  <!-- ***** End Dashboard Body Wrapper **** -->
+			</div> <!-- #dashboard-wrapper --> <!-- ***** End Dashboard Main Container **** -->
+
+</div>
+
+
+<!--
+<%#= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%#= render 'layouts/sidebar' %>
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <%#= render 'layouts/notifications' %>
+
+       <h1>Payouts <%#= "for investment #{@payouts.first.investment.name.capitalize}" if current_user.admin? && params[:investment_id] %></h1>
+
+        <%# if @payouts.present? %>
+        <div class="next_payment">
+          <%#= fa_icon "calendar", class: "icon" %>
+          <div class="head">
+            Next payout
+          </div>
+          <div class="date">
+            <%# @payouts.reverse.each do |item| %>
+              <%# if item.pay_date > Date.today %>
+                in <%#= distance_of_time_in_words(item.pay_date.to_time, Date.today.to_time) %>,
+                <%#= item.pay_date.strftime("%d.%m.%Y") %>
+                <%# break %>
+              <%# end %>
+            <%# end %>
+          </div>
+        </div>
+      <%# end %>
+
+      <%#= "Payouts: #{@payouts.count}" if superadmin? %>
+
+        <table class="table table-stripe">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Reference</th>
+              <th>Paid out</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <%# @payouts.each do |item| %>
+              <%# if item.status == "paid" || superadmin? %>
+              <tr>
+                <td>
+                  <%#= fa_icon "circle", style: item.status == 'paid' ? "color:lightgreen" : "color:red" %>
+                  <%#= item.status %>
+                </td>
+                <td><%#= item.reference_number %></td>
+                <td><%#= item.pay_date.strftime("%d.%m.%Y") %></td>
+                <td style="color: green"><%#= number_to_currency(item.amount, unit: @cur_sign[item.investment.currency.upcase]) if item.investment.currency.present? %></td>
+              </tr>
+              <%# end %>
+            <%# end %>
+          </tbody>
+        </table>
+
+        <%# if @payouts.empty? %>
+          No payouts yet, create your <%#= link_to "investment", start_wizard_investment_path %>
+        <%# end %>
+
+     </main>
+    </div>
+  </div>
+</div>
+-->

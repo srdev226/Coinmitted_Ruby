@@ -1,0 +1,76 @@
+<% content_for :title, "Pages Hits" %>
+
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+       <%= render "layouts/notifications" %>
+
+
+          <%#= content_for :subnav do %>
+            <%#= link_to "Back", users_visits_path, class: "btn btn-sm btn-dark" %>
+          <%# end %>
+
+          <div class="card border-secondary mb-3">
+          <div class="card-header">
+            <strong class="pr-3">
+              <%= time_ago_in_words(@visit.started_at) %> ago
+            </strong><%= @visit.landing_page %>
+          </div>
+          <div class="card-body text-secondary">
+            <div class="row">
+              <div class="col">
+                <strong>
+                  Location :
+                </strong>
+                <%= @visit.country %>, <%= @visit.region %>, <%= @visit.city %>.
+              </div>
+              <div class="col">
+                <strong>
+                  Device :
+                </strong>
+                <%= @visit.device_type %>, <%= @visit.os %>, <%= @visit.browser %>.
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col">
+                <strong>
+                  Total page hits by this visitor
+                </strong>
+                <span class="badge badge-primary ml-3">
+                  <%= @visit.events.count %>
+                </span>
+              </div>
+              <div class="col">
+                <strong>Date / Time :
+                </strong>
+                <%= @visit.started_at %>.
+              </div>
+            </div>
+            <hr>
+            <p class="card-text">
+              <table class="tabele">
+                <tbody>
+                  <% @events.each_pair do |key, value| %>
+                    <tr>
+                      <td>
+                        <%= key %>
+                        <span class="badge badge-secondary ml-3 mt-2">
+                          <%= value %>
+                        </span>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </p>
+          </div>
+        </div>
+
+    </main>
+  </div>
+</div>

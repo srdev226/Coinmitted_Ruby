@@ -1,0 +1,22 @@
+<%= form_with(model: investment, url: deposit_path(investment), local: true) do |form| %>
+  <% if investment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(investment.errors.count, "error") %> prohibited this deposit from being saved:</h2>
+
+      <ul>
+      <% investment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :status, [['draft'],['active'],['payment']], {},class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Update', class: "btn btn-primary" %>
+  </div>
+<% end %>

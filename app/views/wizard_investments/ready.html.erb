@@ -1,0 +1,24 @@
+<div class="container-fluid min-100 d-flex">
+	<div class="row flex-grow-1 bg-light investment_wizard_steps">
+
+    <div class="col p-4">
+
+      <div class="center">
+        <%= fa_icon "picture-o", style: "font-size:20rem" %>
+      </div>
+
+      <div class="main_block">
+      <header>
+        <h3>Your Investment is ready!</h3>
+        <h6> <%= @investment.invested_amount %> has been invested for <%= @investment.timeframe_months %> period. You can add new funds or edit your investment at any time in <%= link_to "Investments", investments_path %>.</h6>
+      </header>
+
+      </div>
+      <div class="center">
+        <%= link_to "Investment Certificate", certificate_path(id: @investment.id, format: 'pdf'), class: "btn btn-primary btn-submit" %>
+        <%= link_to "Investments", investments_path, class: "btn btn-primary btn-submit" %>
+      </div>
+    </div>
+
+  </div>
+</div>

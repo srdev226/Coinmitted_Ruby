@@ -1,0 +1,91 @@
+<!-- Mobile-Verification  Modal -->
+			<div class="modal fade settings-page-modal" id="mobile-verification" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+				    	<div class="tabs-wrap">
+							<ul class="nav nav-tabs modal-navs" id="myTab" role="tablist">
+								<li class="nav-item">
+								  <a class="nav-link active" id="add-number-tab" data-toggle="tab" href="#add-number" role="tab" aria-controls="add-number" aria-selected="true"></a>
+								</li>
+								<li class="nav-item">
+								  <a class="nav-link" id="verification-code-tab" data-toggle="tab" href="#verification-code" role="tab" aria-controls="verification-code" aria-selected="false"></a>
+								</li>
+								<li class="nav-item">
+								  <a class="nav-link" id="success-tab" data-toggle="tab" href="#success" role="tab" aria-controls="success" aria-selected="false"></a>
+								</li>
+							</ul>
+							<div class="tab-content" id="myTabContent">
+								<div class="tab-pane fade show active" id="add-number" role="tabpanel" aria-labelledby="add-number-tab">
+									<div class="theme-modal-header">
+								      	<h3 class="title font-fix">Verify your phone number</h3>
+								      	<div class="header-sub-title">In order to protect the security of your account, please verify your phone number. We will send you a text message with a verification code that you'll need to enter on the next screen.</div>
+								        <button type="button" class="close close-phone-verification-modal" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">&times;</span>
+								        </button>
+								    </div>
+
+								    <div class="modal-body">
+				                        <form action="#">
+
+				                        	<label><h6>Country code</h6></label>
+										  <%= select_tag "authy-countries", nil, name: 'country_code', 'data-show-as': 'number' %>
+										  <label><br><h6>Phone number:</h6></label>
+				                          <input id="phone" name="phone" type="tel" class="font-fix">
+
+
+				                          <a class="send-number-button theme-button"><span></span>Continue</a>
+				                        </form>
+				      				</div> <!-- /.modal-body -->
+								</div> <!-- /.tab-pane -->
+
+								<div class="tab-pane fade" id="verification-code" role="tabpanel" aria-labelledby="verification-code-tab">
+								  	<div class="theme-modal-header">
+				                      <h3 class="title"><a class="back-button">
+				                          <%= image_tag "left-arrow.png", alt: "Coinmitted" %>
+				                        </a> A verification code was <br> sent to your phone</h3>
+
+								      	<div class="header-sub-title given-number" id="phone-number"></div>
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">&times;</span>
+								        </button>
+								    </div>
+
+								    <div class="modal-body verification-code-details">
+				        				<form action="#" class="code-verify">
+				        					<input id="phone-verification-code" type="text" placeholder="Enter your code" class="font-fix">
+				        					<div class="button-group clearfix">
+				        						<ul class="clearfix">
+				        							<li><button class="resend-code resend-button">Resend Code</button></li>
+				        							<li><button class="theme-button verify-button"><span></span>Verify</button></li>
+				        						</ul>
+				        					</div>
+				        				</form>
+
+				      				</div> <!-- /.modal-body -->
+								</div> <!-- /.tab-pane -->
+								<div class="tab-pane fade" id="success" role="tabpanel" aria-labelledby="success-tab">
+								  	<div class="theme-modal-header">
+				                        <h2><br>   Congratulation!   <br></h2>
+				                        <h3><br>Your phone number is verified <br>successfully!</h3> 
+								    </div>
+
+								    <div class="modal-body verification-code-details">
+				        				<form action="#" class="code-verify">
+				        					<div class="button-group clearfix">
+				        						<ul class="clearfix">
+				        							<li>
+				        								<button type="button" class="theme-button success-button" data-dismiss="modal" aria-label="Close">
+								          					<span aria-hidden="true"></span>Close
+								        				</button>
+								        			</li>
+				        						</ul>
+				        					</div>
+				        				</form>
+				        			</div>
+								</div> <!-- /.tab-pane -->
+							</div> <!-- /.tab-content -->
+						</div> <!-- /.tabs-wrap -->
+			    	</div> <!-- /.modal-content -->
+			  	</div> <!-- /.modal-dialog -->
+			</div> <!-- /#mobile-verification -->
+

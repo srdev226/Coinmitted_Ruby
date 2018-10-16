@@ -1,0 +1,41 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+        <h1>Week Percentages</h1>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>First date</th>
+              <th>Last date</th>
+              <th>Percentage</th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @week_percentages.each do |week_percentage| %>
+              <tr>
+                <td><%= week_percentage.first_date.strftime("%B %d, %Y") %></td>
+                <td><%= week_percentage.last_date.strftime("%B %d %Y") %></td>
+                <td><%= week_percentage.percentage %>%</td>
+                <td><%= link_to 'Show', week_percentage %></td>
+                <td><%= link_to 'Edit', edit_week_percentage_path(week_percentage) %></td>
+                <td><%= link_to 'Destroy', week_percentage, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <br>
+
+        <%= link_to 'New Week Percentage', new_week_percentage_path, class: "btn btn-primary" %>
+
+     </main>
+    </div>
+  </div>
+</div>

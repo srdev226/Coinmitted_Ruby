@@ -1,0 +1,430 @@
+	<body>
+		<div class="main-page-wrapper">
+			<div class="dropdown-overlay"></div>
+
+		
+			<!-- *********************** Dashboard Main Container ************************** -->
+			<div id="dashboard-wrapper" class="affiliates-page">
+				
+				<!-- ******************** Main Top Header *********************** -->
+				<div id="main-top-header">
+					<div class="container">
+						<div class="wrapper clearfix">
+							<!-- Logo -->
+							<div class="logo clearfix">
+								<a href="affiliates.html" class="back-logo header-back-button"><img src="images/left-arrow.png" alt=""></a>
+								<a href="index.html" class="logo-wrapper"><img src="images/main-logo.png" alt=""></a>
+								<a href="index.html" class="logo-title">Affiliate Partner</a>
+							</div>
+							<!-- Top Bar Action List -->
+							<div class="top-bar-action-list">
+								<ul class="clearfix">
+									<!-- Balance Figure -->
+									<li class="action-list-item balance-action-button">
+										<div class="dropdown">
+											<button class="dropdown-toggle" data-toggle="dropdown">
+											    <span class="font-fix"><%= number_to_currency(wallet_total_balance(@wallet.currencies, @currency), unit: @cur_sign[@currency]) %></span>
+											</button>
+											<div class="dropdown-menu dropdown-menu-right">
+												<div class="clearfix dropdown-top-header">
+													<div class="dropdown-title">Your balance</div>
+													<%= link_to "+ Deposit", wallet_path(current_user), class: "deposite-action" %>
+												</div>
+											    <div class="balance-sheet-wrapper">
+													<ul>
+                            <% @wallet.currencies.each do |item| %>
+                              <li class="bitcoin-method clearfix">
+                                <a class="clearfix" href="#">
+                                  <span class="name font-fix">
+                                    <!-- <img src="assets/#{item.name.downcase}2.png" alt="#{item.name} Coinmitted"> -->
+                                    <%= item.name.camelize %>
+                                  </span>
+                                  <span class="balance-inquery">
+                                    <span class="currency-title">
+                                      <%= item.amount.to_f %> <%= item.ticker.upcase %>
+                                  </span>
+                                    <span class="total-currency">
+                                     <%= number_to_currency(
+                                       CryptoConverter.new(@currency.upcase, item.ticker.upcase, item.amount.to_f).to_fiat,
+                                       unit: @cur_sign[@currency])
+                                     %>
+                                    </span>
+                                  </span>
+                                </a>
+                              </li>
+                            <% end %>
+													</ul>
+													<div class="total-balance clearfix">
+														<div class="balance-title">Total Balance ≈</div>
+														<div class="balance-figure"><%= number_to_currency(total_user_balance(@wallet.user), unit: @cur_sign[@currency]) %></div>
+													</div>
+												</div> <!-- /.balance-sheet-wrapper -->
+											</div>
+										</div>
+									</li> <!-- /.action-list-item -->
+									<!-- User Panel -->
+									<li class="action-list-item user-profile-action">
+										<div class="dropdown">
+											<button type="button" class="dropdown-toggle" data-toggle="dropdown">
+												<img src="images/user.png" alt="" class="user-img">
+											   	<span class="user-name font-fix"><%= current_user.profile.name if current_user.profile.present? %></span>
+											</button>
+											<div class="dropdown-menu dropdown-menu-right">
+												<div class="user-account-information">
+													<%= profile_avatar(current_user.profile, "44x44", 'user-lg-img') if current_user.profile.present? %>
+													<div class="user-name font-fix"><%= current_user.profile.name if current_user.profile.present? %></div>
+													<div class="user-email"><%= current_user.email %></div>
+													<div class="member-rank"><%= current_user.profile.member %> Member</div>
+												</div> <!-- /.user-account-information -->
+												<ul class="user-useful-link">
+													<li><%= link_to t('your_profile'), edit_profile_path, class: "font-fix", id: "profile" %></li>
+													<li><%= link_to t('contact_support'), contact_support_path, class: "font-fix" %></li>
+													<li> <%= link_to dashboards_path(d: "investor"), class: "font-fix" do %>
+                        <%= t('investor_dashboard') %><% end %>
+                      </li>
+													<li><%= link_to t('log_out'), destroy_user_session_path(id: current_user.id), method: :delete, class: "font-fix" %></li>
+												</ul>
+											</div>
+										</div>
+									</li> <!-- /.action-list-item -->
+								</ul>
+							</div> <!-- /.top-bar-action-list -->
+						</div> <!-- /.wrapper -->
+					</div> <!-- /.container -->
+				</div> <!-- #main-top-header -->   <!-- ***** End Main Top Header ***** -->
+
+				<!-- ******************** Dashboard Body Wrapper *********************** -->
+				<div class="clearfix">
+					<div id="dashboard-main-body" class="clearfix">
+
+						<!-- ***************** User Content **************** -->
+						<div class="dashboard-user-content affiliate-panel">
+							<div class="user-affiliate-content">
+								<div class="affiliate-nav">
+									<div class="container">
+										<ul class="nav nav-tabs" role="tablist">
+											<li class="nav-item">
+												<a class="nav-link active" data-toggle="tab" href="#campaigns" role="tab" aria-controls="campaigns" aria-selected="true">Campaigns</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" data-toggle="tab" href="#affiliates" role="tab" aria-controls="affiliates" aria-selected="false">Affiliates</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" data-toggle="tab" href="#payments" role="tab" aria-controls="payments" aria-selected="false">Payments</a>
+											</li>
+										</ul>
+									</div>
+								</div> <!-- /.affiliate-nav -->
+
+								<div class="container">
+									<div class="tab-content affiliate-tab-content">
+										<div class="tab-pane fade show active" id="campaigns" role="tabpanel">
+											<div class="campaign-upper-info">
+												<ul class="clearfix">
+													<li class="campaign-name">
+														<h6 class="title">Campaign</h6>
+														<select class="theme-select-dropdown" id="c-name">
+															<option value="Facebook">Facebook</option>
+															<option value="Youtube Bitcoin">Youtube Bitcoin</option>
+															<option value="FInstagram">Instagram</option>
+														</select>
+													</li>
+													<li class="campaign-url">
+														<h6 class="title">Campaign URL</h6>
+														<form>
+                              <%= text_field_tag 'affiliate_url', @url %>
+															<button id="copy-url"><img src="images/link.png" alt="">Copy</button>
+                            </form>
+													</li>
+												</ul>
+											</div> <!-- /.campaign-upper-info -->
+
+											<ul class="affiliate-history clearfix">
+												<li>
+													<div class="inner-warpper">
+														<h6 class="inner-title">Active affiliates</h6>
+														<strong class="figure"><%= current_user.affiliates_with_investments.count %></strong>
+													</div> <!-- /.inner-warpper -->
+												</li>
+												<li>
+													<div class="inner-warpper">
+														<h6 class="inner-title">Total Earnings</h6>
+														<strong class="figure total-earn"><%= number_to_currency(affiliates_earned(current_user.investment_by_affiliates)) %></strong>
+													</div> <!-- /.inner-warpper -->
+												</li>
+												<li>
+													<div class="inner-warpper">
+														<h6 class="inner-title">Balance</h6>
+														<strong class="figure">$2000,00</strong>
+													</div> <!-- /.inner-warpper -->
+												</li>
+												<li>
+													<div class="inner-warpper">
+														<h6 class="inner-title">Last commision: 04/08/2018</h6>
+														<strong class="figure">$100</strong>
+													</div> <!-- /.inner-warpper -->
+												</li>
+											</ul> <!-- /.affiliate-history -->
+
+
+											<div class="table-responsive campaigns-table-sheet">
+												<table class="table">
+													<thead>
+													    <tr>
+														    <td>
+														      <span class="title">Created</span>
+														    </td>
+													    	<td>
+														      <span class="title">Campaign Name</span>
+														    </td>
+														    <td>
+														      <span class="title">Affiliates</span>
+														    </td>
+														    <td>
+														      <span class="title">Earnings</span>
+														    </td>
+														    <td>
+														      <span class="title">Campaign URL</span>
+														    </td>
+														    <td>
+														      <button type="button" class="new-campaigns-button" data-toggle="modal" data-target="#">+ Create New Campaign</button>
+														    </td>
+													    </tr>
+													</thead>
+													<tbody>
+                            <% @affiliates_users.each do |user| %>
+													    <tr>
+													      	<td>
+														      <span class="title"><%= user.created_at.strftime("%F") %></span>
+														    </td>
+														    <td>
+														      <span class="title">Facebook</span>
+														    </td>
+														    <td>
+														      <span class="title">100</span>
+														    </td>
+														    <td>
+														      <span class="title">€1000,45</span>
+														    </td>
+														    <td colspan="2">
+														    	<ul class="action-list clearfix">
+														    		<li class="copy-url">
+														    			<form action="#">
+														    				<input type="text" value="http://www.coinmitted.com/12323233312">
+														    				<button>Copy</button>
+														    			</form>
+														    		</li>
+														    		<li class="edit-button" data-toggle="modal" data-target="#edit-campaign"><button>Edit</button></li>
+														    		<li class="delete-button"><button>Delete</button></li>
+														    	</ul>
+														    </td>
+													    </tr>
+                              <% end %>
+													    <tr>
+													      	<td>
+														      <span class="title">2018-04-30</span>
+														    </td>
+														    <td>
+														      <span class="title">Facebook</span>
+														    </td>
+														    <td>
+														      <span class="title">100</span>
+														    </td>
+														    <td>
+														      <span class="title">€1000,45</span>
+														    </td>
+														    <td colspan="2">
+														    	<ul class="action-list clearfix">
+														    		<li class="copy-url">
+														    			<form action="#">
+														    				<input type="text" value="http://www.coinmitted.com/12323233312">
+														    				<button>Copy</button>
+														    			</form>
+														    		</li>
+														    		<li class="edit-button" data-toggle="modal" data-target="#edit-campaign"><button>Edit</button></li>
+														    		<li class="delete-button"><button>Delete</button></li>
+														    	</ul>
+														    </td>
+													    </tr>
+													</tbody>
+												</table>
+											</div> <!-- /.campaigns-table-sheet -->
+										</div> <!-- /.tab-pane -->
+
+
+
+										<div class="tab-pane fade" id="affiliates" role="tabpanel">
+										  	<ul class="clearfix">
+										  		<li class="search-affiliates">
+										  			<form action="#">
+										  				<input type="text" placeholder="Search">
+										  				<button><img src="images/search.png" alt=""></button>
+										  			</form>
+										  		</li>
+										  		<li class="affiliates-status">
+													<select class="theme-select-dropdown" name="Status">
+														<option value="AL">Status</option>
+													  <option value="Active">Active</option>
+													  <option value="Waiting">Waiting</option>
+													</select>
+												</li>
+										  	</ul>
+
+										  	<div class="table-responsive affiliates-table-sheet">
+												<table class="table">
+													<thead>
+													    <tr>
+														    <td>
+														      <span class="title">Status</span>
+														    </td>
+													    	<td>
+														      <span class="title">Registration Date</span>
+														    </td>
+														    <td>
+														      <span class="title">Name</span>
+														    </td>
+														    <td>
+														      <span class="title">Invested</span>
+														    </td>
+														    <td>
+														      <span class="title">Comission</span>
+														    </td>
+														    <td>
+														      <span class="title">Campaign source</span>
+														    </td>
+													    </tr>
+													</thead>
+													<tbody>
+                            <% current_user.affiliates.each do |user| %>
+                              <tr>
+                                <td><% if user.investment_ids.empty? %> <span class="title font-fix pending">Inactive</span> <% else %> <span class="title font-fix active">Active</span> <% end %></td>
+                                <td><span class="title font-fix"><%= user.created_at.strftime("%F") %></span></td>
+                                <td><span class="title font-fix"><%= user.profile.name %></span></td>
+                                <td><span class="title font-fix"><%= number_to_currency(affiliate_invested(user)) %></span></td>
+                                <td><span class="title font-fix comission"><%= number_to_currency(affiliates_invested(current_user.total_investment) * current_user.affiliate_level.commision,:unit=>'$') %></span></td>
+                                <td><span class="title font-fix">Normal</span></td>
+                                
+                              </tr>
+                            <% end %>
+													</tbody>
+												</table>
+											</div> <!-- /.affiliates-table-sheet -->
+										</div> <!-- /.tab-pane -->
+
+										<div class="tab-pane fade" id="payments" role="tabpanel">
+										  	<ul class="payments-history clearfix">
+												<li>
+													<div class="inner-warpper">
+														<h6 class="inner-title">Total Earnings</h6>
+														<strong class="figure total-earn">$4.800.00</strong>
+													</div> <!-- /.inner-warpper -->
+												</li>
+												<li>
+													<div class="inner-warpper">
+														<h6 class="inner-title">Total Balance</h6>
+														<strong class="figure">$0.00</strong>
+														<button class="theme-button withdraw-button"><span></span>Withdraw</button>
+													</div> <!-- /.inner-warpper -->
+												</li>
+											</ul> <!-- /.payments-history -->
+
+											<div class="transactions-history bg-box">
+												<div class="title">Pending Transactions</div>
+
+												<div class="table-responsive transactions-list">
+													<table class="table">
+														<tbody>
+														    <tr role="row" class="single-list">
+														      	<td class="time font-fix">
+																	<div class="month">Jul</div>
+																	<div class="date">28</div>
+															    </td>
+															    <td><div class="heading font-fix pending">Pending</div></td>
+															    <td>
+															    	<div class="heading font-fix">Withdraw to Bitcoin</div>
+															      	<div class="value">1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX</div>
+															    </td>
+															    <td><button class="cancel-transactions">Cancel</button></td>
+															    <td>
+															    	<div class="amount">€1000,45</div>
+															    </td>
+														    </tr>
+
+														    <tr role="row" class="single-list">
+														      	<td class="time font-fix">
+																	<div class="month">Jul</div>
+																	<div class="date">28</div>
+															    </td>
+															    <td><div class="heading font-fix complete">Completed</div></td>
+															    <td colspan="2">
+															    	<div class="heading font-fix">Withdraw to Bitcoin</div>
+															      	<div class="value">1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX</div>
+															    </td>
+															    <td>
+															    	<div class="amount">€1000,45</div>
+															    </td>
+														    </tr>
+														</tbody>
+													</table>
+												</div> <!-- /.table-data -->
+											</div> <!-- /.transactions-history -->
+										</div> <!-- /.tab-pane -->
+									</div> <!-- /.tab-content -->
+								</div>
+							</div> <!-- /.user-affiliate-content -->
+							
+						</div> <!-- /.dashboard-user-content --> <!-- ***** End User Content **** -->
+					</div> <!-- /#dashboard-main-body -->
+				</div> <!-- /.container -->  <!-- ***** End Dashboard Body Wrapper **** -->
+			</div> <!-- #dashboard-wrapper --> <!-- ***** End Dashboard Main Container **** -->
+
+
+
+			<!-- Edit campaign  Modal -->
+			<div class="modal fade campaign-name-modal" id="edit-campaign" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			    		<div class="theme-modal-header">
+			    			<h3 class="title font-fix">Edit your campaign</h3>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>					
+					    </div>
+						<div class="body-wrapper">
+							<form action="#">
+								<span class="name">Campaign Name</span>
+								<input type="text" value="[Campaing Name]">
+								<ul class="clearfix">
+									<li><button class="theme-button"><span></span>Save</button></li>
+									<li><button type="button" class="close" data-dismiss="modal" aria-label="Close">Cancel</button></li>
+								</ul>
+							</form>
+						</div>
+			    	</div> <!-- /.modal-content -->
+			  	</div> <!-- /.modal-dialog -->
+			</div> <!-- /#edit-campaign -->
+
+			
+			
+			
+
+
+			<!-- Optional JavaScript _____________________________  -->
+
+	    	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	    	<!-- jQuery -->
+			<script src="vendor/jquery.2.2.3.min.js"></script>
+			<!-- Popper js -->
+			<script src="vendor/popper.js/popper.min.js"></script>
+			<!-- Bootstrap JS -->
+			<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+			<!-- Country Select -->
+			<script src="vendor/country-select-js-master/build/js/countrySelect.min.js"></script>
+			<!-- Telephone Select -->
+			<script src="vendor/intl-tel/build/js/intlTelInput.min.js"></script>
+			<!-- Select js -->
+			<script src="vendor/select/jquery.selectric.min.js"></script>
+			<!-- Dashboard js -->
+			<script src="js/dashboard.js"></script>
+		</div> <!-- /.main-page-wrapper -->
+	</body>

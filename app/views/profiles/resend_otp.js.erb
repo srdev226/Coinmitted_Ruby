@@ -1,0 +1,5 @@
+<% if @success %>
+   $("#flash_messages").html("<div class='alert alert-success'>OTP has been resent to your verified phone number.</div>");
+<% else %>
+   $("#flash_messages").html("<div class='alert alert-warning'>Fail to resend token, Please Try again.</div>");
+<% end %>

@@ -1,0 +1,14 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+      <%= link_to 'Edit', edit_profile_path(@profile) %> |
+      <%= link_to 'Back', profiles_path %>
+
+     </main>
+  </div>
+</div>

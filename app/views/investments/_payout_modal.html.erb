@@ -1,0 +1,55 @@
+<!-- Payouts Modal -->
+<div class="modal fade payout-modal" id="payout-modal-<%= pdata.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="theme-modal-header">
+                <h3 class="title font-fix"><%= pdata.name %> - Payouts</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="next-payout-box">
+                    <%= image_tag "icon-1.png", alt: "Coinmitted", class: "payout-icon" %>
+                    <div class="text">Next Payout</div>
+                    <div class="date"><%= investment_next_payout(pdata).strftime("%B %d, %Y") unless investment_next_payout(pdata).nil? %></div>
+                </div>
+
+                <% pdata.payouts.each do |item| %>
+                    <% if item.status == 'paid' %>
+                        <div class="payout-history">
+                            <ul class="clearfix">
+                                <li class="list-item">
+                                    <div class="title">Status</div>
+                                    <div class="value font-fix payment-status"><%= item.status %></div>
+                                </li>
+                                <li class="list-item">
+                                    <div class="title">Reference</div>
+                                    <div class="value font-fix"><%= item.reference_number %></div>
+                                </li>
+                                <li class="list-item">
+                                    <div class="title">Paid out</div>
+                                    <div class="value font-fix"><%= item.pay_date.strftime("%d.%m.%Y") %></div>
+                                </li>
+                                <li class="list-item">
+                                    <div class="title">Amount</div>
+                                    <div class="value font-fix payout-amount">
+                                        <%= number_to_currency(item.amount, unit: "$") %>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    <% end %>
+                <% end %>
+                <% if pdata.payouts.empty? %>
+                    <div class="payout-history">
+                        <p>No Payouts for this Investment</p>
+                        <p>Status: <%= pdata.status %></p>
+                    </div>
+                <% else %>
+                <% end %>
+
+            </div>
+        </div>
+    </div>
+</div> <!-- /#payout-modal -->

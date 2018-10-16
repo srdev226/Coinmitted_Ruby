@@ -1,0 +1,63 @@
+<div class="main-page-wrapper user-access-page">
+	<div class="main-container">
+		<div class="inner-box">
+
+<%= content_for :title, "Sign In" %>
+<div class="logo" style="text-align:center !important;">
+	<%= link_to image_tag("logo2.png"), "#" %>		
+</div>
+<div class="login-form">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+    <%= render "layouts/notifications" %>
+
+    <div class="single-input-group small-box">
+      <%= f.label :email, class: "sr-only" %>
+      <%= f.email_field :email,
+        autocomplete: "email",
+        class: "fong-fix",
+        placeholder: "Email address",
+        required: true
+      %>
+    </div>
+
+    <div class="single-input-group small-box">
+      <%= f.label :password, class: "sr-only" %>
+      <%= f.password_field :password,
+        autocomplete: "off",
+        class: "fong-fix",
+        placeholder: "Password",
+        required: true
+      %>
+    </div>
+
+      <%= f.submit "Login", class: "theme-button", style: "border-radius:30px !important; cursor: pointer !important;"%>
+			<div class="text-center">
+				<%= link_to 'Forgot your password?',new_password_path(resource_name), class:"forget-pass-link font-fix"%>
+			</div>
+			
+   
+
+  <% end %>
+</div>
+</div>
+<%= link_to 'Create an account',new_registration_path(resource_name), class:"create-new-account"%>
+<ul class="apps-download-button clearfix">
+	<li><%= link_to image_tag("apple-store.png"), "#" %></li>
+	<li><%= link_to image_tag("play-store.png"), "#" %></li>
+</ul>
+</div>
+
+<footer class="main-footer">
+	<div class="clearfix">
+		<ul class="policy-link clearfix">
+			<li><%= link_to 'Home', '#', class:"font-fix"%></li>
+			<li><%= link_to 'Terms of service', '#', class:"font-fix"%></li>
+			<li><%= link_to 'Privacy policy', '#', class:"font-fix"%></li>
+		</ul>
+
+		<ul class="right-widget clearfix">
+			<li>&copy; 2018 Coinmitted</li>
+		</ul>
+	</div>
+</footer>

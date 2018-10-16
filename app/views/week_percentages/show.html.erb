@@ -1,0 +1,47 @@
+<% content_for :title, "Week percentage" %>
+
+<div class="main-page-wrapper">
+    <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+<%= render "layouts/header" %>
+<div class="container">
+      <div id="dashboard-main-body" class="clearfix">
+
+
+    <% if current_user.role == 'admin' %>
+      <%= render 'layouts/admin_sidebar' %>
+    <% else %>
+      <%= render 'layouts/sidebar' %>
+    <% end %>
+        <div class="dashboard-user-content investment-panel">
+
+       <h1>Week percentage</h1>
+
+      <p>
+      <strong>First date:</strong>
+      <%= @week_percentage.first_date.strftime("%B %d, %Y") %>
+      </p>
+
+      <p>
+      <strong>Last date:</strong>
+      <%= @week_percentage.last_date.strftime("%B %d, %Y") %>
+      </p>
+
+      <p>
+      <strong>Percentage:</strong>
+      <%= @week_percentage.percentage %>
+      </p>
+
+      <%= link_to 'Edit', edit_week_percentage_path(@week_percentage) %> |
+      <% if current_user.role == 'admin' %>
+        <%= link_to 'Back to admin', admin_week_percentages_path %>
+      <% else %>
+        <%= link_to 'Back', week_percentages_path %>
+      <% end %>
+    </div>
+  </div>
+</div>
+</div>
+</div>

@@ -1,0 +1,2 @@
+class SavedInvestment < ApplicationRecord
+end

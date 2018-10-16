@@ -1,0 +1,191 @@
+<!-- Investment  Modal -->
+<div class="modal fade investment-modal" id="investment-modal-<%= pdata.id %>"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <script>
+        window.modal_type = 'edit';
+        window.investment = '<%= pdata %>';
+        window.cur_user_id = '<%= current_user.id %>';
+        window.cur_sign = '<%= @cur_sign[@currency] %>';
+        window.currency = '<%= @currency %>';
+    </script>
+    <div id="edit-modal" value="<%=pdata%>" hidden></div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="tabs-wrap">
+
+                <ul class="nav nav-tabs modal-navs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="invest-name-tab" data-toggle="tab" href="#invest-name-<%= pdata.id %>" role="tab" aria-controls="invest-name" aria-selected="true"></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="invest-amount-tab" data-toggle="tab" href="#invest-amount-<%= pdata.id %>" role="tab" aria-controls="invest-amount" aria-selected="false"></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="invest-return-tab" data-toggle="tab" href="#invest-return-<%= pdata.id %>" role="tab" aria-controls="invest-return" aria-selected="false"></a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="invest-name-<%= pdata.id %>" role="tabpanel" aria-labelledby="invest-name-tab">
+                    <div class="theme-modal-header">
+                        <h3 class="title font-fix">Edit your investment</h3>
+                        <button type="button" class="close-edit-modal close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                      <%= form_for :investment, url: investment_path(pdata.id), method: :patch do |f| %>
+                        <div class="single-input-wrapper">
+                            <h6 class="title">Investment name</h6>
+                            <%= f.text_field :name, class: "edit-invest-name" %>
+                        </div> <!-- /.single-input-wrapper -->
+                        <div class="single-input-wrapper">
+                          <h6 class="title">Payout Frequency <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="The amount you want to invest, you can always add funds to your investment at any time.">
+                              <%= image_tag "info.png", alt: "Coinmitted" %>
+                            </button></h6>
+                            <%= f.select :payout_frequency_id, options_for_select([["Weekly ( Every Week)", 1], ["Twice a Month ( 1st and the 15th)", 2], ["Monthly (1st business day of the month)", 3], ["At the end of investment period", 4]]), {}, class: "theme-select-dropdown edit-payout-ddown-#{pdata.id}" %>
+                           
+                        </div> <!-- /.single-input-wrapper -->
+
+                        <div class="single-input-wrapper">
+                            <h6 class="title">
+                                Investment timeframe
+                                <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="The amount you want to invest, you can always add funds to your investment at any time.">
+                                  <%= image_tag "info.png", alt: "Coinmitted" %>
+                                </button>
+                            </h6>
+                            <%= f.text_field :end_date, class: "end-date-#{pdata.id}", value: "Investment End Date: #{pdata.end_date.strftime("%d/%m/%Y") if pdata.end_date}" %>
+                            <br>
+                           <%= f.select :timeframe, options_for_select(@timeframe), {}, class: "theme-select-dropdown timeframe-input-#{pdata.id}" %>
+                            
+                        </div> <!-- /.single-input-wrapper -->
+
+                        <button class="add-funds-button continue-step1">Add funds to your investment</button>
+                        <div class="bottom-button-group clearfix">
+                            <ul class="clearfix">
+                              
+                                <li><%= f.submit "Save", class: "save-action" %></li>
+                                <%#<li><button class="delete-action">Delete</button></li>%>
+                                <li><button class="cancel-action" data-dismiss="modal" aria-label="Close">Cancel</button></li>
+                            </ul>
+                        </div>
+                        
+                        <% end %>
+                    </div> <!-- /.modal-body -->
+                </div> <!-- /.tab-pane -->
+
+
+
+                <div class="tab-pane fade" id="invest-amount-<%= pdata.id %>" role="tabpanel" aria-labelledby="invest-amount-tab">
+                    <div class="theme-modal-header">
+                        <h3 class="title font-fix">
+                            <a class="back-button">
+                              <%= image_tag "left-arrow.png", alt: "coinmitted" %>
+                            </a> How much would you like to invest?
+                        </h3>
+                        <button type="button" class="close-edit-modal close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body invest-amount-details">
+                        <div class="input-box-wrapper">
+                            <h6 class="title">amount</h6>
+                            <div class="input-group-wrapper main-currency">
+                                <div class="currency-icon">$</div>
+                                <input class="invested-amount-<%=pdata.id%>" type="number" value="<%=pdata.invested_amount%>" min="50">
+                                <div class="currency-name">USD</div>
+                            </div>
+                            <div class="input-group-wrapper">
+                                <div class="cryptocurrency-amount">0</div>
+                                <select class="theme-select-dropdown crypto_rate-<%=pdata.id%>">
+                                    <option value="0">BTC</option>
+                                    <option value="0">Eth</option>
+                                    <option value="0">Ltc</option>
+                                </select>
+                            </div>
+                            <div class="invest-amount-condition">Coinmitted requires a $50 minimum investment</div>
+                        </div> <!-- /.input-box-wrapper -->
+
+                        <div class="input-box-wrapper">
+                            <h6 class="title">Payment Method</h6>
+                            <ul class="payment-method-one">
+                                <li class="clearfix payment-header list-item">
+                                    <div class="title-text font-fix">Balance</div>
+                                    <div class="payment-time">Instant</div>
+                                </li>
+                                <li class="clearfix payment-action-list list-item">
+                                    <div class="currency-name font-fix">
+                                        <%= image_tag "bitcoin2.png", alt: "Coinmitted" %>
+                                        Bitcoin
+                                    </div>
+                                    <div class="payment-time">Instant</div>
+                                </li>
+                                <li class="clearfix payment-action-list list-item">
+                                    <div class="currency-name font-fix">
+                                        <%= image_tag "ethereum2.png", alt: "Coinmitted" %>
+                                            Ethereum
+                                    </div>
+                                    <div class="payment-time">Instant</div>
+                                </li>
+                                <li class="clearfix payment-action-list list-item">
+                                    <div class="currency-name font-fix">
+                                        <%= image_tag "litecoin2.png", alt: "Coinmitted" %>
+                                            Litecoin
+                                    </div>
+                                    <div class="payment-time">Instant</div>
+                                </li>
+                            </ul>
+                        </div> <!-- /.input-box-wrapper -->
+
+                        <button class="add-funds-button continue-button">Add funds to your investment</button>
+                    </div> <!-- /.modal-body -->
+                </div> <!-- /.tab-pane -->
+
+                <div class="tab-pane fade" id="invest-return-<%= pdata.id %>" role="tabpanel" aria-labelledby="invest-return-tab">
+                    <div class="theme-modal-header">
+                        <h3 class="title font-fix">
+                            <a class="back-button">
+                                <%= image_tag "left-arrow.png", alt: "Coinmitted" %>
+                            </a> See how much your coins can grow</h3>
+                    <button type="button" class="close-edit-modal close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="invest-vs-deposit clearfix">
+                    <div class="previous-invest">
+                        <div class="title">Previously invested</div>
+                        <div class="amount font-fix prev_invested"></div>
+                    </div>
+                    <div class="new-deposit">
+                        <div class="title">new deposit</div>
+                        <div class="amount font-fix new_invested"></div>
+                    </div>
+                </div> <!-- /.invest-vs-deposit -->
+
+                <div class="modal-body invest-amount-details">
+                    <div class="input-box-wrapper">
+                        <h6 class="title">New total invested amount</h6>
+                        <div class="input-group-wrapper main-currency">
+                            <div class="currency-icon">$</div>
+                            <input type="number" value="1000" min="50">
+                            <div class="currency-name">USD</div>
+                        </div>
+                    </div> <!-- /.input-box-wrapper -->
+                    <div class="total-return-figure">
+                        <h4 class="title">Expected return</h4>
+                        <span class="return-value"><strong class="total-return-value usd-return-<%=pdata.id%>"></strong></span>
+                    </div> <!-- /.total-return-figure -->
+
+                    <div class="invest-time-condition">You can add new funds to your investment at any time.</div>
+                    <a class="confirm-button theme-button">Confirm</a>
+                </div> <!-- /.modal-body -->
+
+            </div> <!-- /.tab-pane -->
+        </div> <!-- /.tab-content -->
+    </div> <!-- /.tabs-wrap -->
+
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /#investment-modal -->

@@ -1,0 +1,162 @@
+<!-- Withdraw  Modal -->
+			<div class="modal fade wallet-page-modal" id="withdraw-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+				    	<div class="tabs-wrap">
+							<ul class="nav nav-tabs modal-navs-two" id="myTabTwo" role="tablist">
+								<li class="nav-item">
+								  <a class="nav-link active" id="withdraw-panel-tab" data-toggle="tab" href="#withdraw-panel" role="tab" aria-controls="withdraw-panel" aria-selected="true"></a>
+								</li>
+								<li class="nav-item">
+								  <a class="nav-link" id="wallet-pin-tab" data-toggle="tab" href="#wallet-pin" role="tab" aria-controls="wallet-pin" aria-selected="false"></a>
+								</li>
+							</ul>
+							<div class="tab-content" id="myTabContentTwo">
+								<div class="tab-pane fade show active" id="withdraw-panel" role="tabpanel" aria-labelledby="withdraw-panel-tab">
+									<div class="theme-modal-header">
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">&times;</span>
+								        </button>					
+								    </div>
+
+								    <div class="main-container clearfix">
+								    	<div class="details-option">
+								    		<h3 class="main-title tooltip-holder">
+												Withdraw From
+												<button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="The amount you want to invest, you can always add funds to your investment at any time."><img src="images/info.png" alt=""></button>
+											</h3>
+								    		<form action="#" class="withdraw-action-form">
+								    			<div class="dropdown withdraw-method-dropdown">
+													<button class="dropdown-toggle withdraw-dropdown-button" data-toggle="dropdown">
+													    <span class="balance-sheet-wrapper selected-currency">
+													    	<span class="withdraw-currency-list clearfix">
+													    		<span class="name font-fix"><img src="images/bitcoin2.png" alt=""> Bitcoin</span>
+																<span class="balance-inquery">
+																	<span class="currency-title">0.0000 BTC</span>
+																	<span class="total-currency">$0.00</span>
+																</span>
+													    	</span>
+													    </span>
+													</button>
+													<div class="dropdown-menu dropdown-menu-right">
+													    <div class="balance-sheet-wrapper">
+															<ul>
+																<li class="bitcoin-method clearfix select-currnecy-list">
+																	<div class="withdraw-currency-list clearfix">
+																		<span class="name font-fix"><img src="images/bitcoin2.png" alt=""> Bitcoin</span>
+																		<span class="balance-inquery">
+																			<span class="currency-title">0.0000 BTC</span>
+																			<span class="total-currency">$0.00</span>
+																		</span>
+																	</div>
+																</li>
+																<li class="ethereum-method clearfix select-currnecy-list">
+																	<div class="withdraw-currency-list clearfix">
+																		<span class="name font-fix"><img src="images/ethereum2.png" alt=""> Ethereum</span>
+																		<span class="balance-inquery">
+																			<span class="currency-title">0.0000 ETC</span>
+																			<span class="total-currency">$0.00</span>
+																		</span>
+																	</div>
+																</li>
+																<li class="litecoin-method clearfix select-currnecy-list">
+																	<div class="withdraw-currency-list clearfix">
+																		<span class="name font-fix"><img src="images/litecoin2.png" alt=""> Litecoin</span>
+																		<span class="balance-inquery">
+																			<span class="currency-title">0.0000 LTC</span>
+																			<span class="total-currency">$0.00</span>
+																		</span>
+																	</div>
+																</li>
+															</ul>
+														</div> <!-- /.balance-sheet-wrapper -->
+													</div>
+												</div> <!-- /.withdraw-method-dropdown -->
+
+												<div class="withdraw-address">
+													<h3 class="main-title tooltip-holder">
+														To Address
+														<button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="The amount you want to invest, you can always add funds to your investment at any time."><img src="images/info.png" alt=""></button>
+													</h3>
+													<textarea placeholder="1GvHyD6hfd9Noa5syfDqz4hMaMrjxpexE"></textarea>
+												</div>
+
+												<div class="wallet-amount withdraw-amount">
+													<h3 class="main-title">Amount</h3>
+													<div class="row">
+														<div class="col-sm-6">
+															<div class="input-group-wrapper main-currency">
+																<input type="checkbox" class="cur-check" id="wdrw-main-cur">
+								        						<label for="wdrw-main-cur">
+								        							<span class="currency-icon">$</span>
+									        						<input type="number" value="1000" min="50">
+									        						<span class="currency-name">USD</span>
+								        						</label>
+								        					</div>
+														</div> <!-- /.col- -->
+
+														<div class="col-sm-6">
+															<div class="input-group-wrapper">
+								        						<input type="checkbox" class="cur-check" id="wdrw-crypto-cur">
+								        						<label for="wdrw-crypto-cur">
+								        							<input type="number" value="0.561335688" min="50" class="cryptocurrency-amount">
+								        							<span class="currency-name">BTC</span>
+								        						</label>
+								        					</div>
+														</div>
+													</div> <!-- /.row -->
+												</div> <!-- /.wallet-amount -->
+
+												<a href="#" class="theme-button continue-button-two"><span></span>Withdraw from Bitcoin - $1.000</a>
+								    		</form>
+								    	</div> <!-- /.details-option -->
+
+
+								    	<div class="modal-sidebar">
+								    		<div class="summary-content">
+								    			<h4 class="summary-title font-fix">Withdrawal Summary</h4>
+								    			<div class="crypto-balance font-fix">0.561335688 BTC</div>
+								    			<div class="main-balance font-fix">$1000.00</div>
+
+								    			<ul>
+								    				<li class="list-item">
+								    					<div class="sidebar-title">From</div>
+								    					<div class="value font-fix"><img src="images/bitcoin2.png" alt=""> Bitcoin</div>
+								    				</li>
+								    				<li class="list-item">
+								    					<div class="sidebar-title">To</div>
+								    					<div class="value font-fix">1GvHyD6hfd9Noa5syfDqz4h...</div>
+								    				</li>
+								    				<li class="list-item">
+								    					<div class="sidebar-title">Processing Time</div>
+								    					<div class="value font-fix">Processed in 24 hours</div>
+								    				</li>
+								    			</ul>
+								    			<button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="The amount you want to invest, you can always add funds to your investment at any time." aria-describedby="tooltip279296"><img src="images/help.png" alt="">Withdraw Help</button>
+								    		</div> <!-- /.summary-content -->
+								    	</div> <!-- /.modal-sidebar -->
+								    </div> <!-- /.main-container -->
+								</div> <!-- /.tab-pane -->
+
+								<div class="tab-pane fade" id="wallet-pin" role="tabpanel" aria-labelledby="wallet-pin-tab">
+								    <div class="theme-modal-header">
+								      	<h3 class="title font-fix"><a class="back-button-two"><img src="images/left-arrow.png" alt=""> &nbsp;</a></h3>
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">&times;</span>
+								        </button>
+								    </div>					
+
+								    <div class="modal-body">
+							        	<form action="#" class="withdraw-pin-form">
+							        		<h3 class="title font-fix">Enter your withdraw PIN</h3>
+							        		<input type="tel" placeholder="0000" maxlength="4" class="font-fix">
+							        		<div class="pin-attempt-text">3 attempts left</div>
+							        		<button class="theme-button"><span></span>Confirm</button>
+							        	</form>
+							      	</div> <!-- /.modal-body -->
+								</div> <!-- /.tab-pane -->
+							</div> <!-- /.tab-content -->
+						</div> <!-- /.tabs-wrap -->
+			    	</div> <!-- /.modal-content -->
+			  	</div> <!-- /.modal-dialog -->
+			</div> <!-- /#withdraw-modal -->

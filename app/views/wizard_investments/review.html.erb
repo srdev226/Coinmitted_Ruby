@@ -1,0 +1,131 @@
+<div class="inv-wiz">
+<div class="container-fluid  min-100  d-flex flex-col">
+  <div class="row flex-grow-1 bg-light investment_wizard_steps">
+
+    <div class="col p-4 flex-grow-1">
+      <div class="back"><%= link_to fa_icon("arrow-left", text: "Back"), payment_wizard_investment_path %> </div>
+      <div class="cancel">
+        <button type="button"  data-toggle="modal" data-target="#exampleModal">
+          <%= fa_icon "close" %>
+        </button>
+      </div>
+
+      <div class="main_block">
+        <header><h4>A few things to double-check</h4></header>
+
+        <%= form_for @investment_wizard, as: :investment_wizard, url: validate_step_wizard_investment_path do |form| %>
+          <%= hidden_field_tag :current_step, 'review' %>
+          <%= form.hidden_field :payment_method_id, id: "radio_value" %>
+          <%= form.hidden_field :user_id, value: current_user.id %>
+
+          <% @investment_wizard.errors.full_messages.each do |error| %>
+            <div class="form-group">
+              <p style="color:red"><%= error %></p>
+            </div>
+          <% end %>
+
+
+          <div class="card-group radio-group">
+          <style>
+          /* hardcoded, will be updated on layoyt styling */
+          .card { height: 150px; }
+          </style>
+            <!-- investment plan -->
+            <!-- Investment Name -->
+            <div class="col-sm-6">
+              <div class="card radio" data-value="<%= name_wizard_investment_path %>">
+                <div class="card-content">
+                  <div class="card-title">
+                    <div class="steps_selected">
+                      <ul>
+                        <li>
+                          <p><%= fa_icon "check" %> Investment Name</p>
+                          <p><strong><%= @investment_wizard.investment.name %></strong></p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- TimeFrame -->
+            <div class="col-sm-6">
+              <div class="card radio" data-value="<%= timeframe_wizard_investment_path %>">
+                <div class="card-content">
+                  <div class="card-title">
+                    <div class="steps_selected">
+                      <ul>
+                        <li>
+                          <p><%= fa_icon "check" %> TimeFrame</p>
+                          <p><strong><%= @investment_wizard.investment.timeframe_months %></strong></p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Payout Frequency -->
+            <div class="col-sm-6">
+              <div class="card radio" data-value="<%= payout_wizard_investment_path %>">
+                <div class="card-content">
+                  <div class="card-title">
+                    <div class="steps_selected">
+                      <ul>
+                        <li>
+                          <p><%= fa_icon "check" %> Payout Frequency</p>
+                          <p><strong><%= @investment_wizard.investment.payout_frequency.title %></strong></p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Initial Deposit -->
+            <div class="col-sm-6">
+              <div class="card radio" data-value="<%= amount_wizard_investment_path %>">
+                <div class="card-content">
+                  <div class="card-title">
+                    <div class="steps_selected">
+                      <ul>
+                        <li>
+                          <p><%= fa_icon "check" %> Initial Deposit</p>
+                          <p><strong><%= @cur_sign[@currency] %> <%= @investment_wizard.investment.invested_amount %></strong></p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Expected Return -->
+            <div class="col-sm-6">
+              <div class="card radio" data-value="investment_plan" style="background: blue; color: white;">
+                <div class="card-content">
+                  <div class="card-title">
+                    <h3 style="color:white"><%= @cur_sign[@currency] %> <%= @investment_wizard.investment.investment_earning %></h4>
+                    <p>Expected Return</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /radio_group -->
+
+
+          <div class="form-group center" style="clear:both">
+            <%= link_to "Edit", plan_wizard_investment_path, class: "btn btn-primary btn-submit", id: "edit_btn", data: { path: plan_wizard_investment_path } %>
+            <%= form.submit "Confirm", class: "btn btn-primary btn-submit" %>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+<%= render "cancel_modal" %>
+</div>

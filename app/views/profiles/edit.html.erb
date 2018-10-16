@@ -1,0 +1,98 @@
+<div class="main-page-wrapper">
+  <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+
+      <%= render "layouts/header" %>
+
+      <!-- ******************** Dashboard Body Wrapper *********************** -->
+      <div class="container">
+        <div id="dashboard-main-body" class="clearfix">
+
+          <%= render "layouts/sidebar" %>
+
+          <!-- ***************** User Content **************** -->
+          <div class="dashboard-user-content settings-panel">
+						<%= render "layouts/notifications" %>
+            <div class="user-settings-content">
+
+              <ul class="nav nav-tabs settings-nav" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#edit-profile" role="tab" aria-controls="edit-profile" aria-selected="true">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">Password</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#preferences" role="tab" aria-controls="preferences" aria-selected="false">Preferences</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">Security</a>
+                </li>
+              </ul> <!-- /.settings-nav -->
+
+              <div class="tab-content settings-tab-content">
+                <div class="tab-pane fade show active" id="edit-profile" role="tabpanel">
+                  <%= render "#{params[:id].present? ? 'admin' : 'user'}_form_edit_profile" %>
+                </div> <!-- /.tab-pane -->
+
+                <div class="tab-pane fade" id="password" role="tabpanel">
+                  <%= render "profiles/password" %>
+                </div> <!-- /.tab-pane -->
+
+                <div class="tab-pane fade" id="preferences" role="tabpanel">
+                  <%= render "profiles/preferences" %>
+                </div> <!-- /.tab-pane -->
+
+                <div class="tab-pane fade" id="security" role="tabpanel">
+                  <%= render "profiles/security" %>
+                </div> <!-- /.tab-pane -->
+
+              </div> <!-- /.tab-content -->
+            </div> <!-- /.user-settings-content -->
+
+          </div> <!-- /.dashboard-user-content --> <!-- ***** End User Content **** -->
+        </div> <!-- /#dashboard-main-body -->
+      </div> <!-- /.container -->  <!-- ***** End Dashboard Body Wrapper **** -->
+    </div> <!-- #dashboard-wrapper --> <!-- ***** End Dashboard Main Container **** -->
+
+</div>
+
+
+<!--
+<%#= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%#= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+       <%#= render "layouts/notifications" %>
+
+       <div class="card text-left">
+        <div class="card-header">
+          <ul class="nav nav-pills card-header-pills">
+            <li role="presentation" class="active"><a href="#edit_profile" aria-controls="edit_profile" role="tab" data-toggle="tab">Edit Profile</a></li>
+            <li role="presentation"><a href="#password" aria-controls="password" role="tab" data-toggle="tab">Password</a></li>
+            <li role="presentation"><a href="#preferences" aria-controls="preferences" role="tab" data-toggle="tab">Preferences</a></li>
+            <li role="presentation"><a href="#security" aria-controls="security" role="tab" data-toggle="tab">Security</a></li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="edit_profile"><%#= render "profiles/edit_profile" %></div>
+              <div role="tabpanel" class="tab-pane" id="password"><%#= render "profiles/password" %></div>
+              <div role="tabpanel" class="tab-pane" id="preferences"><%#= render "profiles/preferences" %></div>
+              <div role="tabpanel" class="tab-pane" id="security"><%#= render "profiles/security" %></div>
+          </div>
+        </div>
+      </div>
+
+
+
+     </main>
+  </div>
+</div>
+-->

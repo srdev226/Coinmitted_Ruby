@@ -1,0 +1,51 @@
+<% content_for :title, "Admin Dashboard" %>
+
+<div class="main-page-wrapper">
+    <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+
+        <%= render "layouts/header" %>
+
+        <!-- ******************** Dashboard Body Wrapper *********************** -->
+        <div class="container">
+            <div id="dashboard-main-body" class="clearfix">
+
+
+                <%= render "layouts/admin_sidebar" %>
+
+
+                <!-- ***************** User Content **************** -->
+                <div class="dashboard-user-content investment-panel">
+
+                   <%= render "layouts/notifications" %>
+                   <h1>Admin Dashboard</h1>
+                   <br>
+                    <div class="card border-dark mb-3 pb-3 mb-4">
+                      <div class="card-header bg-secondary text-white">Traffic Analytics</div>
+                      <div class="card-body text-dark">
+                        <h5 class="card-title">
+                          <span class="mr-5">
+                            Total Visitors
+                            <span class="badge badge-primary ml-2">
+                              @visits.length
+                            </span>
+                          </span>
+                          <span class="mr-5">
+                            Total Page Hits
+                            <span class="badge badge-primary ml-2">
+                              <%= @page_hits %>
+                            </span>
+                          </span>
+                        </h5>
+                        <p class="card-text pt-3 font-italic">Click Page Hits for more detailed information about page visits of a perticular visitor</p>
+                      </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

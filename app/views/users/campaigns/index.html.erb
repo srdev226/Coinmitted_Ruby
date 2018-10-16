@@ -1,0 +1,46 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+       <%= render "layouts/notifications" %>
+
+      <div class="card">
+        <div class="card-header">
+          <h1>Campaigns</h1>
+        </div>
+        <div class="container p-4">
+
+          <%= link_to 'Add New Campaign', new_users_campaign_path, class: "btn btn-primary mb-5" %> <br>
+
+          <% @users_campaigns.each_with_index do |users_campaign, i| %>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><%= i + 1 %></th>
+                  <td><%= link_to users_campaign.name, users_campaign %></td>
+                  <td>
+                    <%= link_to 'Show', users_campaign, class: "btn btn-sm btn-secondary" %>
+                    <%= link_to 'Edit', edit_users_campaign_path(users_campaign), class: "btn btn-sm btn-secondary" %>
+                    <%= link_to 'Destroy', users_campaign, method: :delete, class: "btn btn-sm btn-secondary", data: { confirm: 'Are you sure?' } %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          <% end %>
+
+        </div>
+      </div>
+
+     </main>
+  </div>
+</div>

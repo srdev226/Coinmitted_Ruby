@@ -1,0 +1,157 @@
+<div id="phone-number-section"class="left-space-fix bottom-border-style">
+  <div class="block-title font-fix">Phone Numbers</div>
+  <ul class="user-phone-list">
+
+    <% @profile.phone_numbers.each do |number| %>
+      <% if number.verified %>
+        <li class="single-number-input verified-success">
+          <div class="number"><%= number.hidden_number %></div>
+          <button class="verify-status">Verified</button>
+        </li>
+      <% else %>
+        <li class="single-number-input verified-pending">
+          <div class="number"><%= number.hidden_number %></div>
+          <% unless @profile.admin_edit_user %>
+            <%= link_to "Verify", new_number_verification_path(number: number.id), class: "verify-status", data: {toggle: "modal", target: "#mobile-verification"} %>
+            <%#<button class="verify-status">Verify</button>%>
+            <%= link_to "Delete", phone_number_path(number), data: { :confirm => "Are you sure?"}, :method => :delete, class: "number-delete-button" %>
+            <%#<button class="number-delete-button">Delete</button>%>
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+
+  </ul>
+  <button type="button" class="theme-button add-new-number-button" data-toggle="modal" data-target="#mobile-verification"><span></span>+ New Phone Number</button>
+</div>
+
+<%= render "mobile_verification_modal" %>
+
+
+										<div class="left-space-fix bottom-border-style">
+											<div class="block-title font-fix">Two-Factor Authentication 
+                        <span class="status-alert <%=@two_factor ? 'enabled' : 'disabled'%>">
+                          <%=@two_factor ? 'Enabled' : 'Disabled'%>
+                        </span>
+                      </div>
+                      <%#if %>
+                        <div class="sub-text">
+                          <%=
+                            @two_factor ? "You've already enabled Two-Factor Authentication!" : "Turning this on means we'll send you a security code to your phone number when you logging in."
+                          %>
+                        </div>
+                        <%= !@two_factor ? (link_to 'Enable Authenticator', auth_factor_path, :remote => true, class: 'theme-button authenticator-enable-button') : ''%>
+                        </div>
+                      <%#end%>
+                    
+              			<div class="modal fade settings-page-modal" id="authenticator-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              			  	<div class="modal-dialog" role="document">
+              			    	<div class="modal-content">
+                          </div>
+                        </div>
+                      </div>
+                    
+                  
+
+										
+
+										<form action="#" class="left-space-fix bottom-border-style">
+											<div class="block-title font-fix">Wallet PIN <span class="status-alert enabled">Enabled</span></div>
+											<div class="sub-text">For additional security, you can choose a Wallet PIN that is asked whenever you want withdraw funds from your account.</div>
+											<button type="button" class="theme-button wallet-pin-button" data-toggle="modal" data-target="#wallet-pin-modal"><span></span>Disable</button>
+										</form>
+
+										<div class="left-space-fix">
+											<div class="block-title font-fix">Close Account</div>
+											<div class="sub-text">Closing your Coinmitted account deletes all the investment data associated with it. <span class="warning-text">This cannot be undone. </span> </div>
+
+											<button class="close-acount-button">Close Account</button>
+										</div>
+
+<!--
+<h3>Phone Numbers</h3>
+<div class="row justify-content-left">
+  <div class="col-12 col-md-10 col-lg-8">
+      <div class="card card-sm">
+          <%# @profile.phone_numbers.each do |number| %>
+            <div class="card-body row no-gutters align-items-left">
+                <div class="col-auto">
+                </div>
+                  <div class="col">
+                      <input class="form-control form-control-lg form-control-borderless" value="<%#= number.hidden_number %>" type="text" placeholder="">
+                  </div>
+                <div class="col-auto">
+                  <%# if number.verified %>
+                    <div class="btn btn-lg btn-success" type="">Verified</div>
+                  <%# else %>
+                    <%# if @profile.admin_edit_user %>
+                      <div class="btn btn-lg btn-danger" type="">Not Verified</div>
+                    <%# else %>
+                      <%#= link_to "Verify", new_number_verification_path(number: number.id), class: "btn btn-lg btn-danger" %>
+                    <%# end %>
+                  <%# end %>
+                  <%#= link_to fa_icon('trash-o 2x'), phone_number_path(number), data: { :confirm => "Are you sure?"}, :method => :delete, class: "delete_phone" %>
+                </div>
+            </div>
+          <%# end %>
+      </div>
+  </div>
+</div>
+
+<%#= form_with scope: :phone_number, url: @profile.admin_edit_user ? user_phone_number_path : phone_numbers_path, local: true, method: :post do |f| %>
+  <div class="input-group mb-3" id="phone_number_block" style="display:none">
+    <%#= f.telephone_field :number, class: "form-control", autocomplete: "off", aria: {label: "Phone Number", describedby: "button-addon2"} %>
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Add Number</button>
+    </div>
+  </div>
+  <span id="valid-msg" class="hide">✓ Valid</span>
+  <span id="error-msg" class="hide">Invalid number</span>
+<style>
+.hide { display: none; }
+.error { color: red; }
+</style>
+<%# end %>
+
+<button type="submit" class="btn btn-primary" id="add_phone_number">+ New Phone Number</button>
+
+<hr>
+
+<h3>Two-Factor Authentication <span class="badge badge-danger">Disabled</span></h3>
+<p>Turning this on means we'll send you a security code to you phone number when you logging in.</p>
+
+<button type="submit" class="btn btn-primary">Enable Authenticator</button>
+
+<hr>
+
+<h3>Wallet PIN <%#= @profile.wallet_pin_enabled ? "<span class='badge badge-success'>Enabled</span>".html_safe : "<span class='badge badge-danger'>Disabled</span>".html_safe %></h3>
+<p>For additional security, you can choose a Wallet PIN that is asked whenever you want withdraw funds from your account.</p>
+
+<%#= form_with model: @profile, url: @profile.admin_edit_user ? update_user_profile_path : update_profile_path, local: true, method: :post do |f| %>
+  <%# if @profile.wallet_pin_enabled %>
+    <%#= f.hidden_field :wallet_pin_enabled, value: 0 %>
+    <%#= f.submit "Disable", class: "btn btn-primary" %>
+  <%# else %>
+    <div class="row" id="wallet_pin_block" style="display:none;margin-bottom:10px;">
+      <div class="col-3">
+        <div class="input-group">
+          <%#= f.text_field :wallet_pin, class: "form-control", placeholder: "Put your pin here...", size: "6", maxlength: "6", autocomplete: "off" %>
+          <div class="input-group-append">
+            <button class="btn btn-success" type="submit">Go</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%#= f.hidden_field :wallet_pin_enabled, value: 1 %>
+    <%#= f.submit "Enable", class: "btn btn-primary", id: "enable_wallet_pin" %>
+  <%# end %>
+<%# end %>
+
+<hr>
+
+<h3>Close Account</h3>
+<p>Closing your Coinmitted account deletes all the investment data assotiated with it. <span style="color:red">This cannot be undone</span></p>
+
+<%#= link_to "Close Account", profile_destroy_path, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-light" %>
+<%#<button type="submit" class="btn btn-light">Close Account</button>%>
+-->

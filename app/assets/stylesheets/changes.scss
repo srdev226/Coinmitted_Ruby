@@ -1,0 +1,22 @@
+/* Wallet */
+.wallet-page-modal .wallet-payment-method .single-checkbox input[type="radio"] {display: none;}
+.wallet-page-modal .wallet-payment-method .single-checkbox input[type="radio"]:checked + label {border:1px solid #3a6bfc;}
+.wallet-page-modal .wallet-payment-method .single-checkbox input[type="radio"]:checked + label .payment-currnecy {color:#3a6bfc; }
+
+/* Investment steps modal */
+.new-invest-modal .details-option .payout-frequency-list input[type="radio"] {display: none;}
+.new-invest-modal .details-option .payout-frequency-list input[type="radio"]:checked + label {border: 1px solid #3a6bfc;}
+.new-invest-modal .details-option .payout-frequency-list input[type="radio"]:checked + label h6 {color:#3a6bfc; }
+
+
+.payment-method-one .list-item {padding: 0;}
+.payment-method-one .list-item label {padding: 20px 30px; width: 100%;}
+.payment-method-one .payment-header label .title-text {
+  color: #101530;
+  font-size: 1.33333em;
+  float: left;
+  margin-top: 4px;
+}
+
+.payment-method-one .list-item input[type="radio"] { display: none; }
+.payment-method-one .list-item input[type="radio"]:checked + label { border:1px solid #3a6bfc; }

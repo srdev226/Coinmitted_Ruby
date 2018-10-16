@@ -1,0 +1,18 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <%= render 'layouts/notifications' %>
+
+       <div class="jumbotron text-center">
+        <h1>Editing Deposits/Investments</h1>
+       </div>
+
+      <%= render 'form', investment: @investment %>
+
+     </main>
+  </div>
+</div>

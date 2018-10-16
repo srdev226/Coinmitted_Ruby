@@ -1,0 +1,285 @@
+<div class="main-page-wrapper">
+  <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+
+      <%= render "layouts/header" %>
+
+      <!-- ******************** Dashboard Body Wrapper *********************** -->
+      <div class="container">
+        <div id="dashboard-main-body" class="clearfix">
+          <%= render "layouts/admin_sidebar" %>
+
+          <!-- ***************** User Content **************** -->
+          <div class="dashboard-user-content settings-panel">
+            <div class="user-settings-content">
+
+
+              <div class="container">
+              <h1 class="h2">Dashboard</h1>
+
+              <!-- first row -->
+                <div class="row" style="margin-bottom:20px;">
+
+                  <!-- item -->
+                  <div class="col-lg-4 col-12">
+                    <div class="homepage-sec1-single">
+                      <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                      <div class="homepage-sec1-fl-right">
+
+                      <dl class="total">
+                        <dt>Total Users</dt>
+                        <dd><%= @users.count %></dd>
+                      </dl>
+                      <dl class="subtotal">
+                        <dt>Total Investments all users made</dt>
+                        <dd>
+                        <%= @users.map{|u|u.investments.count}.inject(:+) %>
+                        ( Average <%= (@users.map{|u|u.investments.count}.inject(:+).to_f / @users.count.to_f).round(2) %><%#= percentage(@users.count, @users.map{|u|u.investments.count}.inject(:+)) %>)
+                        </dd>
+                      </dl>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- item -->
+                  <div class="col-lg-4 col-12">
+                    <div class="homepage-sec1-single">
+                      <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                      <div class="homepage-sec1-fl-right">
+
+                        <dl class="total">
+                          <dt>Total Users made investment</dt>
+                          <dd><%= total_users_invested(@users.map{|u|u.investments.count}.map{|n| n.positive? }, true) %></dd>
+                        </dl>
+
+                        <dl class="subtotal">
+                          <dt>Percentage out of all users</dt>
+                          <dd>
+                          <%= percentage(@users.all.count,total_users_invested(@users.map{|u|u.investments.count}.map{|n| n.positive? }, true) ) %>
+                          </dd>
+                        </dl>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- item -->
+                  <div class="col-lg-4 col-12">
+                    <div class="homepage-sec1-single">
+                      <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                      <div class="homepage-sec1-fl-right">
+
+                        <dl class="total">
+                          <dt>Total Users did not made investment</dt>
+                          <dd><%= total_users_invested(@users.map{|u|u.investments.count}.map{|n| n.positive? }, false) %></dd>
+                        </dl>
+                        <dl class="subtotal">
+                          <dt>Percentage out of all users</dt>
+                          <dd>
+                            <%= percentage(@users.all.count, total_users_invested(@users.map{|u|u.investments.count}.map{|n| n.positive? }, false)) %>
+                          </dd>
+                        </dl>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div><!-- end row -->
+                <!-- /first row -->
+
+                <!-- second row -->
+                <div class="row" style="margin-bottom:20px;">
+                  <!-- item -->
+                  <div class="col-lg-3 col-6">
+                    <div class="homepage-sec1-single">
+                      <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                      <div class="homepage-sec1-fl-right">
+
+                      <dl class="total">
+                        <dt>Total User balance</dt>
+                        <dd><sup>USD<%#= @currency.upcase %></sup><%= total_users_balance(@users, "USD") %></dd>
+                      </dl>
+                      <dl class="subtotal">
+                        <dt>Average Per user</dt>
+                        <dd><%= number_to_percentage(total_users_balance(@users, 'USD').to_f / @users.count) %></dd>
+                      </dl>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- item -->
+                  <div class="col-lg-3 col-6">
+                    <div class="homepage-sec1-single">
+                      <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                      <div class="homepage-sec1-fl-right">
+                        <dl class="total">
+                          <dt>Total Users Deposit</dt>
+                          <dd><sup>USD<%#= @currency.upcase %></sup><%= number_to_currency(total_users_deposit(@users), unit: "") %></dd>
+                        </dl>
+                        <dl class="subtotal">
+                          <dt>Average per user</dt>
+                          <dd><%= number_to_currency(total_users_deposit(@users).to_f / @users.count, unit: "$") %></dd>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- item -->
+                  <div class="col-lg-3 col-6">
+                    <div class="homepage-sec1-single">
+                      <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                      <div class="homepage-sec1-fl-right">
+                        <dl class="total">
+                          <dt>Total Users Withdrawals</dt>
+                          <dd><sup>USD<%#= @currency.upcase %></sup><%= number_to_currency(total_users_withdrawal(@users, 'USD')) %></dd>
+                        </dl>
+                        <dl class="subtotal">
+                          <dt>Average per user</dt>
+                          <dd><%= number_to_currency(total_users_withdrawal(@users, 'USD') / @users.count) %></dd>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- item -->
+                  <div class="col-lg-3 col-6">
+                    <div class="homepage-sec1-single">
+                      <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                      <div class="homepage-sec1-fl-right">
+                        <dl class="total">
+                          <dt>Pending Withdrawals</dt>
+                          <dd><sup>usd<%#= @currency.upcase %></sup><%= number_to_currency(total_users_pending_withdrawal(@users, 'USD')) %></dd>
+                        </dl>
+                        <dl class="subtotal">
+                          <dt>Average per user</dt>
+                          <dd><%= number_to_currency(total_users_pending_withdrawal(@users, 'USD') / @users.count) %></dd>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
+
+                </div><!-- /row -->
+                <!-- /second row -->
+
+                <!-- third row -->
+                <div class="row crypto-bar">
+                  <div class="col-lg-4 col-12">
+                    <div class="homepage-sec1-single">
+                      <dl class="total">
+                        <dt>Bitcoins</dt>
+                        <dd><sup>IN<%#= @currency.upcase %></sup><%= all_crypto_in('btc') %></dd>
+                        <dd><sup>OUT<%#= @currency.upcase %></sup>0.00</dd>
+                      </dl>
+                      <div class="crypto-icon">
+                        <%= cf_icon "btc 4x" %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-12">
+                    <div class="homepage-sec1-single">
+                      <dl class="total">
+                        <dt>Etherium</dt>
+                        <dd><sup>IN<%#= @currency.upcase %></sup><%= all_crypto_in('eth') %></dd>
+                        <dd><sup>OUT<%#= @currency.upcase %></sup>0.00</dd>
+                      </dl>
+                      <div class="crypto-icon">
+                        <%= cf_icon "eth 4x" %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-12">
+                    <div class="homepage-sec1-single">
+                      <dl class="total">
+                        <dt>Litecoin</dt>
+                        <dd><sup>IN<%#= @currency.upcase %></sup><%= all_crypto_in('ltc') %></dd>
+                        <dd><sup>OUT<%#= @currency.upcase %></sup>0.00</dd>
+                      </dl>
+                      <div class="crypto-icon">
+                        <%= cf_icon "ltc 4x" %>
+                      </div>
+                    </div>
+                  </div>
+
+                </div><!-- /row -->
+                <!-- /third row -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</div>
+
+<!--
+<%#= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%#= render 'layouts/sidebar' %>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 admin-dashboard">
+
+       <%#= render "layouts/notifications" %>
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-outline-secondary">Share</button>
+            <button class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+          <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+          </button>
+        </div>
+      </div>
+
+
+
+
+      <div class="row crypto-bar">
+        <div class="col-lg-4 col-12">
+          <div class="homepage-sec1-single">
+            <dl class="total">
+              <dt>Bitcoins</dt>
+              <dd><sup>IN<%#= @currency.upcase %></sup><%= all_crypto_in('btc') %></dd>
+              <dd><sup>OUT<%#= @currency.upcase %></sup>0.00</dd>
+            </dl>
+            <div class="crypto-icon">
+              <%= cf_icon "btc 4x" %>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12">
+          <div class="homepage-sec1-single">
+            <dl class="total">
+              <dt>Etherium</dt>
+              <dd><sup>IN<%#= @currency.upcase %></sup><%= all_crypto_in('eth') %></dd>
+              <dd><sup>OUT<%#= @currency.upcase %></sup>0.00</dd>
+            </dl>
+            <div class="crypto-icon">
+              <%= cf_icon "eth 4x" %>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12">
+          <div class="homepage-sec1-single">
+            <dl class="total">
+              <dt>Litecoin</dt>
+              <dd><sup>IN<%#= @currency.upcase %></sup><%= all_crypto_in('ltc') %></dd>
+              <dd><sup>OUT<%#= @currency.upcase %></sup>0.00</dd>
+            </dl>
+            <div class="crypto-icon">
+              <%= cf_icon "ltc 4x" %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+-->

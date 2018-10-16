@@ -1,0 +1,34 @@
+<div class="inv-wiz">
+<div class="container-fluid min-100 d-flex">
+	<div class="row flex-grow-1 bg-light investment_wizard_steps">
+
+    <div class="col p-4">
+
+      <div class="back"><%= link_to fa_icon("arrow-left", text: "Back"), dashboards_path %> </div>
+      <div class="cancel">
+        <button type="button"  data-toggle="modal" data-target="#exampleModal">
+          <%= fa_icon "close" %>
+        </button>
+      </div>
+
+      <div class="center">
+        <%= fa_icon "picture-o", style: "font-size:20rem" %>
+      </div>
+
+      <div class="main_block">
+      <header>
+        <h3>Setup your investment in 4 simple steps with Coinmitted!</h3>
+        <h6>It’s never been so easy to setup a new investment, in just 3 minutes, we’ll put your coins to work harder for you. Enjoy the freedom of take care of yourself.</h6>
+      </header>
+
+      </div>
+      <div class="center">
+        <%= link_to "Get started", name_wizard_investment_path, class: "btn btn-primary btn-submit" %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%= render "cancel_modal" %>
+</div>

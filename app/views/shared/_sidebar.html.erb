@@ -1,0 +1,57 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="card">
+        <% if current_user.admin? %>
+          <div class="card-header">
+            Admin Dashboard
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Users
+              <span class="badge badge-pill badge-secondary float-right mt-2">
+                <%= @users_count %>
+              </span>
+            </li>
+            <li class="list-group-item">
+              Visitors
+              <span class="badge badge-pill badge-secondary float-right mt-2">
+                <%= @visitors_count %>
+              </span>
+            </li>
+            <li class="list-group-item">
+              Page Hits
+              <span class="badge badge-pill badge-secondary float-right mt-2">
+                <%= @page_hits %>
+              </span>
+            </li>
+          </ul>
+        <% else %>
+          <div class="card-header">
+            User Dashboard
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Clicks
+              <span class="badge badge-pill badge-secondary float-right mt-2">
+                <%= current_user.affiliate_link_visits %>
+              </span>
+            </li>
+            <li class="list-group-item">
+              <%= link_to users_path do %>
+                Sigin ups
+                <span class="badge badge-pill badge-secondary float-right mt-2">
+                  <%= current_user.affiliates.count %>
+                </span>
+              <% end %>
+              </li>
+          </ul>
+        <% end %>
+      </div>
+      <%= render "shared/sub_nav" %>
+    </div>
+    <div class="col-sm-9">
+      <%= yield %>
+    </div>
+  </div>
+</div>

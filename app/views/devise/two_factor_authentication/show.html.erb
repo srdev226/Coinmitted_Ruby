@@ -1,0 +1,21 @@
+		<div class="main-page-wrapper user-access-page">
+
+
+			<div class="main-container">
+				<div class="inner-box">
+					<h3 class="main-title">Two-Factor Authentication</h3>
+					<div class="logo" style="text-align:center !important;">
+						<%= link_to image_tag("phone.png"), "#" %>		
+					</div>
+					<div class="confirmation-text font-fix">A text message with a verification code was just sent to your verified number.<span class="mark-text"></div>
+						<%= form_tag([User, :two_factor_authentication], :method => :put, class: "verification-code-form") do %>
+							<%= render "layouts/notifications" %>
+					   <%= text_field_tag :code, '', maxlength: 6, tabindex: 1, required: true, class: "form-control form-control-lg", placeholder: "Enter your code here", autocomplete: "off", class: "font-fix" %>
+							<%= submit_tag "Verify", class: "theme-button", style: "border-radius:30px !important; cursor: pointer !important;" %>
+					<% end %>
+					<div class="condition-text text-center font-fix">Haven't received the code yet? <%= link_to "Resend Code", send("resend_code_user_two_factor_authentication_path"), action: :get %></div>
+					
+				</div> <!-- /.inner-box -->
+			</div> <!-- /.main-container -->
+		</div>
+		

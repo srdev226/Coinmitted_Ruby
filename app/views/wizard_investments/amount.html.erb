@@ -1,0 +1,137 @@
+<div class="inv-wiz">
+<div class="container-fluid  min-100  d-flex flex-col">
+  <div class="row flex-grow-1 bg-light investment_wizard_steps">
+
+    <div class="col-md-9 p-4 flex-grow-1">
+      <div class="back"><%= link_to fa_icon("arrow-left", text: "Back"), payout_wizard_investment_path %> </div>
+
+      <div class="main_block">
+        <header><h4>How much can you invest?</h4><h6>See how much your coins grow</h6></header>
+
+        <%= form_for @investment_wizard, as: :investment_wizard, url: validate_step_wizard_investment_path do |form| %>
+          <%= hidden_field_tag :current_step, 'amount' %>
+
+          <% @investment_wizard.errors.full_messages.each do |error| %>
+            <div class="form-group">
+              <p style="color:red"><%= error %></p>
+            </div>
+          <% end %>
+
+          <style>
+          .input-group:before {
+              z-index: 99;
+              position: absolute;
+              left: 15px;
+              top: 5px;
+              color: #777;
+              font-size: 140%;
+              content: '<%= @cur_sign[@currency] %>';
+          }
+          #investment_wizard_invested_amount {
+            padding-left: 30px;
+            }
+          .input-group .fiat:after {
+            z-index: 99;
+              position: absolute;
+              right: 10px;
+              top: 5px;
+              color: #777;
+              font-size: 140%;
+              content: '<%= @currency %>';
+          }
+          </style>
+
+          <div class="form-row input-group">
+            <div class="col-md-12 mb-6">
+              <div class="form-group">
+                <div class='fiat'>
+                  <%= form.text_field :invested_amount, class: "form-control", autocomplete: "off" %>
+                  <%#= form.text_field :invested_amount, class: "form-control fiat", value: "1000", aria: { :label => "Amount (to the nearest dollar)"}, autocomplete: "off" %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mb-6">
+              <select class="custom-select mr-sm-2" id="crypto_rate" >
+              </select>
+            </div>
+          </div>
+
+          <div class="card expected_return" style="margin-left: 0;">
+            <div class="card-body">
+              <h3 class="card-title" id="expected_return">0</h3>
+              <p class="card-text">Expected Return<p>
+            </div>
+          </div>
+
+          <script>
+            window.earnings_weekly_percentage = '<%#= @earnings_weekly_percentage.percentage %>';
+            //window.invPlan = '<%#= @investment_wizard.investment.investment_plan.title %>';
+            window.investment_attributes = '<%= @investment_wizard.investment.attributes.map {|k,v| "investment[#{k}]=#{v}" }.split(',').join("&") %>';
+            window.cur_sign = '<%= @cur_sign[@currency] %>';
+          </script>
+
+          <div class="form-group center" style="clear:both">
+            <%= form.submit "Continue", class: "btn btn-primary btn-submit", id: "continueButton" %>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+
+    <div class="col-md-3 p-4 flex-grow-1 wizard_sidebar" >
+
+      <div class="cancel">
+        <button type="button"  data-toggle="modal" data-target="#exampleModal">
+          <%= fa_icon "close" %>
+        </button>
+      </div>
+
+      <h4>Investment Summary</h4>
+      <div class="steps_selected">
+        <ul>
+          <%#<li>%>
+            <!--<p><%#= fa_icon "check" %> Investment Plan</p>-->
+            <!--<p class="selected"><%#= @investment_wizard.investment.investment_plan.title %> <%#= @investment_wizard.investment.investment_plan.subtitle %></p>-->
+          <%#</li>%>
+          <li>
+            <p><%= fa_icon "check" %> Investment Name</p>
+            <p class="selected"><%= @investment_wizard.investment.name %></p>
+          </li>
+          <li>
+            <p><%= fa_icon "check" %> TimeFrame</p>
+            <p class="selected"><%= @investment_wizard.investment.timeframe_months %></p>
+          </li>
+          <li>
+            <p><%= fa_icon "check" %> PayoutFrequency</p>
+            <p class="selected"><%= @investment_wizard.investment.payout_frequency.title %></p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%= render "cancel_modal" %>
+
+<!-- Modal -->
+<div class="modal fade" id="changePlan" tabindex="-1" role="dialog" aria-labelledby="changePlanLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Investment Plan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Your Invested amount has exceed the current plan, do you wish to upgrade your plan?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <%= link_to "Yes", plan_wizard_investment_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

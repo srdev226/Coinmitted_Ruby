@@ -1,0 +1,249 @@
+<div class="main-page-wrapper">
+			<div class="dropdown-overlay"></div>
+
+
+			<!-- *********************** Dashboard Main Container ************************** -->
+			<div id="dashboard-wrapper">
+
+      <%= render "layouts/header" %>
+
+				<!-- ******************** Dashboard Body Wrapper *********************** -->
+				<div class="container">
+					<div id="dashboard-main-body" class="clearfix">
+
+          <%= render "layouts/sidebar" %>
+
+
+						<!-- ***************** User Content **************** -->
+						<div class="dashboard-user-content performance-panel">
+							<div class="performance-chart-wrapper">
+								<div class="row">
+									<div class="col-lg-9">
+										<div class="chart-container">
+											<div class="chart-title">Coinmitted performance chart</div>
+                        <%
+                        data1 = {
+                          labels: chart_data(@week_percentages).keys.map {|label| label.to_s.camelcase},
+                          datasets: datasets(@week_percentages)
+                        }
+                        options = {
+                          legend: {
+                            display: false
+                          },
+                          tooltips: {
+                            endabled: true,
+                            yAlign: 'top',
+                            mode: 'label',
+                            backgroundColor: '#fff',
+                            titleFontColor: '#777',
+                            bodyFontColor: 'green',
+                            bodySpacing: 4,
+                            yPadding: 9
+                          },
+                          scales: {
+                            yAxes: [{
+                              ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: @week_percentages.max_by(&:percentage).percentage.to_i * 1.10
+                              },
+                            }]
+                          },
+                          height: 150
+                        }
+                          %>
+                        <%= bar_chart data1, options %>
+										</div>
+									</div>
+									<div class="col-lg-3">
+										<div class="chart-information-box clearfix">
+											<div class="single-action-box">
+                        <h6 class="title">Total invested <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="The amount you want to invest, you can always add funds to your investment at any time.">
+                            <%= image_tag "info.png", alt: "Coinmitted" %>
+                          </button></h6>
+												<div class="value font-fix"><%= number_to_currency(total_user_invested(current_user,@currency), unit: @cur_sign[@currency]) %></div>
+											</div> <!-- /.single-action-box -->
+
+											<div class="single-action-box">
+                        <h6 class="title">total profit <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="The amount you want to invest, you can always add funds to your investment at any time.">
+                            <%= image_tag "info.png", alt: "Coinmitted" %>
+                          </button></h6>
+												<div class="value profit-value font-fix"><%= number_to_currency(amounts_in_cur_currency(@investments, "earnings"), unit: @cur_sign[@currency]) %></div>
+											</div> <!-- /.single-action-box -->
+
+											<div class="single-action-box">
+                        <h6 class="title">Distribution <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="The amount you want to invest, you can always add funds to your investment at any time.">
+                            <%= image_tag "info.png", alt: "Coinmitted" %>
+                          </button></h6>
+
+												<ul class="distribution-list-item">
+													<li class="clearfix">
+														<h6 class="currency font-fix">Bitcoin</h6>
+														<div class="currnecy-amount font-fix">77.26%</div>
+													</li>
+													<li class="clearfix">
+														<h6 class="currency font-fix">Ethereum</h6>
+														<div class="currnecy-amount font-fix">18.06%</div>
+													</li>
+													<li class="clearfix">
+														<h6 class="currency font-fix">Litecoin</h6>
+														<div class="currnecy-amount font-fix">4.68%</div>
+													</li>
+												</ul>
+											</div> <!-- /.single-action-box -->
+										</div> <!-- /.chart-information-box -->
+										<div class="chart-update-last-date">Last Updated: <span>2018/08/25</span></div>
+									</div>
+								</div> <!-- /.row -->
+							</div> <!-- /.performance-chart-wrapper -->
+
+
+							<div class="full-performance-history">
+								<div class="clearfix">
+									<div class="main-title">Full performance</div>
+
+									<ul class="nav nav-tabs performance-nav" role="tablist">
+										<li class="nav-item">
+										  <a class="nav-link active" id="performance-monthly-tab" data-toggle="tab" href="#performance-monthly" role="tab" aria-controls="performance-monthly" aria-selected="true">Monthly</a>
+										</li>
+										<li class="nav-item">
+										  <a class="nav-link" id="performance-weekly-tab" data-toggle="tab" href="#performance-weekly" role="tab" aria-controls="performance-weekly" aria-selected="false">Weekly</a>
+										</li>
+									</ul>
+								</div>
+
+								<div class="tab-content performance-tab-content">
+									<div class="tab-pane fade show active" id="performance-monthly" role="tabpanel" aria-labelledby="performance-monthly-tab">
+										<div class="table-responsive performance-monthly-table-sheet">
+											<table class="table table-bordered">
+												<thead>
+												    <tr>
+												    	<th class="font-fix" scope="col"></th>
+													    <th class="font-fix month-name" scope="col">Jan</th>
+												    	<th class="font-fix month-name" scope="col">Feb</th>
+												    	<th class="font-fix month-name" scope="col">Mar</th>
+												    	<th class="font-fix month-name" scope="col">Apr</th>
+												    	<th class="font-fix month-name" scope="col">May</th>
+												    	<th class="font-fix month-name" scope="col">Jun</th>
+												    	<th class="font-fix month-name" scope="col">Jul</th>
+												    	<th class="font-fix month-name" scope="col">Aug</th>
+												    	<th class="font-fix month-name" scope="col">Sep</th>
+												    	<th class="font-fix month-name" scope="col">Oct</th>
+												    	<th class="font-fix month-name" scope="col">Nov</th>
+												    	<th class="font-fix month-name" scope="col">Dec</th>
+												    	<th class="font-fix month-name" scope="col">Total Return</th>
+												    </tr>
+												</thead>
+												<tbody>
+												    <tr>
+												      	<th scope="row" class="year-name font-fix">2017</th>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="loss-return">-20.76%</td>
+													    <td class="loss-return">-20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">+ 200.65%</td>
+												    </tr>
+												    <tr>
+												      	<th scope="row" class="year-name font-fix">2018</th>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+													    <td class="profit-return">20.76%</td>
+												    </tr>
+												    <tr>
+												    	<th colspan="13"></th>
+												    	<td class="total-return">+ 200.65%</td>
+												    </tr>
+												</tbody>
+											</table>
+										</div> <!-- /.performance-monthly-table-sheet -->
+									</div> <!-- /.tab-pane -->
+
+
+
+									<div class="tab-pane fade" id="performance-weekly" role="tabpanel" aria-labelledby="performance-weekly-tab">
+									  	<select class="theme-select-dropdown weekly-dropdown">
+											<option value="Value 1">August 2018</option>
+											<option value="Value 1">July 2018</option>
+											<option value="Value 1">June 2018</option>
+											<option value="Value 1">May 2018</option>
+											<option value="Value 1">April 2018</option>
+											<option value="Value 1">March 2018</option>
+											<option value="Value 1">February 2018</option>
+										</select>
+
+										<ul class="weekly-performance-data">
+											<li class="week-data clearfix">
+												<div class="week-frame font-fix">August 13 - August 19 <span class="current-week">(Current Week)</span></div>
+											</li>
+											<li class="week-data clearfix">
+												<div class="week-frame font-fix">August 6 - August 12</div>
+												<div class="profit-return">10.05%</div>
+											</li>
+											<li class="week-data clearfix">
+												<div class="week-frame font-fix">July 30 - August 5</div>
+												<div class="profit-return">10.05%</div>
+											</li>
+										</ul>
+									</div> <!-- /.tab-pane -->
+								</div> <!-- /.tab-content -->
+							</div> <!-- /.full-performance-history -->
+								
+							<div class="fund-information-table table-responsive">
+								<table class="table">
+									<tbody>
+									    <tr>
+										    <td>
+										    	<div class="title">Manager</div>
+										    	<div class="text font-fix">Coinmitted IBC</div>
+										    </td>
+										    <td>
+										    	<div class="title">Asset Class</div>
+										    	<div class="text font-fix">Cryptocurrencies</div>
+										    </td>
+										    <td>
+										    	<div class="title">Investment Period</div>
+										    	<div class="text font-fix">Coinmitted IBC</div>
+										    </td>
+										    <td>
+										    	<div class="title">Best Month</div>
+										    	<div class="text font-fix profit-balance">20.76%</div>
+										    </td>
+									    </tr>
+									    <tr>
+										    <td>
+										    	<div class="title">Start Date</div>
+										    	<div class="text font-fix">Jan 2017</div>
+										    </td>
+										    <td>
+										    	<div class="title">Minimum Investment</div>
+										    	<div class="text font-fix">$50.00</div>
+										    </td>
+										    <td>
+										    	<div class="title">Total Under Management</div>
+										    	<div class="text font-fix">$3.965.200</div>
+										    </td>
+										    <td>
+										    	<div class="title">Worst Month</div>
+										    	<div class="text font-fix loss-balance">-10.62%</div>
+										    </td>
+									    </tr>
+									</tbody>
+								</table>
+							</div> <!-- /.fund-information-table -->
+							
+						</div> <!-- /.dashboard-user-content --> <!-- ***** End User Content **** -->
+					</div> <!-- /#dashboard-main-body -->
+				</div> <!-- /.container -->  <!-- ***** End Dashboard Body Wrapper **** -->
+			</div> <!-- #dashboard-wrapper --> <!-- ***** End Dashboard Main Container **** -->

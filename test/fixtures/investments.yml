@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  invested_amount: 1
+  status: false
+  open_date: 2018-06-26 14:13:57
+  end_date: 2018-06-26 14:13:57
+
+two:
+  name: MyString
+  invested_amount: 1
+  status: false
+  open_date: 2018-06-26 14:13:57
+  end_date: 2018-06-26 14:13:57

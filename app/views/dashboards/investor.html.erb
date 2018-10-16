@@ -1,0 +1,267 @@
+<div class="main-page-wrapper">
+    <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+
+        <%= render "layouts/header" %>
+
+        <!-- ******************** Dashboard Body Wrapper *********************** -->
+        <div class="container">
+            <div id="dashboard-main-body" class="clearfix">
+
+
+                <%= render "layouts/sidebar" %>
+
+
+                <!-- ***************** User Content **************** -->
+                <div class="dashboard-user-content investment-panel">
+
+                   <%= render "layouts/notifications" %>
+
+                    <ul class="investment-history clearfix">
+                        <li>
+                            <div class="inner-warpper">
+                                <h6 class="inner-title">Investments</h6>
+                                <strong class="figure"><%= @investments.count %></strong>
+                            </div> <!-- /.inner-warpper -->
+                        </li>
+                        <li>
+                            <div class="inner-warpper">
+                                <h6 class="inner-title">Total Invested</h6>
+                                <strong class="figure"><%= number_to_currency(total_user_invested(current_user,@currency), unit: @cur_sign[@currency]) %></strong>
+                            </div> <!-- /.inner-warpper -->
+                        </li>
+                        <li>
+                            <div class="inner-warpper">
+                                <h6 class="inner-title">Total earnings</h6>
+                                <strong class="figure total-earn"><%= number_to_currency(total_user_earning(current_user,@currency), unit: @cur_sign[@currency]) %></strong>
+                            </div> <!-- /.inner-warpper -->
+                        </li>
+                        <li>
+                            <div class="inner-warpper">
+                                <h6 class="inner-title">Next payout</h6>
+                                <div class="date"><%= user_next_payout(current_user) %></div>
+                            </div> <!-- /.inner-warpper -->
+                        </li>
+                    </ul> <!-- /.investment-history -->
+
+                    <div class="investment-list-item-wrapper">
+                        <div class="item-filter-header clearfix">
+
+                            <h6 class="title">Your investments</h6>
+                            <ul class="right-button-group">
+                                <li>
+                                    <%= form_tag('/investments', id: 'status_form', method: :get, enforce_utf8: false) do %>
+                                        <%= select_tag "status", options_for_select([['All','all'],['Active','active'],['Waiting','waiting']], params[:status]), class: "theme-select-dropdown" %>
+                                    <% end %>
+                                </li>
+                                <li>
+                                    <%= link_to t('investment.new_investment_btn'), start_wizard_investment_path, class: "new-invest-button" %>
+                                </li>
+                            </ul> <!-- /.right-button-group -->
+
+                        </div> <!-- /.item-filter-header -->
+
+                        <!-- isotope filtering grids -->
+                        <div class="grid">
+
+
+                        <% @investments.each do |investment| %>
+
+                        <div class="table-responsive investment-table-sheet grid-item <%= investment.status == 'active' ? 'status_active' : 'status_waiting' %>">
+                            <table class="table">
+                                <thead>
+                                    <tr class="row m-0">
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">Name</span>
+                                            <div class="info font-fix"><%= investment.name %></div>
+                                        </td>
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">Invested</span>
+                                            <div class="info font-fix"><%= number_to_currency(investment.invested_amount, :unit => @cur_sign[investment.currency.upcase]) if investment.currency.present? %></div>
+                                        </td>
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">Earnings</span>
+                                            <div class="info earn"><%= number_to_currency(investment.investment_earning, :unit => @cur_sign[investment.currency.upcase]) if investment.currency.present? %></div>
+                                        </td>
+                                        <td class="d-inline-block col-3">
+                                            <button type="button" class="payout-button font-fix" data-toggle="modal" data-target="#payout-modal-<%= investment.id %>">Payouts</button>
+                                        </td>
+                                        <td class="d-inline-block col-3">
+                                            <button type="button" class="edit-invest-button" data-toggle="modal" data-target="#investment-modal-<%= investment.id %>">Edit your investments</button>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="row m-0">
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">Status</span>
+                                            <div class="info status-active"><%= investment.status.camelize %></div>
+                                        </td>
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">TimeFrame</span>
+                                            <div class="info font-fix"><%= investment.timeframe_months %></div>
+                                        </td>
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">Invested</span>
+                                            <div class="info font-fix"><%= number_to_currency(investment.invested_amount, :unit => @cur_sign[investment.currency.upcase]) if investment.currency.present? %></div>
+                                        </td>
+                                        <td class="d-inline-block col-3">
+                                            <span class="title">End Date</span>
+                                            <div class="info font-fix"><%= investment.end_date.strftime("%B %d, %Y") if investment.end_date.present? %></div>
+                                        </td>
+                                        <td rowspan="2" class="col-3" style="display: flex;align-items:center;justify-align:center;">
+                                          <div style="max-width: 50%;">
+
+                                            <% if investment.status == "draft" %>
+                                              <%= link_to "Continue", continue_wizard_investment_path(draft: investment.id, current_step: "start"),class: "certificate font-fix", method: :get, style: "color:orange" %>
+                                            <% elsif investment.status == "payment" %>
+
+                                              <% if investment.payments.last %>
+                                                <% if investment.payments.last.confirmations.nil? %>
+                                                  <%= link_to "Waiting for Payment", pay_wizard_investment_path(investment: investment.id),class: "certificate font-fix", style: "color:green" %>
+                                                <% else %>
+                                                    <span class="certificate font-fix">You have</span> <%= investment.payments.last.confirmations %> <%= "confirmation".pluralize(investment.payments.last.confirmations) %>
+                                                <% end %>
+                                              <% else %>
+                                                  <%= link_to "Waiting for Payment", pay_wizard_investment_path(investment: investment.id),class: "certificate font-fix", style: "color:green" %>
+                                              <% end %>
+
+                                            <% else %>
+                                              <%= link_to "Download Certificate", certificate_path(id: investment.id, format: 'pdf'), class: "certificate font-fix" %>
+                                            <% end %>
+                                          </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr class="row m-0">
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">Open Date</span>
+                                            <div class="info font-fix"><%= investment.open_date.strftime("%B %d, %Y") if investment.open_date.present? %></div>
+                                        </td>
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">Payout Frequency</span>
+                                            <div class="info font-fix"><%= investment.payout_frequency.title if investment.payout_frequency.present? %></div>
+                                        </td>
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">Profit</span>
+                                            <div class="info profit">+100.47%</div>
+                                        </td>
+                                        <td class="d-inline-block col-2">
+                                            <span class="title">Loss Protection</span>
+                                            <div class="info font-fix">Yes</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div> <!-- /.investment-table-sheet -->
+
+                        <%#= render "payout_modal", pdata: investment %>
+                        <%#= render "edit_investment_modal", pdata: investment %>
+
+                        <% end %>
+
+                        </div><!-- /isotope filtering grid -->
+
+
+                    </div> <!-- /.investment-list-item-wrapper -->
+                </div> <!-- /.dashboard-user-content --> <!-- ***** End User Content **** -->
+
+            </div> <!-- /#dashboard-main-body -->
+        </div> <!-- /.container -->  <!-- ***** End Dashboard Body Wrapper **** -->
+    </div> <!-- #dashboard-wrapper --> <!-- ***** End Dashboard Main Container **** -->
+</div>
+
+
+
+
+
+<!--
+
+
+<%#= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%#= render 'layouts/sidebar' %>
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+       <%#= render "layouts/notifications" %>
+
+        <h1>Investments</h1>
+
+        <table class="table" id="data">
+          <thead>
+            <tr>
+              <th>Investment Plan</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Timeframe</th>
+              <th>End date</th>
+              <th>Payout Frequency</th>
+              <th>Total Invested</th>
+              <th>Total Earnings</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @investments.each do |investment| %>
+              <tr <%= "style=color:#777" if investment.status == 'draft' %>>
+                <td>
+                  <%= investment.investment_plan.title if investment.investment_plan.present? %><br>
+                  <%= investment.investment_plan.subtitle if investment.investment_plan.present? %>
+                </td>
+                <td><%= investment.name %></td>
+                <td><%= investment.status.camelize %></td>
+                <td><%= investment.timeframe_months %></td>
+                <td><%= investment.end_date.strftime("%B %d, %Y") if investment.end_date.present? %></td>
+                <td><%= investment.payout_frequency.title if investment.payout_frequency.present? %></td>
+                <td><%= number_to_currency(investment.invested_amount, :unit => @cur_sign[investment.currency.upcase]) if investment.currency.present? %></td>
+                <td><%= number_to_currency(investment.investment_earning, :unit => @cur_sign[investment.currency.upcase]) if investment.currency.present? %></td>
+                <td><%= link_to 'Payouts', investment_payouts_path(investment) %></td>
+                <td><%= link_to 'Show', investment %></td>
+                <td><%= link_to 'Edit', edit_investment_path(investment) %></td>
+                <td>
+                  <% if investment.status == "draft" %>
+                    <%= link_to "Continue", continue_wizard_investment_path(draft: investment.id, current_step: "start"), method: :get, style: "color:orange" %>
+                  <% elsif investment.status == "payment" %>
+
+                    <% if investment.payments.last %>
+                      <% if investment.payments.last.confirmations.nil? %>
+                        <%= link_to "Waiting for Payment", pay_wizard_investment_path(investment: investment.id), style: "color:green" %>
+                      <% else %>
+                        You have <%= investment.payments.last.confirmations %> <%= "confirmation".pluralize(investment.payments.last.confirmations) %>
+                      <% end %>
+                    <% else %>
+                        <%= link_to "Waiting for Payment", pay_wizard_investment_path(investment: investment.id), style: "color:green" %>
+                    <% end %>
+
+                  <% else %>
+                    <%= link_to "Download Certificate", certificate_path(id: investment.id, format: 'pdf') %>
+                  <% end %>
+                </td>
+                <% if params[:user_id] && current_user.admin? %>
+                  <td><%= link_to "Destroy", user_investment_path(params[:user_id],investment.id), data: {confirm: "Are you sure?"}, method: :delete %></td>
+                <% end %>
+
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <br>
+
+        <%= link_to 'New Investment', start_wizard_investment_path, class: "btn btn-primary" %>
+     </main>
+    </div>
+  </div>
+</div>
+
+-->

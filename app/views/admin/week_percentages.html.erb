@@ -1,0 +1,54 @@
+<% content_for :title, "Week Percentage" %>
+
+<div class="main-page-wrapper">
+  <div class="dropdown-overlay"></div>
+
+  <!-- *********************** Dashboard Main Container ************************** -->
+  <div id="dashboard-wrapper">
+
+    <%= render "layouts/header" %>
+
+    <!-- ******************** Dashboard Body Wrapper *********************** -->
+    <div class="container">
+      <div id="dashboard-main-body" class="clearfix">
+
+        <%= render "layouts/admin_sidebar" %>
+
+      <!-- ***************** User Content **************** -->
+        <div class="dashboard-user-content investment-panel">
+
+          <%= render "layouts/notifications" %>
+          <h1>Week Percentages</h1>
+          <br>
+            <%= link_to "Add week percentage", new_week_percentage_path, class: "btn btn-primary" %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">First date</th>
+                  <th scope="col">Last date</th>
+                  <th scope="col">Percentage</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody id="jobs">
+                <% @week_percentages.each do |week_percentage| %>
+                  <tr>
+                    <td><%= week_percentage.first_date.strftime("%B %d, %Y") %></td>
+                    <td><%= week_percentage.last_date.strftime("%B %d, %Y") %></td>
+                    <td><%= week_percentage.percentage %></td>
+                    <td><%= link_to 'Show', week_percentage %></td>
+                    <td><%= link_to 'Edit', edit_week_percentage_path(week_percentage) %></td>
+                    <td><%= link_to 'Destroy', week_percentage, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

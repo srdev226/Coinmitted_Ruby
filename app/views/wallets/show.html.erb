@@ -1,0 +1,446 @@
+<div class="main-page-wrapper">
+    <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+
+        <%= render "layouts/header" %>
+
+        <!-- ******************** Dashboard Body Wrapper *********************** -->
+        <div class="container">
+            <div id="dashboard-main-body" class="clearfix">
+
+                <%= render "layouts/sidebar" %>
+
+
+                <!-- ***************** User Content **************** -->
+                <div class="dashboard-user-content wallet-panel">
+                    <div class="row">
+                        <div class="col-xl-5">
+                            <div class="bg-box wallet-balance">
+                                <div class="title">Your Wallet Accounts</div>
+                                <div class="balance-sheet-wrapper">
+                                    <ul>
+                                        <% @wallet.currencies.each do |item| %>
+                                          <% if item.present? %>
+                                            <li class="<%= item.name.downcase %>-method clearfix">
+                                                <a class="clearfix" href="#">
+                                                    <span class="name font-fix">
+                                                        <%= image_tag "#{item.name.downcase}2.png", alt: "Bitcoin" %>
+                                                        <%= item.name.camelize %>
+                                                    </span>
+                                                    <span class="balance-inquery">
+                                                        <span class="currency-title"><%= item.amount.to_f %> <%= item.ticker.upcase %></span>
+                                                        <span class="total-currency">
+                                                             <%= number_to_currency(
+                                                               CryptoConverter.new(@currency.upcase, item.ticker.upcase, item.amount.to_f).to_fiat,
+                                                               unit: @cur_sign[@currency])
+                                                             %>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                          <% end %>
+                                        <% end %>
+                                    </ul>
+                                    <div class="total-balance clearfix">
+                                        <div class="balance-title">Wallet Balance ≈</div>
+                                        <div class="balance-figure">
+                                            <%= number_to_currency(total_user_balance(@wallet.user), unit: @cur_sign[@currency]) %>
+                                        </div>
+                                    </div>
+                                </div> <!-- /.balance-sheet-wrapper -->
+                                <ul class="button-group clearfix">
+                                    <li><button class="deposit-button" data-toggle="modal" data-target="#deposit-modal">Deposit</button></li>
+                                    <li><button class="withdraw-button theme-button" data-toggle="modal" data-target="#withdraw-modal"><span></span>Withdraw</button></li>
+                                </ul>
+                            </div> <!-- /.bg-box -->
+
+                            <%= render "deposit_modal", pdata: @wallet %>
+
+                            <div class="bg-box cryptocurrency-prices">
+                                <div class="clearfix">
+                                    <div class="title tooltip-holder">
+                                        Cryptocurrency Prices
+                                        <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="The amount you want to invest, you can always add funds to your investment at any time.">
+                                          <%= image_tag 'info.png', alt: "Coinmitted" %>
+                                        </button>
+                                    </div>
+                                    <div class="live-status font-fix">live</div>
+                                </div>
+                                <ul class="currnecy-prices-list">
+
+                                    <li class="clearfix">
+                                        <div class="left-content">
+                                          <%= image_tag "bitcoin2.png", alt: "Coinmitted" %>
+                                            <div class="name">
+                                                <span class="text">BTC</span>
+                                                <span class="value font-fix">Bitcoin</span>
+                                            </div>
+                                        </div>
+                                        <div class="right-content">
+                                            <span class="text">Price</span>
+                                            <span class="value font-fix">
+                                               <%= number_to_currency(
+                                                   CryptoConverter.new(@currency.upcase, 'btc', 1.0).to_fiat,
+                                                   unit: @cur_sign[@currency])
+                                               %>
+                                               <%= rate_difference(@currency, 'btc') %>
+                                        </div>
+                                    </li>
+
+                                    <li class="clearfix">
+                                        <div class="left-content">
+                                          <%= image_tag "ethereum2.png", alt: "Coinmitted" %>
+                                            <div class="name">
+                                                <span class="text">ETC</span>
+                                                <span class="value font-fix">Ethereum</span>
+                                            </div>
+                                        </div>
+                                        <div class="right-content">
+                                            <span class="text">Price</span>
+                                            <span class="value font-fix">
+                                               <%= number_to_currency(
+                                                   CryptoConverter.new(@currency.upcase, 'eth', 1.0).to_fiat,
+                                                   unit: @cur_sign[@currency])
+                                               %>
+                                               <%= rate_difference(@currency, 'eth') %>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <div class="left-content">
+                                          <%= image_tag "litecoin2.png", alt: "Coinmitted" %>
+                                            <div class="name">
+                                                <span class="text">LTC</span>
+                                                <span class="value font-fix">Litecoin</span>
+                                            </div>
+                                        </div>
+                                        <div class="right-content">
+                                            <span class="text">Price</span>
+                                            <span class="value font-fix">
+                                               <%= number_to_currency(
+                                                   CryptoConverter.new(@currency.upcase, 'ltc', 1.0).to_fiat,
+                                                   unit: @cur_sign[@currency])
+                                               %>
+                                               <%= rate_difference(@currency, 'ltc') %>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div> <!-- /.bg-box -->
+                    </div> <!-- /.col- -->
+
+
+                    <div class="col-xl-7">
+                        <ul class="wallet-history clearfix">
+                            <li>
+                                <div class="inner-warpper">
+                                    <h6 class="inner-title">Deposits</h6>
+                                    <strong class="figure">
+                                        <%= number_to_currency(total_user_deposit(@wallet.user), unit: "$") %>
+                                    </strong>
+                                </div> <!-- /.inner-warpper -->
+                            </li>
+                            <li>
+                                <div class="inner-warpper">
+                                    <h6 class="inner-title">Withdrawals</h6>
+                                    <strong class="figure">
+                                        <%= number_to_currency(total_user_withdrawal(@wallet), unit: "$") %>
+                                    </strong>
+                                </div> <!-- /.inner-warpper -->
+                            </li>
+                            <li>
+                                <div class="inner-warpper">
+                                    <h6 class="inner-title">Pending withdrawal</h6>
+                                    <strong class="figure">
+                        <%= number_to_currency(total_user_pending_withdrawal(@wallet), unit: "$") %>
+                                    </strong>
+                                </div> <!-- /.inner-warpper -->
+                            </li>
+                        </ul> <!-- /.wallet-history -->
+
+                        <!-- TRANSACTIONS -->
+                        <div class="transactions-history bg-box">
+                            <div class="title tooltip-holder">
+                                Pending Transactions
+                                <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="The amount you want to invest, you can always add funds to your investment at any time.">
+                                  <%= image_tag "info.png", alt: "Coinmitted" %>
+                                </button>
+                            </div>
+
+                            <div class="table-responsive transactions-list">
+                                <table class="table">
+                                    <tbody>
+                                      <%= render partial: "transaction", collection: @wallet.transactions, locals: {:flag => "pending" }  %>
+                                    </tbody>
+                                </table>
+                        </div> <!-- /.table-data -->
+                    </div> <!-- /.transactions-history -->
+
+                    <div class="transactions-history completed-transactions-history bg-box">
+                        <div class="title tooltip-holder">
+                            Completed Transactions
+                            <button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="The amount you want to invest, you can always add funds to your investment at any time.">
+                                <%= image_tag "info.png", alt: "Coinmitted withdrawal" %>
+                            </button>
+                        </div>
+
+                        <div class="table-responsive transactions-list">
+                            <table class="table">
+                                <tbody>
+                                   <%= render partial: "transaction", collection: @wallet.transactions, locals: {:flag => "completed" }  %>
+                                </tbody>
+                            </table>
+                        </div> <!-- /.table-data -->
+                    </div> <!-- /.transactions-history -->
+                </div>
+            </div> <!-- /.row -->
+
+                </div> <!-- /.dashboard-user-content --> <!-- ***** End User Content **** -->
+
+            </div> <!-- /#dashboard-main-body -->
+        </div> <!-- /.container -->  <!-- ***** End Dashboard Body Wrapper **** -->
+    </div> <!-- #dashboard-wrapper --> <!-- ***** End Dashboard Main Container **** -->
+</div> <!-- /.main-page-wrapper -->
+
+
+<!-- deposit modal -->
+
+
+
+<!--
+<%#= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%#= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+       <%#= render "layouts/notifications" %>
+
+       <div class="wallet">
+         <div class="row">
+
+           <div class="col-xs-12 col-4">
+             <div class="list-group">
+               <h4 class="list-group-item list-group-item-action">Your Wallet Account</h4>
+
+               <% @wallet.currencies.each do |item| %>
+                 <div class="list-group-item list-group-item-action">
+                   <div class="row crypto-item">
+                     <div class="col-6 crypto-name">
+                       <%#= cf_icon "#{item.ticker.downcase} 2x" %> <%#= item.name %>
+                     </div>
+                     <div class="col-6 crypto-numbers">
+                       <div>
+                         <%#= item.amount.to_f %> <%#= item.ticker.upcase %>
+                       </div>
+                       <div style="color: #777">
+                         <%= number_to_currency(
+                           CryptoConverter.new(@currency.upcase, item.ticker.upcase, item.amount.to_f).to_fiat,
+                           unit: @cur_sign[@currency])
+                         %>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               <% end %>
+
+               <div class="list-group-item list-group-item-action">
+                 <div class="row">
+                   <div class="col-6">
+                     Total balance ~
+                   </div>
+                   <div class="col-6" style="text-align: right">
+                     <%#= number_to_currency(wallet_total_balance(@wallet.currencies, @currency), unit: @cur_sign[@currency]) %>
+                   </div>
+                 </div>
+               </div>
+
+               <div class="list-group-item list-group-item-action">
+                 <div class="row">
+                   <div class="col-6">
+                     Wallet balance
+                   </div>
+                   <div class="col-6" style="text-align: right">
+                     <%#= number_to_currency(total_user_balance(@wallet.user), unit: @cur_sign[@currency]) %>
+                   </div>
+                 </div>
+               </div>
+
+               <div class="list-group-item list-group-item-action">
+                 <div class="row">
+                   <div class="col-6">
+                     <%= link_to "+ Deposit", start_wizard_investment_path, class: "btn btn-success" %>
+                   </div>
+                   <div class="col-6" style="text-align: right">
+                     <% if current_user.admin? && params[:user_id] %>
+                       <%= link_to new_wallet_user_transaction_path(wallet_id: @wallet.id, user_id: params[:user_id]), class: "btn btn-primary" do %>
+                         <i class="fa fa-long-arrow-down"></i> Withdraw
+                       <% end %>
+                     <% else %>
+                       <%= link_to new_wallet_transaction_path(@wallet), class: "btn btn-primary" do %>
+                         <i class="fa fa-long-arrow-down"></i> Withdraw
+                       <% end %>
+                     <% end %>
+                   </div>
+                 </div>
+               </div>
+
+             </div>
+
+
+             <div class="list-group" style="margin-top: 30px;">
+               <h4 class="list-group-item list-group-item-action">Cryptocurrency prices</h4>
+
+               <div class="list-group-item list-group-item-action">
+                 <div class="row">
+                   <div class="col-2" style="font-size:80%;">
+                     <%#= cf_icon "btc 2x" %>
+                   </div>
+                   <div class="col-3" style="font-size:80%;">
+                     <div style="color:#777;">BTC</div><div>Bitcoin</div>
+                   </div>
+                   <div class="col-4" style="font-size:80%;">
+                     <div style="color:#777;">PICE</div><div>
+                       <%= number_to_currency(
+                           CryptoConverter.new(@currency.upcase, 'btc', 1.0).to_fiat,
+                           unit: @cur_sign[@currency])
+                           %>
+                      </div>
+                   </div>
+                   <div class="col-3">
+                     <div></div>
+                     <div style="font-size:60%;">
+                       <%#= rate_difference(@currency, 'btc') %>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+
+
+               <div class="list-group-item list-group-item-action">
+                 <div class="row">
+                   <div class="col-2" style="font-size:80%;">
+                     <%#= cf_icon "ltc 2x" %>
+                   </div>
+                   <div class="col-3" style="font-size:80%;">
+                     <div style="color:#777;">LTC</div><div>Litecoin</div>
+                   </div>
+                   <div class="col-4" style="font-size:80%;">
+                     <div style="color:#777;">PICE</div><div>
+                       <%= number_to_currency(
+                           CryptoConverter.new(@currency.upcase, 'ltc', 1.0).to_fiat,
+                           unit: @cur_sign[@currency])
+                           %>
+                     </div>
+                   </div>
+                   <div class="col-3">
+                     <div></div>
+                     <div style="font-size:60%;">
+                       <%#= rate_difference(@currency, 'ltc') %>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+
+               <div class="list-group-item list-group-item-action">
+                 <div class="row">
+                   <div class="col-2" style="font-size:80%;">
+                     <%#= cf_icon "eth 2x" %>
+                   </div>
+                   <div class="col-3" style="font-size:80%;">
+                     <div style="color:#777;">ETH</div><div>Ethereum</div>
+                   </div>
+                   <div class="col-4" style="font-size:80%;">
+                     <div style="color:#777;">PICE</div><div>
+                         <%= number_to_currency(
+                           CryptoConverter.new(@currency.upcase, 'eth', 1.0).to_fiat,
+                           unit: @cur_sign[@currency])
+                         %>
+                    </div>
+                   </div>
+                   <div class="col-3">
+                     <div></div>
+                     <div style="font-size:60%;">
+                       <%#= rate_difference(@currency, 'eth') %>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+
+             </div>
+
+           </div>
+
+          <div class="col-xs-12 col-8 ">
+
+              <div class="row admin-totals">
+                <div class="col-lg-4 col-6">
+                  <div class="homepage-sec1-single">
+                    <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                    <div class="homepage-sec1-fl-right">
+                    <dl class="total">
+                      <dt>Total User Deposit</dt>
+                      <%#= binding.pry %>
+                      <dd>
+                        <sup>USD</sup>
+                        <%#= number_to_currency(total_user_deposit(@wallet.user), unit: "") %>
+                      </dd>
+                    </dl>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-6">
+                  <div class="homepage-sec1-single">
+                    <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                    <div class="homepage-sec1-fl-right">
+                    <dl class="total">
+                      <dt>Total User Withdrawal</dt>
+                      <dd>
+                        <sup>USD</sup>
+                        <%#= number_to_currency(total_user_withdrawal(@wallet), unit: "") %>
+                      </dd>
+                    </dl>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-6">
+                  <div class="homepage-sec1-single">
+                    <span class="sec_icon"><i class="zmdi zmdi-money"></i></span>
+                    <div class="homepage-sec1-fl-right">
+                    <dl class="total">
+                      <dt>Pending Withdrawal</dt>
+                      <dd>
+                        <sup>USD</sup>
+                        <%#= number_to_currency(total_user_pending_withdrawal(@wallet), unit: "") %>
+                      </dd>
+                    </dl>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            <div class="list-group">
+              <h4 class="list-group-item list-group-item-action">Pending Transactions</h4>
+
+              <%#= render partial: "transaction", collection: @wallet.transactions, locals: {:flag => "pending" }  %>
+
+            </div>
+
+             <div class="list-group" style="margin-top:30px;">
+               <h4 class="list-group-item list-group-item-action">Complited Transactions</h4>
+               <%#= render partial: "transaction", collection: @wallet.transactions, locals: {:flag => "completed" }  %>
+             </div>
+
+           </div>
+
+         </div>
+       </div>
+
+     </main>
+  </div>
+</div>
+-->

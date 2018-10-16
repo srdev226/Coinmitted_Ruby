@@ -1,0 +1,18 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+      <h1>Editing Users Campaign</h1>
+
+      <%= render 'form', users_campaign: @users_campaign %>
+
+      <%= link_to "Show", @users_campaign %> |
+      <%= link_to "Back", users_campaign_path %>
+
+     </main>
+  </div>
+</div>

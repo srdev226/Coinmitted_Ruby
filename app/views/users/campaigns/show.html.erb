@@ -1,0 +1,44 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Campaign</h3>
+        </div>
+        <div class="container p-4">
+          <p>
+            <strong>Name:</strong>
+            <%= @users_campaign.name %>
+          </p>
+          <p>
+            <div class="form-inline my-2 my-lg-0">
+              <div class="input-group ">
+                <label for="">  <strong>Campaign URL </strong></label>
+                <%= text_field_tag 'campaign_url', @users_campaign.url, class: "form-control", id: "campaign-url" %>
+                <div class="input-group-append">
+                  <span class="input-group-text" id="copy-url">
+                    <%= fa_icon("copy", class: "mr-2") %>
+                    Copy
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-5">
+              Share
+              <%= social_share_button_tag(@users_campaign.url) %>
+            </div>
+          </p>
+
+          <%= link_to 'Edit', edit_users_campaign_path(@users_campaign) %> |
+          <%= link_to 'Back', users_campaigns_path %>
+        </div>
+      </div>
+
+     </main>
+  </div>
+</div>

@@ -1,0 +1,95 @@
+<% content_for :title, "Visitors" %>
+
+<div class="main-page-wrapper">
+    <div class="dropdown-overlay"></div>
+
+    <!-- *********************** Dashboard Main Container ************************** -->
+    <div id="dashboard-wrapper">
+
+        <%= render "layouts/header" %>
+
+        <!-- ******************** Dashboard Body Wrapper *********************** -->
+        <div class="container">
+            <div id="dashboard-main-body" class="clearfix">
+
+
+                <%= render "layouts/admin_sidebar" %>
+
+
+                <!-- ***************** User Content **************** -->
+                <div class="dashboard-user-content investment-panel">
+
+                   <%= render "layouts/notifications" %>
+
+                    <div class="card border-dark mb-3 pb-3 mb-4">
+                      <div class="card-header bg-secondary text-white">Traffic Analytics</div>
+                      <div class="card-body text-dark">
+                        <h5 class="card-title">
+                          <span class="mr-5">
+                            Total Visitors
+                            <span class="badge badge-primary ml-2">
+                              <%= @visits.length %>
+                            </span>
+                          </span>
+                          <span class="mr-5">
+                            Total Page Hits
+                            <span class="badge badge-primary ml-2">
+                              <%= @page_hits %>
+                            </span>
+                          </span>
+                        </h5>
+                        <p class="card-text pt-3 font-italic">Click Page Hits for more detailed information about page visits of a perticular visitor</p>
+                      </div>
+                    </div>
+                    <h3 class="mb-3">Visitors</h3>
+                    <% @visits.each_with_index do |visit, index| %>
+                      <div class="card border-secondary page-visits mb-3">
+                        <div class="card-header">
+                          <strong class="pr-3">
+                            <span class="badge badge-dark mr-3">
+                              <%= index + 1 %></span><%= time_ago_in_words(visit.started_at) %> ago
+                            </strong>
+                            <span class="font-italic">
+                              <%= visit.landing_page %>
+                            </span>
+                          </div>
+                        <div class="card-body text-secondary">
+                          <div class="row">
+                            <div class="col">
+                              <strong>Location :
+                              </strong>
+                              <%= visit.country %>, <%= visit.region %>, <%= visit.city %>.
+                            </div>
+                            <div class="col">
+                              <strong>Device :
+                              </strong>
+                              <%= visit.device_type %>, <%= visit.os %>, <%= visit.browser %>.
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <%= link_to users_visit_path(visit), class: "btn btn-sm btn-secondary mt-3" do %>
+                                <%= fa_icon("mouse-pointer", class: "mr-1") %>
+                                Page Hits
+                                <span class="badge badge-light ml-3">
+                                  <%= visit.events.count %>
+                                </span>
+                              <% end %>
+                            </div>
+                            <div class="col pt-4">
+                              <strong>Date / Time :
+                              </strong>
+                              <%= visit.started_at %>.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  <%# end %>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

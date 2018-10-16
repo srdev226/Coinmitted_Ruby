@@ -1,0 +1,474 @@
+/*
+ * SIDEBAR
+ * CONTENT
+ * SIGNIN SIGNUP
+ * NAVBAR
+ * WALLET
+ * PROFILE
+ * DASHBOARD
+ * * Admin dashboard
+ * * User dashboard
+ * UTILITIES
+ *
+ */
+html, body {
+  height: 100%;
+}
+
+.min-100 {
+    min-height: 100%;
+}
+
+div {
+  &.field, &.actions {
+    //margin-bottom: 10px;
+  }
+}
+
+body {
+  font-size: .875rem;
+}
+
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+  .sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #999;
+}
+
+.sidebar .nav-link.active {
+  color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+/*
+ * Content
+ */
+
+[role="main"] {
+  padding-top: 48px; /* Space for fixed navbar */
+}
+
+
+/*
+ * Sign In Sign Up
+ */
+
+.form-signin, .form-signup, .form-password {
+  height: 100%;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.new_user {
+  width: 100%;
+  max-width: 430px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.new_user .checkbox {
+  font-weight: 400;
+}
+.new_user .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.new_user .form-control:focus {
+  z-index: 2;
+}
+.form-signin {
+  .new_user input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .new_user input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+.form-password {
+  width: 100%;
+  max-width: 430px;
+  padding: 15px;
+  text-align: center;
+  margin: 0 auto;
+  .box {
+    box-sizing: border-box;
+  }
+}
+
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+.user_profile_nav {
+  .nav-item {
+    .nav-link {
+      color: white;
+    }
+  }
+}
+
+/*
+ *
+ * WALLET
+ *
+ */
+.wallet {
+  padding: 20px;
+  h4 {
+    text-transform: uppercase;
+    font-size: 70%;
+    color: #777;
+    line-height: 40px;
+    padding: 0 10px;
+    border-bottom: 1px solid #dedede;
+  }
+  .leftblock {
+    background: #f7f7f7;
+    border: 1px solid #dedede;
+    padding: 0;
+  }
+  .crypto-item {
+    line-height: 15px;
+    .crypto-name {
+      //padding-top: 5px;
+    }
+    .crypto-numbers {
+      text-align: right;
+    }
+  }
+  .admin-totals {
+
+  }
+}
+
+
+/*
+ * PROFILE
+ */
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+.profile-image {
+  position:relative;
+  .profile {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    position: absolute;
+    top: -28px;
+    left: 20px; //45%;
+    max-width: 55px;
+    border: 1px solid rgba(255, 255, 255, 1);
+    -webkit-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+  }
+}
+.profile-image-header {
+  .profile {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 1);
+    -webkit-transform: translate(-20%, 0%);
+    transform: translate(-20%, 0%);
+  }
+}
+.profile-name {
+  margin-left: 60px;
+}
+
+.delete_phone {
+  margin-left: 10px;
+}
+
+/*Profile card 2*/
+.profile-card-2 {
+  margin: 0 !important;
+  .card-img-block {
+    float:left;
+    width:100%;
+    height:150px;
+    overflow:hidden;
+  }
+  .card-body {
+    position:relative;
+  }
+  .profile {
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    //left: 15%;
+    max-width: 75px;
+    border: 3px solid rgba(255, 255, 255, 1);
+    -webkit-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+  }
+  h5 {
+    font-weight:600;
+    color:#222;
+    padding-bottom: 0px;
+    margin-bottom: 0;
+  }
+  .card-text {
+    font-weight:300;
+    font-size:15px;
+  }
+  .card-country {
+    padding-right: 80px;
+  }
+  .icon-block {
+    float:left;
+    width:100%;
+  }
+  .icon-block {
+    a {
+      text-decoration:none;
+    }
+  }
+  .card-footer {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    h6 {
+      font-size: 80%;
+      padding: 0;
+      margin: 0;
+      text-transform: uppercase;
+      color: #777;
+    }
+    .card-footer-text {
+      font-size: 130%;
+      font-weight: 600;
+      padding: 5px;
+    }
+  }
+  i {
+    display: inline-block;
+    font-size: 16px;
+    color: #6ab04c;
+    text-align: center;
+    border: 1px solid #6ab04c;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    margin:0 5px;
+    &:hover {
+      background-color:#6ab04c;
+      color:#fff;
+    }
+  }
+}
+
+/*
+ * Dashboard
+ */
+
+
+#copy-url {
+  &:hover {
+    cursor: pointer;
+  }
+}
+#copy-notice {
+  display: none;
+}
+.page-visits {
+  border-radius: 0px;
+}
+.borderless td,
+.borderless th,
+.borderless tr {
+  border: none;
+}
+
+  /* Admin dashboard */
+.admin-dashboard {
+  .crypto-bar {
+    .homepage-sec1-single {
+      border: 1px solid lightblue;
+      position: relative;
+      margin-bottom: 10px;
+      .crypto-icon {
+        position: absolute;
+        width: 50px;
+        height: 70px;
+        right: 10%;
+        top: 10%;
+      }
+    }
+  }
+}
+
+/* User dashboard */
+.homepage-sec1-single {
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  dl.total {
+    margin-bottom: 2px;
+    dt {
+      font-size: 90%;
+      font-weight: normal;
+      color: #777;
+      text-transform: uppercase;
+    }
+    dd {
+      font-size: 190%;
+      sup {
+        vertical-align: baseline;
+        position: relative;
+        top: -0.1em;
+        vertical-align: super;
+        font-size: 40%;
+        color: #777;
+        padding-right: 5px;
+      }
+    }
+  }
+  dl.subtotal {
+    dt {
+      color: #777;
+      font-weight: normal;
+    }
+  }
+}
+
+.graph-header {
+  margin: 20px 5px;
+  .content {
+    dt {
+      color: #777;
+      font-size: 80%;
+      font-weight: normal;
+    }
+    dd {
+      color: green;
+    }
+  }
+}
+
+.adjust-allocation {
+  margin-top: 10px;
+}
+
+.investments_plans {
+ margin: 20px 0;
+ .dashboard_investments {
+   padding: 10px;
+ }
+}
+
+/* Affiliate dashboard */
+.card {
+  .container {
+    margin-top: 0px;
+  }
+}
+
+/*
+ * Utilities
+ */
+
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+

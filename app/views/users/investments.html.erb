@@ -1,0 +1,76 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+       <%= render "layouts/notifications" %>
+
+        <h1>Investments</h1>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Investment Plan</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Timeframe</th>
+              <th>End date</th>
+              <th>Payout Frequency</th>
+              <th>Total Invested</th>
+              <th>Total Earnings</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @investments.each do |investment| %>
+              <tr <%= "style=color:#777" if investment.status == 'draft' %>>
+                <td>
+                  <%= investment.investment_plan.title if investment.investment_plan.present? %><br>
+                  <%= investment.investment_plan.subtitle if investment.investment_plan.present? %>
+                </td>
+                <td><%= investment.name %></td>
+                <td><%= investment.status.camelize %></td>
+                <td><%= investment.timeframe_months %></td>
+                <td><%= investment.end_date.strftime("%B %d, %Y") if investment.end_date.present? %></td>
+                <td><%= investment.payout_frequency.title if investment.payout_frequency.present? %></td>
+                <td><%= number_to_currency(investment.invested_amount, :unit => @cur_sign[investment.currency.upcase]) if investment.currency.present? %></td>
+                <td><%= number_to_currency(investment.investment_earning, :unit => @cur_sign[investment.currency.upcase]) if investment.currency.present? %></td>
+                <td><%= link_to 'Show', investment %></td>
+                <td><%= link_to 'Edit', edit_investment_path(investment) %></td>
+                <td>
+                  <% if investment.status == "draft" %>
+                    <%= link_to "Continue", continue_wizard_investment_path(draft: investment.id, current_step: "start"), method: :get, style: "color:orange" %>
+                  <% elsif investment.status == "payment" %>
+
+                    <% if investment.payments.last %>
+                      <% if investment.payments.last.confirmations.nil? %>
+                        <%= link_to "Waiting for Payment", pay_wizard_investment_path(investment: investment.id), style: "color:green" %>
+                      <% else %>
+                        You have <%= investment.payments.last.confirmations %> <%= "confirmation".pluralize(investment.payments.last.confirmations) %>
+                      <% end %>
+                    <% else %>
+                        <%= link_to "Waiting for Payment", pay_wizard_investment_path(investment: investment.id), style: "color:green" %>
+                    <% end %>
+
+                  <% else %>
+                    <%= link_to "Download Certificate", certificate_path(id: investment.id, format: 'pdf') %>
+                  <% end %>
+                </td>
+                <td><%= link_to "Destroy", user_investments_path %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <br>
+
+     </main>
+    </div>
+  </div>
+</div>

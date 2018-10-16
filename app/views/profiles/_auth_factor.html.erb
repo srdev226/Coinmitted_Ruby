@@ -1,0 +1,30 @@
+<div class="theme-modal-header">
+  	<h3 class="title font-fix">Enable Two-Factor Authentication</h3>
+  	<div class="header-sub-title">Enter the code you receive by sms</div>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>					
+</div>
+
+<div class="modal-body verification-code-details">
+	<div id="flash_messages"></div>
+	<%= form_with method: :get, local: true, url: enable_two_factor_path, class: "code-verify" do |f| %>
+    <%= text_field_tag "code",'', class: "form-control form-control-lg", placeholder: "Enter your code here", autocomplete: "off", class: "font-fix" %>
+    <%= hidden_field_tag "number", @number.id %>
+		<div class="button-group clearfix">
+			<ul class="clearfix">
+				<li>
+				<%= link_to 'Resend Token', 'javascript:void(0);', id: 'resend_otp', class: 'resend-code', style: "margin-top: 10px !important; padding-left: 27px !important" %>
+				</li>
+				<li><button class="theme-button"><span></span>Enable</button></li>
+			</ul>
+		</div>
+	<% end %>
+	</div> <!-- /.modal-body -->
+	
+	
+<script>
+  $(function(){
+		resendOTP("<%= asset_url('loader.gif') %>");
+  });
+	</script>

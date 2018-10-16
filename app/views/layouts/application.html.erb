@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<!-- For IE -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- For Resposive Device -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!--  Essential META Tags -->
+		<meta property="og:title" content="Coinmitted User Panel">
+		<meta property="og:description" content="Make your coins work harder for you.">
+		<meta property="og:image" content="<%= image_path "main-logo.png" %>">
+		<meta property="og:url" content="<%= request.base_url %>">
+		<!-- For Window Tab Color -->
+		<!-- Chrome, Firefox OS and Opera -->
+		<meta name="theme-color" content="#afb4c0">
+		<!-- Windows Phone -->
+		<meta name="msapplication-navbutton-color" content="#afb4c0">
+		<!-- iOS Safari -->
+		<meta name="apple-mobile-web-app-status-bar-style" content="#afb4c0">
+		<title>Coinmitted User Panel</title>
+		<!-- Favicon -->
+		<link rel="icon" type="image/png" sizes="56x56" href="<%= image_path "icon-1.png" %>">
+
+		<!-- AmChart -->
+		<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+		<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+		<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+		<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+		<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+		<%= csrf_meta_tags %>
+		<%= csp_meta_tag %>
+
+		<!-- Form of country -->
+		<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+		<%= stylesheet_link_tag    'https://cdnjs.cloudflare.com/ajax/libs/authy-form-helpers/2.3/form.authy.min.css', media: 'all', 'data-turbolinks-track': 'reload' %>
+		<%= javascript_include_tag "application", 'data-turbolinks-track': 'reload' %>
+		<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/authy-form-helpers/2.3/form.authy.min.js', 'data-turbolinks-track': 'reload' %>
+
+
+
+    <!-- Fix Internet Explorer ______________________________________-->
+		<!--[if lt IE 9]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+			<script src="vendor/html5shiv.js"></script>
+			<script src="vendor/respond.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <%= yield %>
+
+    <!-- Optional JavaScript _____________________________  -->
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- jQuery -->
+    <script>window.currency = '<%= @currency %>' </script>
+
+  </body>
+</html>

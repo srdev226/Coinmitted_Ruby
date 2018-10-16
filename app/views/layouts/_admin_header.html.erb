@@ -1,0 +1,112 @@
+<!-- ******************** Main Top Header *********************** -->
+<div id="main-top-header">
+  <div class="container">
+    <div class="wrapper clearfix">
+      <!-- Toggle Menu Button -->
+      <button class="toggle-show-menu-button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <!-- Logo -->
+      <%= link_to image_tag("main-logo.png", alt: "Coinmitted"), root_path, class: "logo-wrapper" %>
+      <!-- Top Bar Action List -->
+      <div class="top-bar-action-list">
+        <ul class="clearfix">
+          <li class="action-list-item">
+            <%= link_to "Invite friends. Free coins", dashboards_path(d: "affiliate"), class: "invite-button" %>
+          </li> <!-- /.action-list-item -->
+          <!-- Balance Figure -->
+          <li class="action-list-item balance-action-button">
+            <div class="dropdown">
+              <button class="dropdown-toggle" data-toggle="dropdown">
+                <span class="font-fix">
+                  <%= number_to_currency(wallet_total_balance(@wallet.currencies, @currency), unit: @cur_sign[@currency]) %>
+                </span>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <div class="clearfix dropdown-top-header">
+                  <div class="dropdown-title">Your balance</div>
+                  <%= link_to "+ Deposit", wallet_path(current_user), class: "deposite-action" %>
+                </div>
+                  <div class="balance-sheet-wrapper">
+                  <ul>
+
+                    <% @wallet.currencies.each do |item| %>
+                      <li class="bitcoin-method clearfix">
+                        <a class="clearfix" href="#">
+                          <span class="name font-fix">
+                            <%= image_tag "#{item.name.downcase}2.png", alt: "#{item.name} Coinmitted" %>
+                            <%= item.name.camelize %>
+                          </span>
+                          <span class="balance-inquery">
+                            <span class="currency-title">
+                              <%= item.amount.to_f %> <%= item.ticker.upcase %>
+                          </span>
+                            <span class="total-currency">
+                             <%= number_to_currency(
+                               CryptoConverter.new(@currency.upcase, item.ticker.upcase, item.amount.to_f).to_fiat,
+                               unit: @cur_sign[@currency])
+                             %>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                    <% end %>
+
+                  </ul>
+                  <div class="total-balance clearfix">
+                    <div class="balance-title">Total Balance ≈</div>
+                    <div class="balance-figure">
+                      <%= number_to_currency(wallet_total_balance(@wallet.currencies, @currency), unit: @cur_sign[@currency]) %>
+                    </div>
+                  </div>
+                  <div class="total-balance clearfix">
+                    <div class="balance-title">Wallet Balance ≈</div>
+                    <div class="balance-figure">
+                      <%= number_to_currency(total_user_balance(@wallet.user), unit: @cur_sign[@currency]) %>
+                    </div>
+                  </div>
+                </div> <!-- /.balance-sheet-wrapper -->
+              </div>
+            </div>
+          </li> <!-- /.action-list-item -->
+          <!-- User Panel -->
+          <li class="action-list-item user-profile-action">
+            <% if current_user && user_signed_in? %>
+              <div class="dropdown">
+                <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+                  <%= profile_avatar(current_user.profile, "44x44") if current_user.profile.present? %>
+                    <span class="user-name font-fix">
+                      <%= current_user.profile.name if current_user.profile.present? %>
+                    </span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <div class="user-account-information">
+                    <%= profile_avatar(current_user.profile, "44x44", 'user-lg-img') if current_user.profile.present? %>
+                    <div class="user-name font-fix">
+                      <%= current_user.profile.name if current_user.profile.present? %>
+                    </div>
+                    <div class="user-email"><%= current_user.email %></div>
+                    <div class="member-rank"><%= current_user.profile.member %> Member</div>
+                  </div> <!-- /.user-account-information -->
+                  <ul class="user-useful-link">
+                    <li><%= link_to t('your_profile'), edit_profile_path, class: "font-fix" %></li>
+                    <li><%= link_to t('contact_support'), contact_support_path, class: "font-fix" %></li>
+                    <li>
+                      <%= link_to dashboards_path(d: "affiliate"), class: "font-fix" do %>
+                        <%= t('affiliate_program') %>
+                        <span class="free-button"><%= t('free_coins') %></span>
+                      <% end %>
+                    </li>
+                    <li><%= link_to t('log_out'), destroy_user_session_path(id: current_user.id), method: :delete, class: "font-fix" %></li>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+          </li> <!-- /.action-list-item -->
+        </ul>
+      </div> <!-- /.top-bar-action-list -->
+    </div> <!-- /.wrapper -->
+  </div> <!-- /.container -->
+</div> <!-- #main-top-header -->   <!-- ***** End Main Top Header ***** -->

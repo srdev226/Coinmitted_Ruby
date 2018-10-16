@@ -1,0 +1,224 @@
+<div class="main-page-wrapper">
+			<div class="dropdown-overlay"></div>
+
+
+			<!-- *********************** Dashboard Main Container ************************** -->
+			<div id="dashboard-wrapper">
+
+      <%= render "layouts/header" %>
+
+				<!-- ******************** Dashboard Body Wrapper *********************** -->
+				<div class="container">
+					<div id="dashboard-main-body" class="clearfix">
+
+          <%= render "layouts/sidebar" %>
+
+
+						<!-- ***************** User Content **************** -->
+						<div class="dashboard-user-content performance-panel">
+							<div class="performance-chart-wrapper">
+								<div class="row">
+									<div class="col-lg-9">
+										<div class="chart-container">
+											<div class="chart-title">Coinmitted performance chart</div>
+												<div id="chartdiv" style="width:100%;height:95%;"></div>	
+											</div>
+										</div>
+									<div class="col-lg-3">
+										<div class="chart-information-box clearfix">
+											<div class="single-action-box">
+						                        <h6 class="title">Total invested 
+						                        	<button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="The amount you want to invest, you can always add funds to your investment at any time.">
+						                        	<%= image_tag "info.png", alt: "Coinmitted" %>
+						                        </button></h6>
+												<div class="value font-fix"><%= number_to_currency(total_user_invested(current_user,@currency), unit: @cur_sign[@currency]) %></div>
+											</div> <!-- /.single-action-box -->
+
+											<div class="single-action-box">
+						                        <h6 class="title">total profit 
+						                        	<button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="The amount you want to invest, you can always add funds to your investment at any time.">
+						                        	<%= image_tag "info.png", alt: "Coinmitted" %>
+						                        	</button>
+						                    	</h6>
+												<div class="value profit-value font-fix"><%= number_to_currency(amounts_in_cur_currency(@investments, "earnings"), unit: @cur_sign[@currency]) %></div>
+											</div> <!-- /.single-action-box -->
+
+											<div class="single-action-box">
+						                        <h6 class="title">Distribution 
+						                        	<button type="button" class="help-button" data-toggle="tooltip" data-placement="top" title="The amount you want to invest, you can always add funds to your investment at any time.">
+						                            <%= image_tag "info.png", alt: "Coinmitted" %>
+						                          	</button>
+						                        </h6>
+
+												<ul class="distribution-list-item">
+													<li class="clearfix">
+														<h6 class="currency font-fix">Bitcoin</h6>
+														<div class="currnecy-amount font-fix">77.26%</div>
+													</li>
+													<li class="clearfix">
+														<h6 class="currency font-fix">Ethereum</h6>
+														<div class="currnecy-amount font-fix">18.06%</div>
+													</li>
+													<li class="clearfix">
+														<h6 class="currency font-fix">Litecoin</h6>
+														<div class="currnecy-amount font-fix">4.68%</div>
+													</li>
+												</ul>
+											</div> <!-- /.single-action-box -->
+										</div> <!-- /.chart-information-box -->
+										<div class="chart-update-last-date">Last Updated: <span>2018/08/25</span></div>
+									</div>
+								</div> <!-- /.row -->
+							</div> <!-- /.performance-chart-wrapper -->
+
+
+							<div class="full-performance-history">
+								<div class="clearfix">
+									<div class="main-title">Full performance</div>
+
+									<ul class="nav nav-tabs performance-nav" role="tablist">
+										<li class="nav-item">
+										  <a class="nav-link active" id="performance-monthly-tab" data-toggle="tab" href="#performance-monthly" role="tab" aria-controls="performance-monthly" aria-selected="true">Monthly</a>
+										</li>
+										<li class="nav-item">
+										  <a class="nav-link" id="performance-weekly-tab" data-toggle="tab" href="#performance-weekly" role="tab" aria-controls="performance-weekly" aria-selected="false">Weekly</a>
+										</li>
+									</ul>
+								</div>
+
+								<div class="tab-content performance-tab-content">
+									<div class="tab-pane fade show active" id="performance-monthly" role="tabpanel" aria-labelledby="performance-monthly-tab">
+										<div class="table-responsive performance-monthly-table-sheet">
+											<table class="table table-bordered">
+												<thead>
+												    <tr>
+												    	<th class="font-fix" scope="col"></th>
+													    <th class="font-fix month-name" scope="col">Jan</th>
+												    	<th class="font-fix month-name" scope="col">Feb</th>
+												    	<th class="font-fix month-name" scope="col">Mar</th>
+												    	<th class="font-fix month-name" scope="col">Apr</th>
+												    	<th class="font-fix month-name" scope="col">May</th>
+												    	<th class="font-fix month-name" scope="col">Jun</th>
+												    	<th class="font-fix month-name" scope="col">Jul</th>
+												    	<th class="font-fix month-name" scope="col">Aug</th>
+												    	<th class="font-fix month-name" scope="col">Sep</th>
+												    	<th class="font-fix month-name" scope="col">Oct</th>
+												    	<th class="font-fix month-name" scope="col">Nov</th>
+												    	<th class="font-fix month-name" scope="col">Dec</th>
+												    	<th class="font-fix month-name" scope="col">Total Return</th>
+												    </tr>
+												</thead>
+												<tbody>
+													<% (@st_year..@end_year).each do |year| %>
+												    <tr>
+												      	<th scope="row" class="year-name font-fix"><%=year%></th>
+												      	<%
+												      	year_total_ret = 0
+												      	(1..12).each do |i|
+												      		show_val = @total_percentages[i - 1]
+												      		year_total_ret += show_val if show_val && show_val != ""
+														%>
+													    <td class="profit-return"><%=show_val%></td>
+													    <% end %>
+													    <td class="profit-return"><%=year_total_ret%></td>
+												    </tr>
+												    <% end %>
+												    <tr>
+												    	<th colspan="13"></th>
+												    	<td class="total-return">+ <%=@total_return%></td>
+												    </tr>
+												</tbody>
+											</table>
+										</div> <!-- /.performance-monthly-table-sheet -->
+									</div> <!-- /.tab-pane -->
+
+
+
+									<div class="tab-pane fade" id="performance-weekly" role="tabpanel" aria-labelledby="performance-weekly-tab">
+									  	<select id = "wdrop_down" class="select-dropdown theme-select-dropdown weekly-dropdown">
+									  		<% (0..@ind).each do |i| %>
+											<option  "value="<%=i%>"><%="#{@weekly_ddownlist_m[i]} #{@weekly_ddownlist_y[i]}"%></option>
+											<% end %>
+											<option selected "value="<%=@ind+1%>">Show All</option>
+										</select>
+										<!----Show year, month, total_percentage---->
+
+
+
+										<ul id = "month-data-0" class="weekly-performance-data">
+										<li class='week-data clearfix'>
+											<br>
+										 	<div class='week-frame font-fix'><h3><%="#{@weekly_ddownlist_y[0]} #{@months[@total_weeks[0].first_date.month - 1]}"%></h3></div>
+										 	<div class='profit-return'><%="#{@total_percentages[@st_mon - 1]}"%>%</div>
+									 	</li>
+										<%
+										month_index = 0
+										(0...@weeks).each do |i|							
+											 if @months[@total_weeks[i].first_date.month - 1] != @weekly_ddownlist_m[month_index]
+											 	month_index = month_index + 1%>
+											 	</ul>
+											 	<ul id = "month-data-<%=month_index%>" class="weekly-performance-data">
+											 		<li class='week-data clearfix'>
+											 			<br>
+													 	<div class='week-frame font-fix'><h3><%="#{@weekly_ddownlist_y[month_index]} #{@months[@total_weeks[i].first_date.month - 1]}"%></h3></div>
+													 	<div class='profit-return'><%="#{@total_percentages[@st_mon + month_index - 1]}"%>%</div>
+											 		</li>
+											 <%end%>
+											 <li class='week-data clearfix'>
+											 	<div class='week-frame font-fix'><%="#{@months[@total_weeks[i].first_date.month-1]} #{@total_weeks[i].first_date.day} - #{@months[@total_weeks[i].last_date.month-1]} #{@total_weeks[i].last_date.day}"%></div>
+											 	<div class='profit-return'><%="#{@total_weeks[i].percentage}"%>%</div>
+											 </li>
+											 <%
+											end%>
+										</ul>
+									</div> <!-- /.tab-pane -->
+								</div> <!-- /.tab-content -->
+							</div> <!-- /.full-performance-history -->
+								
+							<div class="fund-information-table table-responsive">
+								<table class="table">
+									<tbody>
+									    <tr>
+										    <td>
+										    	<div class="title">Manager</div>
+										    	<div class="text font-fix">Coinmitted IBC</div>
+										    </td>
+										    <td>
+										    	<div class="title">Asset Class</div>
+										    	<div class="text font-fix">Cryptocurrencies</div>
+										    </td>
+										    <td>
+										    	<div class="title">Investment Period</div>
+										    	<div class="text font-fix">Coinmitted IBC</div>
+										    </td>
+										    <td>
+										    	<div class="title">Best Month</div>
+										    	<div class="text font-fix profit-balance"><%=@total_percentages.max%>%</div>
+										    </td>
+									    </tr>
+									    <tr>
+										    <td>
+										    	<div class="title">Start Date</div>
+										    	<div class="text font-fix"><%=@st_year%></div>
+										    </td>
+										    <td>
+										    	<div class="title">Minimum Investment</div>
+										    	<div class="text font-fix">$50.00</div>
+										    </td>
+										    <td>
+										    	<div class="title">Total Under Management</div>
+										    	<div class="text font-fix">$100.965.200</div>
+										    </td>
+										    <td>
+										    	<div class="title">Worst Month</div>
+										    	<div class="text font-fix loss-balance"><%=@total_percentages.min%>%</div>
+										    </td>
+									    </tr>
+									</tbody>
+								</table>
+							</div> <!-- /.fund-information-table -->
+							
+						</div> <!-- /.dashboard-user-content --> <!-- ***** End User Content **** -->
+					</div> <!-- /#dashboard-main-body -->
+				</div> <!-- /.container -->  <!-- ***** End Dashboard Body Wrapper **** -->
+			</div> <!-- #dashboard-wrapper --> <!-- ***** End Dashboard Main Container **** -->

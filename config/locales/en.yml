@@ -1,0 +1,24 @@
+en:
+    language_name: "English"
+
+    # User Header
+    your_profile: "Your Profile"
+    contact_support: "Contact Support"
+    free_coins: "Free Coins"
+    affiliate_program: "Affiliate Program"
+
+    # Sidebar Menu
+    sidebar:
+        dashboard: "Dashboard"
+        investments: "Investments"
+        performance: "Performance"
+        wallet: "Wallet"
+        payouts: "Payouts"
+        settings: "Settings"
+        affiliate: "Affiliate"
+        invite_friends: "Invite friends. Free coins"
+        help: "Help"
+        help_text: "The amount you want to invest, you can always add funds to your investment at any time."
+
+    investment:
+        new_investment_btn: "+ Create a new Investment"

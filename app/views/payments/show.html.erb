@@ -1,0 +1,55 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+       <div class="jumbotron text-center">
+         <h2>Payments</h2>
+       </div>
+
+       <p><strong>Payment <%= @payment.success ? "successful" : "unsuccessful" %></strong>
+         <%= fa_icon "circle", style: @payment.success == true ? "color:lightgreen" : "color:red" %>
+       </p>
+
+        <p>
+          <strong>Investment Name:</strong>
+          <%= @payment.investment.name %>
+        </p>
+
+        <p>
+          <strong>Invoince:</strong>
+          <%= @payment.invoice %>
+        </p>
+
+        <p>
+          <strong>Confirmations:</strong>
+          <%= @payment.confirmations %>
+        </p>
+        <p>
+          <strong>Max Confirmations:</strong>
+          <%= @payment.max_confirmations %>
+        </p>
+
+        <p>
+          <strong>Coin:</strong>
+          <%= @payment.coin %>
+        </p>
+
+        <p>
+          <strong>Coins Received:</strong>
+          <%= @payment.coins_received %>
+        </p>
+        <p>
+          <strong>Currency:</strong>
+          <div class="form-group">
+            <textarea class="form-control" style="height: 250px"><%= @payment.currencies %></textarea>
+          </div>
+        </p>
+
+      <%= link_to 'Back', payments_all_path, class: "btn btn-primary" %>
+
+  </div>
+</div>
+

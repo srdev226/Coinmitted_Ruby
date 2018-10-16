@@ -1,0 +1,33 @@
+<%= form_with model: @profile, url: update_user_profile_path(params[:id]), local: true, method: :put do |f| %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control", disabled: true %>
+  </div>
+  <div class="form-group">
+    <%= f.label :bio %>
+    <%= f.text_area :bio, class: "form-control", disabled: true %>
+  </div>
+
+  <%= f.fields_for :user do |u| %>
+    <div class="form-group">
+      <%= u.label :email %>
+      <%= u.text_field :email, class: "form-control", disabled: true %>
+    </div>
+  <% end %>
+
+  <div class="form-row">
+
+    <div class="form-group col-md-6">
+      <label for="inputState">Gender</label>
+      <%= f.select :gender, [['Male','male'],['Female','female'],['Other','other']], {}, class: "form-control", disabled: true %>
+    </div>
+
+    <div class="form-group col-md-6">
+      <%= f.label :country %>
+      <%= f.country_select :country,{}, class: "form-control" %>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Save</button>
+<% end %>

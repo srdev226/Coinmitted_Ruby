@@ -1,0 +1,68 @@
+<%= form_with model: @profile, url: update_profile_path, local: true, method: :post do |f| %>
+
+  <div action="#" class="left-space-fix">
+    <div class="single-input-group large-box">
+      <div class="member-status clearfix">
+        <div class="member-info">
+
+          <% if @profile.avatar.attached? %>
+            <%= image_tag @profile.avatar.variant(combine_options: image_options("55x55")), class: "user-img", alt: "profile-image" %>
+          <% else %>
+            <%= image_tag "default-user.png", class: "user-img", alt: "profile-image" %>
+          <% end %>
+
+          <div class="name">
+            <h3 class="name-title font-fix">
+              <%= @profile.name.camelize %>
+            </h3>
+            <div class="profile-photo">
+              <button class="font-fix">Edit profile photo</button>
+              <%= f.file_field :avatar, id: "avatar", class: "font-fix" %>
+            </div>
+          </div> <!-- /.name -->
+        </div> <!-- /.member-info -->
+
+        <div class="font-fix member-badge <%= @profile.member.downcase %>-badge"><%= @profile.member %> Member</div>
+      </div> <!-- /.member-status -->
+    </div> <!-- /.single-input-group -->
+
+    <div class="single-input-group large-box">
+      <%= f.label :name, class: "title font-fix" %>
+      <%= f.text_field :name, class: "font-fix", placeholder: "John Coles" %>
+    </div> <!-- /.single-input-group -->
+
+    <div class="single-input-group large-box">
+      <%= f.label :bio, class: "title font-fix" %>
+      <%= f.text_area :bio, class: "font-fix edit-bio", placeholder: "Investor FB, Snap & Uber CEO of Coinmitted", maxlength: "200" %>
+      <div class="bio-condition-text">Up to 200 characters</div>
+    </div> <!-- /.single-input-group -->
+
+  <%= f.fields_for :user do |u| %>
+    <div class="single-input-group large-box">
+      <%= u.label :email, class: "title font-fix" %>
+      <%= u.text_field :email, class: "font-fix", placeholder: "johncoles.crypto@gmail.com" %>
+    </div> <!-- /.single-input-group -->
+  <% end %>
+
+    <div class="single-input-group large-box">
+      <div class="row">
+        <div class="col-sm-4 col-12">
+          <div class="single-input-group">
+            <label for="gender" class="title font-fix">Gender</label>
+              <%= f.select :gender, [['Male','male'],['Female','female'],['Other','other']], {}, class: "theme-select-dropdown", id: "gender" %>
+          </div> <!-- /.single-input-group -->
+        </div> <!-- /.col- -->
+
+        <div class="col-sm-8 col-12">
+          <div class="single-input-group">
+            <%= f.label :country, class: "title font-fix" %>
+            <%= f.country_select :country,{}, class: "theme-select-dropdown", id: "country" %>
+          </div> <!-- /.single-input-group -->
+        </div> <!-- /.col- -->
+      </div> <!-- /.row -->
+    </div> <!-- /.single-input-group -->
+
+    <button type="submit" class="theme-button"><span></span>Save</button>
+  </div>
+
+<% end %>

@@ -1,0 +1,53 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+    <%= render 'layouts/sidebar' %>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+      <%= render "layouts/notifications" %>
+
+      <h1>Users</h1>
+
+      <table class="table" id="data">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Registration Date</th>
+            <th>Balance</th>
+            <th>Deposits</th>
+            <th>Withdrawals</th>
+            <th>Invested</th>
+            <th>Earnings</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.profile.name %></td>
+              <td><%= user.created_at.strftime("%d %B, %Y") %></td>
+              <td><%= number_to_currency(user.profile.balance) %></td>
+              <td><%= number_to_currency(total_users_deposit([user])) %></td>
+              <td><%= number_to_currency(0) %></td>
+              <td><%= number_to_currency(user_invested(user)) %></td>
+              <td><%= number_to_currency(user_earned(user)) %></td>
+              <td><%= link_to 'Profile', edit_user_profile_path(user.profile.id) %></td>
+              <td><%= link_to 'Wallet', user_wallet_path(user_id: user.id, id: user.wallet.id) %></td>
+              <td><%= link_to 'Investments', user_investments_path(user) %></td>
+              <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure? User will be destroyed with all dependecies' } %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <br>
+
+      <%= link_to 'New User', new_user_path %>
+
+    </main>
+  </div>
+</div>

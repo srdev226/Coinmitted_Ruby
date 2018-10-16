@@ -1,0 +1,37 @@
+<%= form_with model: @profile, url: @profile.admin_edit_user ? update_user_profile_path(@profile) : update_profile_path, local: true, method: :post, class: "left-space-fix" do |f| %>
+
+  <div class=" bottom-border-style">
+    <div class="single-input-group small-box">
+      <label for="language" class="title font-fix">Interface Language</label>
+      <%= f.select :language, I18n.available_locales.map {|l| [I18n.t("language_name", locale: l), l] },{}, class: "theme-select-dropdown", id: "language" %>
+    </div> <!-- /.single-input-group -->
+
+    <div class="single-input-group small-box">
+      <label for="currency" class="title font-fix">Local Currency</label>
+      <%= f.select :currency, Currency::CURRENCIES, {}, class: "theme-select-dropdown", id: "currency" %>
+    </div> <!-- /.single-input-group -->
+    <button class="theme-button"><span></span>Save</button>
+  </div>
+
+    <div class="block-title font-fix">Notifications</div>
+    <ul>
+      <li class="single-checkbox">
+        <%= f.check_box :notification_news, id: "new-mail" %>
+        <label for="new-mail">News emails</label>
+      </li>
+      <li class="single-checkbox">
+        <%= f.check_box :notification_deposit, id: "deposit-withdraw" %>
+        <label for="deposit-withdraw">Deposits and Withdrawals</label>
+      </li>
+      <li class="single-checkbox">
+        <%= f.check_box :notification_payout, id: "payout" %>
+        <label for="payout">Payouts</label>
+      </li>
+      <li class="single-checkbox">
+        <%= f.check_box :notification_alert, id: "security-alert" %>
+        <label for="security-alert">Security Alerts</label>
+      </li>
+    </ul>
+    <button type="submit" class="theme-button"><span></span>Save</button>
+
+<% end %>

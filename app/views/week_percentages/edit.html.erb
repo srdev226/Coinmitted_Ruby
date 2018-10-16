@@ -1,0 +1,31 @@
+<% content_for :title, "Week percentage" %>
+
+<div class="main-page-wrapper">
+  <div class="dropdown-overlay"></div>
+
+  <!-- *********************** Dashboard Main Container ************************** -->
+  <div id="dashboard-wrapper">
+    <%= render "layouts/header" %>
+  <div class="container">
+    <div id="dashboard-main-body" class="clearfix">
+
+    <% if current_user.role == 'admin' %>
+      <%= render 'layouts/admin_sidebar' %>
+    <% else %>
+      <%= render 'layouts/sidebar' %>
+    <% end %>
+     <div class="dashboard-user-content investment-panel">
+
+      <h1>Editing Week Percentage</h1>
+
+      <%= render 'form', week_percentage: @week_percentage %>
+
+      <%= link_to 'Show', @week_percentage %> |
+      <% if current_user.role == 'admin' %>
+        <%= link_to 'Back to admin', admin_week_percentages_path %>
+      <% else %>
+        <%= link_to 'Back', week_percentages_path %>
+      <% end %>
+     </main>
+  </div>
+</div>

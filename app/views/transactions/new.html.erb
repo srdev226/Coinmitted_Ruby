@@ -1,0 +1,15 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+        <h1>New Transaction</h1>
+
+        <%= render 'form', transaction: @transaction %>
+
+     </main>
+  </div>
+</div>

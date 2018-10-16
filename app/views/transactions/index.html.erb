@@ -1,0 +1,52 @@
+<%= render "layouts/header" %>
+<div class="container-fluid">
+  <div class="row">
+
+    <%= render 'layouts/sidebar' %>
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+       <%= render "layouts/notifications" %>
+
+          <h1>Withdrawal History</h1>
+
+          <table class="table" id="data">
+            <thead>
+              <tr>
+                <th></th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>From</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Address</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @transactions.each do |transaction| %>
+                <tr>
+                  <td>
+                  <%= fa_icon "circle", style: transaction.flag == 'completed' ? "color:lightgreen" : "color:red" %>
+                  </td>
+                  <td><%= link_to transaction.wallet.user.profile.name, edit_user_profile_path(transaction.wallet.user.profile.id) %></td>
+                  <td><%= transaction.amount.to_f %></td>
+                  <td><%= transaction.ticker %></td>
+                  <td><%= transaction.created_at.strftime("%d %B, %Y") %></td>
+                  <td><%= transaction.flag %></td>
+                  <td><%= transaction.address %></td>
+                  <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
+                  <td><%#= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <br>
+
+          <%#= link_to 'New Transaction', new_transaction_path %>
+
+     </main>
+  </div>
+</div>

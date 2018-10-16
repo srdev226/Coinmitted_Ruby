@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Number Verifications</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @number_verifications.each do |number_verification| %>
+      <tr>
+        <td><%= link_to 'Show', number_verification %></td>
+        <td><%= link_to 'Edit', edit_number_verification_path(number_verification) %></td>
+        <td><%= link_to 'Destroy', number_verification, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Number Verification', new_number_verification_path %>
